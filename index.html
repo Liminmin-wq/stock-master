@@ -207,7 +207,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .auth-box .auth-wait .wait-icon{font-size:48px;margin-bottom:10px}
 .auth-box .auth-wait .wait-txt{font-size:14px;color:rgba(255,255,255,0.7);font-weight:600}
 .auth-box .auth-wait .wait-sub{font-size:11px;color:rgba(255,255,255,0.3);margin-top:6px;line-height:1.6}
-.auth-box .auth-wait .wait-sub b{color:rgba(255,255,255,0.5)}
+/* 分隔线 */
+.auth-box .auth-divider{display:flex;align-items:center;margin:14px 0 10px;color:rgba(255,255,255,0.15);font-size:11px}
+.auth-box .auth-divider::before,.auth-box .auth-divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.06)}
+.auth-box .auth-divider span{padding:0 12px}
+.auth-box .auth-btn2{width:100%;padding:12px;border:1px solid rgba(255,255,255,0.1);border-radius:10px;background:transparent;color:rgba(255,255,255,0.4);font-size:13px;cursor:pointer;transition:all .2s}
+.auth-box .auth-btn2:active{background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.6)}
 /* 管理员浮动按钮 */
 .admin-btn{position:fixed;top:10px;right:10px;z-index:9998;width:36px;height:36px;border-radius:50%;background:rgba(240,192,96,0.12);border:1px solid rgba(240,192,96,0.15);color:#f0c060;font-size:14px;display:none;align-items:center;justify-content:center;cursor:pointer}
 .admin-btn.show{display:flex}
@@ -317,9 +322,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       <div class="wait-txt">已发送申请</div>
       <div class="wait-sub">等待管理员 <b>李惠敏</b> 授权</div>
     </div>
+    <div class="auth-divider"><span>或</span></div>
+    <button class="auth-btn2" onclick="adminLogin()">🔑 管理员进入</button>
   </div>
 </div>
-<div style="position:fixed;bottom:20px;left:0;right:0;text-align:center;z-index:9999;font-size:10px;color:rgba(255,255,255,0.12)"><span onclick="setAdmin()" style="cursor:pointer">管理员入口</span></div>
 <!-- 管理员浮动入口 -->
 <div class="admin-btn" id="adminBtn" onclick="toggleAdminPanel()">🔐</div>
 <!-- 管理员面板 -->
@@ -2050,40 +2056,38 @@ function copyLink(url){
   alert('✅ 链接已复制，可粘贴分享给好友或发送到微信');
 }
 
-// ====== 授权访问（管理员直接看+管理访客） ======
+// ====== 授权访问 ======
 var PENDING_REQS=[];
 var AUTH_LOG=[];
 
-// 初始化
+// 初始化：检查管理员cookie
 function initAuth(){
-  // 检查是否管理员
   if(getCookie('stock_admin')){
     document.getElementById('authOverlay').classList.add('hidden');
     document.getElementById('adminBtn').classList.add('show');
-    return;
   }
-  // 检查是否有hash令牌（访客通过链接进入）
+  // 检查访客令牌
   if(window.location.hash&&window.location.hash.length>10){
     var token=window.location.hash.substring(1);
     if(getCookie('stock_token_'+token)){
       document.getElementById('authOverlay').classList.add('hidden');
-      return;
     }
   }
 }
 
-// 设置管理员（点击底部文字）
-function setAdmin(){
-  if(confirm('确认设为管理员？')){setCookie('stock_admin','1',365);location.reload();}
+// 管理员登录（点一次永久记住）
+function adminLogin(){
+  setCookie('stock_admin','1',365);
+  document.getElementById('authOverlay').classList.add('hidden');
+  document.getElementById('adminBtn').classList.add('show');
 }
 
-// 访客提交申请
+// 访客申请访问
 function submitRequest(){
   document.getElementById('authBtn').textContent='⏳ 已发送';
   document.getElementById('authBtn').classList.add('done');
   PENDING_REQS.push({time:new Date().toLocaleString(),done:false});
   document.getElementById('authWait').style.display='block';
-  // 通知管理员按钮闪烁
   var btn=document.getElementById('adminBtn');
   if(btn.classList.contains('show')){btn.classList.add('has-new');}
 }
