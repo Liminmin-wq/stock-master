@@ -100,27 +100,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .dt td .rr{font-size:11px;color:#666}
 .dt .dp{font-weight:700;color:#27ae60}
 
-/* ====== 荐股卡片 ====== */
-.as{background:linear-gradient(135deg,#fef9f0,#fffdf8);border:1px solid #ede0c8;border-radius:10px;margin:0 12px 10px;overflow:hidden}
-.as .as-hd{padding:12px 14px;border-bottom:1px solid #f5ede0;display:flex;justify-content:space-between;align-items:center}
-.as .as-hd .an{font-size:15px;font-weight:700;color:#1a1f2e}
-.as .as-hd .an .ac{font-size:10px;color:#999;font-weight:400;margin-left:4px}
-.as .as-hd .star{background:#f0c060;color:#1a1f2e;font-size:9px;padding:2px 8px;border-radius:8px;font-weight:700;white-space:nowrap}
-.as .as-bd{padding:10px 14px}
-.as .as-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:13px;border-bottom:1px solid #f5f0ea}
-.as .as-row:last-child{border-bottom:none}
-.as .as-row .arl{color:#888;font-size:12px;min-width:70px}
-.as .as-row .arr{text-align:right;font-weight:600}
-.as .as-row .arr .pr{font-weight:800;font-size:17px;margin-right:6px}
-.as .as-row .arr .chg{font-weight:700;font-size:12px}
-.as .as-cf{background:#f8f6f2;border-radius:6px;padding:8px 12px;margin:6px 0 0}
-.as .as-cf .cf-row{display:flex;justify-content:space-between;padding:3px 0;font-size:11px}
-.as .as-cf .cf-row .cfl{color:#888;min-width:80px}
-.as .as-cf .cf-row .cfr{font-weight:700;text-align:right}
-.as .as-cf .cf-time{font-size:9px;color:#bbb;text-align:right;margin-top:3px;padding-top:3px;border-top:1px dashed #e8e0d5}
-.as .as-r{font-size:12px;color:#555;line-height:1.6;padding:8px 14px;background:#faf9f6;border-top:1px solid #f5ede0}
-.as .as-t{display:flex;gap:4px;padding:8px 14px 10px;flex-wrap:wrap}
-.as .as-t span{font-size:10px;padding:3px 8px;background:#eaf4ff;color:#2980b9;border-radius:6px}
+/* ====== 荐股（无框全宽对齐） ====== */
+.rec-section{border-bottom:8px solid #f0f2f5}
+.rec-section:last-child{border-bottom:none}
+.rec-hd{padding:16px 18px 8px;display:flex;justify-content:space-between;align-items:center}
+.rec-hd .rec-name{font-size:17px;font-weight:800;color:#1a1f2e}
+.rec-hd .rec-name .rec-code{font-size:11px;color:#999;font-weight:400;margin-left:6px}
+.rec-hd .rec-star{background:linear-gradient(135deg,#f0c060,#e6a800);color:#1a1f2e;font-size:9px;padding:3px 10px;border-radius:10px;font-weight:700;white-space:nowrap}
+.rec-body{padding:0 18px 12px}
+.rec-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #f5f5f5}
+.rec-row:last-child{border-bottom:none}
+.rec-row .rl{color:#999;font-size:12px;min-width:72px}
+.rec-row .rr{text-align:right;font-weight:600;font-size:13px}
+.rec-row .rr .rp{font-weight:800;font-size:18px;margin-right:8px}
+.rec-row .rr .rc{font-weight:700;font-size:13px}
+.rec-cf{background:#f8f9fb;border-radius:8px;padding:10px 14px;margin:8px 0 0}
+.rec-cf .cfr2{display:flex;justify-content:space-between;padding:4px 0;font-size:11px}
+.rec-cf .cfr2 .cfl2{color:#999;min-width:80px}
+.rec-cf .cfr2 .cfr2v{font-weight:700;text-align:right}
+.rec-cf .cf-time{font-size:9px;color:#ccc;text-align:right;margin-top:4px;padding-top:4px;border-top:1px dashed #e8e0d5}
+.rec-text{font-size:12px;color:#555;line-height:1.7;padding:10px 18px 4px;background:#fafafa;border-top:1px solid #f5f5f5}
+.rec-tags{display:flex;gap:4px;padding:8px 18px 16px;flex-wrap:wrap}
+.rec-tags span{font-size:10px;padding:3px 10px;background:#eaf4ff;color:#2980b9;border-radius:8px}
 
 /* ====== 下跌剖析卡片 ====== */
 .dc{display:flex;align-items:center;padding:12px 14px;border-bottom:1px solid #f5f5f5;cursor:pointer;transition:background .15s}
@@ -189,7 +190,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .diag-score .sc-item .sc-val.warn{color:#f0c060}
 .diag-score .sc-item .sc-val.bad{color:#e74c3c}
 
-/* ====== 分享按钮 ====== */
+/* ====== 授权访问页 ====== */
+.auth-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:#1a1f2e;display:flex;justify-content:center;align-items:center;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
+.auth-overlay.hidden{display:none}
+.auth-box{width:88%;max-width:340px;text-align:center}
+.auth-box .auth-logo{font-size:36px;font-weight:800;color:#f0c060;margin-bottom:4px}
+.auth-box .auth-sub{font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:24px;letter-spacing:2px}
+.auth-box .auth-field{width:100%;padding:14px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#fff;font-size:15px;outline:none;margin-bottom:10px;box-sizing:border-box;text-align:center}
+.auth-box .auth-field:focus{border-color:#f0c060;background:rgba(255,255,255,0.1)}
+.auth-box .auth-field::placeholder{color:rgba(255,255,255,0.25);font-size:13px}
+.auth-box .auth-btn{width:100%;padding:14px;border:none;border-radius:10px;background:linear-gradient(135deg,#f0c060,#e6a800);color:#1a1f2e;font-size:16px;font-weight:700;cursor:pointer;margin-top:4px}
+.auth-box .auth-btn:active{opacity:0.85}
+.auth-box .auth-err{font-size:12px;color:#e74c3c;margin-top:10px;display:none}
+.auth-box .auth-info{font-size:11px;color:rgba(255,255,255,0.3);margin-top:14px;line-height:1.6}
+.auth-box .auth-info b{color:rgba(255,255,255,0.5)}
+/* 设置面板 */
+.auth-admin{position:fixed;top:0;left:0;right:0;bottom:0;z-index:99999;background:rgba(0,0,0,0.85);display:none;justify-content:center;align-items:center}
+.auth-admin.show{display:flex}
+.auth-admin-box{background:#1a1f2e;border-radius:14px;padding:24px;width:88%;max-width:340px;border:1px solid #f0c060}
+.auth-admin-box h3{color:#f0c060;font-size:16px;font-weight:700;margin-bottom:4px}
+.auth-admin-box p{color:rgba(255,255,255,0.5);font-size:11px;margin-bottom:16px}
+.auth-admin-box .af{width:100%;padding:12px 14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#fff;font-size:14px;outline:none;margin-bottom:10px;box-sizing:border-box}
+.auth-admin-box .af:focus{border-color:#f0c060}
+.auth-admin-box .abtn{width:100%;padding:12px;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:8px}
+.auth-admin-box .abtn.primary{background:#f0c060;color:#1a1f2e}
+.auth-admin-box .abtn.secondary{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6)}
+.auth-admin-box .abtn:active{opacity:0.85}
+.auth-admin-box .astatus{font-size:11px;color:#27ae60;margin-top:4px;display:none}
 .share-btn{position:fixed;bottom:70px;right:14px;z-index:999;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#f0c060,#e6a800);color:#1a1f2e;border:none;font-size:24px;box-shadow:0 4px 16px rgba(240,192,96,0.4);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s,box-shadow .15s}
 .share-btn:active{transform:scale(0.92);box-shadow:0 2px 8px rgba(240,192,96,0.3)}
 
@@ -261,6 +288,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 </style>
 </head>
 <body>
+
+<!-- ====== 授权访问页 ====== -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-box">
+    <div class="auth-logo" onclick="openAuthAdmin(event)">深投Pro</div>
+    <div class="auth-sub">全维股票分析系统</div>
+    <input class="auth-field" id="authName" type="text" placeholder="请输入您的微信名" autocomplete="off">
+    <input class="auth-field" id="authPass" type="password" placeholder="请输入访客密码" autocomplete="off">
+    <button class="auth-btn" onclick="checkAuth()">🔐 申请访问</button>
+    <div class="auth-err" id="authErr">密码错误，请联系管理员获取密码</div>
+    <div class="auth-info">本系统为授权访问<br>需输入<b>访客密码</b>方可查看</div>
+  </div>
+</div>
+
+<!-- ====== 授权管理员面板 ====== -->
+<div class="auth-admin" id="authAdmin">
+  <div class="auth-admin-box">
+    <h3>⚙️ 授权管理</h3>
+    <p>设置访客密码 → 只发给通过你授权的人<br>⚠️ 改密码后所有已有访问会立即失效</p>
+    <input class="af" id="adminOldPass" type="password" placeholder="当前管理员密码">
+    <input class="af" id="adminNewPass" type="text" placeholder="新访客密码">
+    <button class="abtn primary" onclick="saveAuthPass()">💾 保存新密码</button>
+    <button class="abtn secondary" onclick="closeAuthAdmin()">关闭</button>
+    <div class="astatus" id="adminStatus">✅ 密码已更新</div>
+    <div id="visitorLog" style="margin-top:12px;border-top:1px solid rgba(255,255,255,0.08);padding-top:10px"></div>
+  </div>
+</div>
 
 <div class="rf">
   <span>📡 深投Pro <span style="font-size:9px;color:#888;margin-left:6px">制作者：李惠敏</span></span>
@@ -1195,15 +1249,21 @@ function renderDeclineAnalysis(data,code,market,name,container){
 // ====== 智能荐股（带实时资金流） ======
 PANELS[5]=function(){
   var h='';
-  h+='<div class="card"><div class="card-hd"><span class="icon">🎯</span><h3>智能荐股</h3><span class="badge">实时资金流</span></div></div>';
+  h+='<div style="padding:14px 18px 6px;font-size:15px;font-weight:700;color:#1a1f2e;display:flex;align-items:center;gap:8px"><span>🎯</span>智能荐股<span style="font-size:10px;background:#27ae60;color:#fff;padding:2px 8px;border-radius:8px;font-weight:600;margin-left:auto">实时资金流</span></div>';
   h+='<div id="recPanel">';
   h+='<div class="loading">加载实时资金流数据...</div>';
   h+='</div>';
-  h+='<div class="card"><div class="card-hd"><span class="icon">💡</span><h3>投资策略</h3></div><div class="card-bd"><p><b>核心逻辑：</b>政策(AI/半导体支持) + 资金(主力持续流入科技) + 产业链(稀缺供应商护城河)</p><br><p><b>核心仓位60%：</b>AI算力链（中际旭创、海光信息）<br><b>卫星仓位25%：</b>半导体设备（中微公司、沪硅产业）<br><b>弹性仓位15%：</b>消费电子复苏（韦尔股份）</p></div></div>';
+  h+='<div style="padding:14px 18px 6px;font-size:15px;font-weight:700;color:#1a1f2e;display:flex;align-items:center;gap:8px;margin-top:10px"><span>💡</span>投资策略</div>';
+  h+='<div style="padding:0 18px 20px;font-size:12px;color:#555;line-height:1.8"><b>核心逻辑：</b>政策(AI/半导体支持) + 资金(主力持续流入科技) + 产业链(稀缺供应商护城河)</div>';
+  h+='<div style="padding:0 18px 16px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">';
+  h+='<div style="background:#fff8e1;border-radius:8px;padding:10px;text-align:center"><div style="font-size:11px;color:#b8860b;font-weight:700">核心仓位</div><div style="font-size:22px;font-weight:800;color:#e67e22">60%</div><div style="font-size:10px;color:#888;margin-top:2px">AI算力链</div></div>';
+  h+='<div style="background:#eaf4ff;border-radius:8px;padding:10px;text-align:center"><div style="font-size:11px;color:#2980b9;font-weight:700">卫星仓位</div><div style="font-size:22px;font-weight:800;color:#2980b9">25%</div><div style="font-size:10px;color:#888;margin-top:2px">半导体设备</div></div>';
+  h+='<div style="background:#e8f5e9;border-radius:8px;padding:10px;text-align:center"><div style="font-size:11px;color:#27ae60;font-weight:700">弹性仓位</div><div style="font-size:22px;font-weight:800;color:#27ae60">15%</div><div style="font-size:10px;color:#888;margin-top:2px">消费电子</div></div>';
+  h+='</div>';
   return h;
 };
 
-// 渲染智能荐股
+// 渲染智能荐股（无框全宽对齐）
 function renderRecs(){
   var container=document.getElementById('recPanel');
   if(!container)return;
@@ -1223,25 +1283,21 @@ function renderRecs(){
       if(sd.f168!==undefined){midFlow=fmtMoney(sd.f168);midCls=sd.f168>=0?'flow-in':'flow-out';}
       if(sd.f170!==undefined){smallFlow=fmtMoney(sd.f170);smallCls=sd.f170>=0?'flow-in':'flow-out';}
     }
-    h+='<div class="as">';
-    // 头部：名称+评级
-    h+='<div class="as-hd"><span class="an">'+s.n+'<span class="ac">'+s.c+'</span></span><span class="star">'+s.s+'</span></div>';
-    // 主体区
-    h+='<div class="as-bd">';
+    // 每只股票一个section，无框全宽
+    h+='<div class="rec-section">';
+    h+='<div class="rec-hd"><span class="rec-name">'+s.n+'<span class="rec-code">'+s.c+'</span></span><span class="rec-star">'+s.s+'</span></div>';
+    h+='<div class="rec-body">';
     // 价格行
-    h+='<div class="as-row"><span class="arl">实时价格</span><span class="arr"><span class="pr '+chgCls+'">'+price+'</span><span class="chg '+chgCls+'">'+chg+'</span></span></div>';
-    // 资金流向（对齐表格）
-    h+='<div class="as-cf">';
-    h+='<div class="cf-row"><span class="cfl">🧑‍💼 主力净流入</span><span class="cfr '+mainCls+'">'+mainFlow+'</span><span class="cfl" style="min-width:60px;text-align:right;padding-right:0">📌 超大单</span><span class="cfr '+superCls+'" style="min-width:65px">'+superFlow+'</span></div>';
-    h+='<div class="cf-row"><span class="cfl">📦 大单净流入</span><span class="cfr '+bigCls+'">'+bigFlow+'</span><span class="cfl" style="min-width:60px;text-align:right;padding-right:0">⚖️ 中单(量化)</span><span class="cfr '+midCls+'" style="min-width:65px">'+midFlow+'</span></div>';
-    h+='<div class="cf-row"><span class="cfl">👤 小单(散户)</span><span class="cfr '+smallCls+'">'+smallFlow+'</span></div>';
+    h+='<div class="rec-row"><span class="rl">实时价格</span><span class="rr"><span class="rp '+chgCls+'">'+price+'</span><span class="rc '+chgCls+'">'+chg+'</span></span></div>';
+    // 资金流向
+    h+='<div class="rec-cf">';
+    h+='<div class="cfr2"><span class="cfl2">🧑‍💼 主力净流入</span><span class="cfr2v '+mainCls+'">'+mainFlow+'</span><span class="cfl2" style="min-width:55px;text-align:right">📌 超大单</span><span class="cfr2v '+superCls+'" style="min-width:60px">'+superFlow+'</span></div>';
+    h+='<div class="cfr2"><span class="cfl2">📦 大单净流入</span><span class="cfr2v '+bigCls+'">'+bigFlow+'</span><span class="cfl2" style="min-width:55px;text-align:right">⚖️ 中单(量化)</span><span class="cfr2v '+midCls+'" style="min-width:60px">'+midFlow+'</span></div>';
+    h+='<div class="cfr2"><span class="cfl2">👤 小单(散户)</span><span class="cfr2v '+smallCls+'">'+smallFlow+'</span></div>';
     h+='<div class="cf-time">⏱ '+dataTime||'实时数据'+'</div>';
-    h+='</div>';
-    h+='</div>';
-    // 分析文字
-    h+='<div class="as-r">'+s.r+'</div>';
-    // 标签
-    h+='<div class="as-t">';
+    h+='</div></div>';
+    h+='<div class="rec-text">'+s.r+'</div>';
+    h+='<div class="rec-tags">';
     for(var j=0;j<s.t.length;j++){h+='<span>'+s.t[j]+'</span>';}
     h+='</div></div>';
   }
@@ -1980,8 +2036,132 @@ function copyLink(url){
   alert('✅ 链接已复制，可粘贴分享给好友或发送到微信');
 }
 
+// ====== 授权访问系统 ======
+var AUTH_PASS=''; // 当前访客密码（空=首次需设置）
+var ADMIN_PASS='admin888'; // 管理员密码
+var VISITOR_LOG=[]; // 访客记录
+
+// 检查授权状态
+function initAuth(){
+  var session=sessionStorage.getItem('stock_auth_ok');
+  if(session==='1'&&AUTH_PASS){
+    document.getElementById('authOverlay').classList.add('hidden');
+  }else{
+    document.getElementById('authOverlay').classList.remove('hidden');
+    document.getElementById('authName').focus();
+  }
+}
+
+// 验证访问
+function checkAuth(){
+  var name=document.getElementById('authName').value.trim();
+  var pass=document.getElementById('authPass').value.trim();
+  var errEl=document.getElementById('authErr');
+  
+  if(!name){
+    errEl.textContent='请先输入您的微信名';
+    errEl.style.display='block';
+    return;
+  }
+  
+  if(!AUTH_PASS){
+    errEl.textContent='⚠ 系统初始化中，请先点击标题5次进入管理面板设置访客密码';
+    errEl.style.display='block';
+    return;
+  }
+  
+  if(pass!==AUTH_PASS){
+    // 记录失败的尝试
+    VISITOR_LOG.push({name:name,time:new Date().toLocaleString(),ok:false});
+    errEl.textContent='❌ 密码错误，本次访问已记录。请联系管理员（李惠敏）获取密码';
+    errEl.style.display='block';
+    document.getElementById('authPass').value='';
+    document.getElementById('authPass').focus();
+    return;
+  }
+  
+  // 验证通过 - 记录访客
+  VISITOR_LOG.push({name:name,time:new Date().toLocaleString(),ok:true});
+  errEl.style.display='none';
+  
+  // 使用sessionStorage（关闭标签页即失效）
+  sessionStorage.setItem('stock_auth_ok','1');
+  document.getElementById('authOverlay').classList.add('hidden');
+}
+
+// 管理员面板（点击标题5次打开）
+var clickCount=0;
+function openAuthAdmin(e){
+  clickCount++;
+  if(clickCount>=5){
+    clickCount=0;
+    document.getElementById('authAdmin').classList.add('show');
+    document.getElementById('adminOldPass').value='';
+    document.getElementById('adminNewPass').value='';
+    document.getElementById('adminStatus').style.display='none';
+    // 显示访客记录
+    showVisitorLog();
+  }
+  setTimeout(function(){clickCount=0;},2000);
+}
+
+function closeAuthAdmin(){
+  document.getElementById('authAdmin').classList.remove('show');
+}
+
+// 保存新访客密码
+function saveAuthPass(){
+  var oldPass=document.getElementById('adminOldPass').value.trim();
+  var newPass=document.getElementById('adminNewPass').value.trim();
+  var statusEl=document.getElementById('adminStatus');
+  
+  if(oldPass!==ADMIN_PASS){
+    statusEl.textContent='❌ 管理员密码错误';
+    statusEl.style.color='#e74c3c';
+    statusEl.style.display='block';
+    return;
+  }
+  
+  if(!newPass||newPass.length<3){
+    statusEl.textContent='❌ 访客密码至少3位字符';
+    statusEl.style.color='#e74c3c';
+    statusEl.style.display='block';
+    return;
+  }
+  
+  // 更新密码
+  AUTH_PASS=newPass;
+  statusEl.textContent='✅ 已更新！当前访客密码：「'+newPass+'」';
+  statusEl.style.color='#27ae60';
+  statusEl.style.display='block';
+  
+  // 清除所有已有session，所有人需要重新登录
+  sessionStorage.removeItem('stock_auth_ok');
+}
+
+// 显示访客记录
+function showVisitorLog(){
+  var logEl=document.getElementById('visitorLog');
+  if(!logEl)return;
+  if(VISITOR_LOG.length===0){
+    logEl.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,0.3);text-align:center;padding:8px">暂无访客记录</div>';
+    return;
+  }
+  var h='<div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:6px">📋 最近访客记录：</div>';
+  for(var i=VISITOR_LOG.length-1;i>=0;i--){
+    var v=VISITOR_LOG[i];
+    h+='<div style="font-size:11px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between">';
+    h+='<span>'+(v.ok?'✅':'❌')+' '+v.name+'</span>';
+    h+='<span style="color:rgba(255,255,255,0.3)">'+v.time+'</span></div>';
+  }
+  logEl.innerHTML=h;
+}
+
 // ====== 初始化 ======
 document.addEventListener('DOMContentLoaded',function(){
+  // 检查授权
+  initAuth();
+  
   // 切换tab
   var tabs=document.querySelectorAll('.tab-nav .tab');
   for(var i=0;i<tabs.length;i++){
