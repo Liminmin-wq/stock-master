@@ -199,6 +199,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .auth-box .auth-logo{font-size:38px;font-weight:800;color:#f0c060;margin-bottom:2px;letter-spacing:1px}
 .auth-box .auth-sub{font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:30px;letter-spacing:3px}
 .auth-box .auth-gold-line{width:40px;height:2px;background:linear-gradient(90deg,transparent,#f0c060,transparent);margin:0 auto 30px}
+.auth-box .auth-name-input{display:none;margin-top:6px}
+.auth-box .auth-name-input .auth-field{width:100%;padding:14px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#fff;font-size:15px;outline:none;margin-bottom:8px;box-sizing:border-box;text-align:center}
+.auth-box .auth-name-input .auth-field:focus{border-color:#f0c060;background:rgba(255,255,255,0.1)}
+.auth-box .auth-name-input .auth-field::placeholder{color:rgba(255,255,255,0.25)}
 .auth-box .auth-btn{width:100%;padding:16px;border:none;border-radius:12px;background:linear-gradient(135deg,#f0c060,#d4a52a);color:#1a1f2e;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 4px 20px rgba(240,192,96,0.3);transition:transform .15s,box-shadow .15s}
 .auth-box .auth-btn:active{transform:scale(0.97);box-shadow:0 2px 10px rgba(240,192,96,0.2)}
 .auth-box .auth-btn.done{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);box-shadow:none;pointer-events:none}
@@ -333,7 +337,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <div class="auth-logo">深投Pro</div>
     <div class="auth-sub">全维股票分析系统</div>
     <div class="auth-gold-line"></div>
-    <button class="auth-btn" id="authBtn" onclick="submitRequest()">📩 申请访问</button>
+    <button class="auth-btn" id="authBtn" onclick="showNameInput()">📩 申请访问</button>
+    <div class="auth-name-input" id="authNameInput">
+      <input class="auth-field" id="visitorName" type="text" placeholder="请输入您的姓名" autocomplete="off" onkeydown="if(event.key==='Enter')submitRequest()">
+      <button class="auth-btn" style="margin-top:0" onclick="submitRequest()">提交申请</button>
+      <div class="auth-err" id="authErr" style="display:none;font-size:12px;color:#e74c3c;margin-top:8px"></div>
+    </div>
     <div class="auth-wait" id="authWait">
       <div class="wait-icon">⏳</div>
       <div class="wait-txt">已发送申请</div>
@@ -2178,10 +2187,25 @@ function changeAdminPwd(){
 }
 
 // 访客申请访问
+// 显示姓名输入框
+function showNameInput(){
+  document.getElementById('authBtn').style.display='none';
+  document.getElementById('authNameInput').style.display='block';
+  document.getElementById('visitorName').focus();
+}
+
+// 提交申请（带姓名）
 function submitRequest(){
-  document.getElementById('authBtn').textContent='⏳ 已发送';
-  document.getElementById('authBtn').classList.add('done');
-  PENDING_REQS.push({time:new Date().toLocaleString(),done:false});
+  var name=document.getElementById('visitorName').value.trim();
+  var errEl=document.getElementById('authErr');
+  if(!name){
+    errEl.textContent='请输入您的姓名';
+    errEl.style.display='block';
+    return;
+  }
+  errEl.style.display='none';
+  document.getElementById('authNameInput').style.display='none';
+  PENDING_REQS.push({name:name,time:new Date().toLocaleString(),done:false});
   document.getElementById('authWait').style.display='block';
   var btn=document.getElementById('adminBtn');
   if(btn.classList.contains('show')){btn.classList.add('has-new');}
@@ -2215,7 +2239,7 @@ function approveReq(index){
   setCookie('stock_token_'+token,'1',1);
   var base=window.location.href.split('#')[0].split('?')[0];
   var link=base+'#'+token;
-  AUTH_LOG.push({action:'✅ 同意',time:new Date().toLocaleString()});
+  AUTH_LOG.push({name:req.name||'访客',action:'✅ 同意',time:new Date().toLocaleString()});
   renderPendingList();renderAuthLog();
   // 复制链接
   var ta=document.createElement('textarea');
@@ -2229,7 +2253,7 @@ function rejectReq(index){
   var req=PENDING_REQS[index];
   if(!req||req.done)return;
   req.done=true;req.approved=false;
-  AUTH_LOG.push({action:'❌ 拒绝',time:new Date().toLocaleString()});
+  AUTH_LOG.push({name:req.name||'访客',action:'❌ 拒绝',time:new Date().toLocaleString()});
   renderPendingList();renderAuthLog();
 }
 
@@ -2248,7 +2272,8 @@ function renderPendingList(){
   var h='';
   for(var j=0;j<items.length;j++){
     var idx=items[j];
-    h+='<div class="req-item"><div class="ri-txt">📩 访客申请<div class="ri-time">'+PENDING_REQS[idx].time+'</div></div><div class="ri-btns"><button class="btn-ok" onclick="approveReq('+idx+')">同意</button><button class="btn-no" onclick="rejectReq('+idx+')">拒绝</button></div></div>';
+    var req=PENDING_REQS[idx];
+    h+='<div class="req-item"><div class="ri-txt"><b>'+req.name+'</b><div class="ri-time">'+req.time+'</div></div><div class="ri-btns"><button class="btn-ok" onclick="approveReq('+idx+')">同意</button><button class="btn-no" onclick="rejectReq('+idx+')">拒绝</button></div></div>';
   }
   el.innerHTML=h;
   // 更新角标
@@ -2263,7 +2288,7 @@ function renderAuthLog(){
   var h='';
   for(var i=AUTH_LOG.length-1;i>=0;i--){
     var r=AUTH_LOG[i];
-    h+='<div class="log-item"><span>'+r.action+'</span><span>'+r.time+'</span></div>';
+    h+='<div class="log-item"><span>'+r.action+' '+r.name+'</span><span>'+r.time+'</span></div>';
   }
   el.innerHTML=h;
 }
