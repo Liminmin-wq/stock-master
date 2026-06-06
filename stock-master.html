@@ -191,45 +191,42 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .diag-score .sc-item .sc-val.bad{color:#e74c3c}
 
 /* ====== 授权访问页 ====== */
-.auth-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:#1a1f2e;display:flex;justify-content:center;align-items:center;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
+.auth-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:linear-gradient(145deg,#0f1420 0%,#1a2332 40%,#1e2a3d 70%,#151d2c 100%);display:flex;justify-content:center;align-items:center;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;overflow:hidden}
 .auth-overlay.hidden{display:none}
-.auth-box{width:88%;max-width:340px;text-align:center}
-.auth-box .auth-logo{font-size:36px;font-weight:800;color:#f0c060;margin-bottom:4px}
-.auth-box .auth-sub{font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:24px;letter-spacing:2px}
-.auth-box .auth-field{width:100%;padding:14px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#fff;font-size:15px;outline:none;margin-bottom:10px;box-sizing:border-box;text-align:center}
-.auth-box .auth-field:focus{border-color:#f0c060;background:rgba(255,255,255,0.1)}
-.auth-box .auth-field::placeholder{color:rgba(255,255,255,0.25);font-size:13px}
-.auth-box .auth-btn{width:100%;padding:14px;border:none;border-radius:10px;background:linear-gradient(135deg,#f0c060,#e6a800);color:#1a1f2e;font-size:16px;font-weight:700;cursor:pointer;margin-top:4px}
-.auth-box .auth-btn:active{opacity:0.85}
-.auth-box .auth-btn.dim{opacity:0.5;pointer-events:none}
-.auth-box .auth-err{font-size:12px;color:#e74c3c;margin-top:10px;display:none}
-.auth-box .auth-wait{font-size:13px;color:rgba(255,255,255,0.6);margin-top:14px;line-height:1.8;display:none}
-.auth-box .auth-wait .dot-anim{display:inline-block;animation:dotPulse 1.4s infinite}
-@keyframes dotPulse{0%,100%{opacity:0.3}50%{opacity:1}}
-.auth-box .auth-code-input{display:none;margin-top:14px}
-.auth-box .auth-code-input .aci-label{font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:8px}
-.auth-box .auth-code-box{display:flex;gap:8px;justify-content:center;margin-bottom:10px}
-.auth-box .auth-code-box input{width:48px;height:52px;text-align:center;font-size:24px;font-weight:800;color:#f0c060;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;outline:none}
-.auth-box .auth-code-box input:focus{border-color:#f0c060;background:rgba(255,255,255,0.12)}
-.auth-box .auth-info{font-size:11px;color:rgba(255,255,255,0.25);margin-top:14px;line-height:1.6}
+.auth-overlay::before{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(240,192,96,0.08),transparent 70%)}
+.auth-overlay::after{content:'';position:absolute;bottom:-120px;left:-60px;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(240,192,96,0.05),transparent 70%)}
+.auth-box{width:88%;max-width:320px;text-align:center;position:relative;z-index:1}
+.auth-box .auth-logo{font-size:38px;font-weight:800;color:#f0c060;margin-bottom:2px;letter-spacing:1px}
+.auth-box .auth-sub{font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:30px;letter-spacing:3px}
+.auth-box .auth-gold-line{width:40px;height:2px;background:linear-gradient(90deg,transparent,#f0c060,transparent);margin:0 auto 30px}
+.auth-box .auth-btn{width:100%;padding:16px;border:none;border-radius:12px;background:linear-gradient(135deg,#f0c060,#d4a52a);color:#1a1f2e;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 4px 20px rgba(240,192,96,0.3);transition:transform .15s,box-shadow .15s}
+.auth-box .auth-btn:active{transform:scale(0.97);box-shadow:0 2px 10px rgba(240,192,96,0.2)}
+.auth-box .auth-btn.done{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);box-shadow:none;pointer-events:none}
+.auth-box .auth-err{font-size:12px;color:#e74c3c;margin-top:12px;display:none}
+.auth-box .auth-wait{display:none;margin-top:16px}
+.auth-box .auth-wait .wait-icon{font-size:48px;margin-bottom:10px}
+.auth-box .auth-wait .wait-txt{font-size:14px;color:rgba(255,255,255,0.7);font-weight:600}
+.auth-box .auth-wait .wait-sub{font-size:11px;color:rgba(255,255,255,0.3);margin-top:6px;line-height:1.6}
+.auth-box .auth-wait .wait-sub b{color:rgba(255,255,255,0.5)}
 /* 管理面板 */
-.auth-admin{position:fixed;top:0;left:0;right:0;bottom:0;z-index:99999;background:rgba(0,0,0,0.85);display:none;justify-content:center;align-items:center}
+.auth-admin{position:fixed;top:0;left:0;right:0;bottom:0;z-index:99999;background:rgba(0,0,0,0.85);display:none;justify-content:center;align-items:center;backdrop-filter:blur(4px)}
 .auth-admin.show{display:flex}
-.auth-admin-box{background:#1a1f2e;border-radius:14px;padding:24px;width:88%;max-width:360px;border:1px solid #f0c060;max-height:80vh;overflow-y:auto}
-.auth-admin-box h3{color:#f0c060;font-size:16px;font-weight:700;margin-bottom:4px}
-.auth-admin-box .adm-desc{color:rgba(255,255,255,0.4);font-size:11px;margin-bottom:14px;line-height:1.5}
-.auth-admin-box .req-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,255,255,0.04);border-radius:8px;margin-bottom:8px}
-.auth-admin-box .req-item .ri-name{font-size:14px;font-weight:600;color:#fff}
-.auth-admin-box .req-item .ri-time{font-size:10px;color:rgba(255,255,255,0.3);display:block}
+.auth-admin-box{background:linear-gradient(145deg,#151d2c,#1a2332);border-radius:16px;padding:24px;width:88%;max-width:360px;border:1px solid rgba(240,192,96,0.3);max-height:80vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,0.5)}
+.auth-admin-box h3{color:#f0c060;font-size:16px;font-weight:700;margin-bottom:2px}
+.auth-admin-box .adm-desc{color:rgba(255,255,255,0.35);font-size:11px;margin-bottom:16px;line-height:1.5}
+.auth-admin-box .req-item{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:rgba(255,255,255,0.04);border-radius:10px;margin-bottom:8px}
+.auth-admin-box .req-item .ri-text{text-align:left}
+.auth-admin-box .req-item .ri-text .ri-name{font-size:14px;font-weight:600;color:#fff}
+.auth-admin-box .req-item .ri-text .ri-time{font-size:10px;color:rgba(255,255,255,0.25)}
 .auth-admin-box .req-item .ri-btns{display:flex;gap:6px}
-.auth-admin-box .req-item .ri-btns button{padding:6px 14px;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer}
-.auth-admin-box .req-item .ri-btns .btn-ok{background:#27ae60;color:#fff}
-.auth-admin-box .req-item .ri-btns .btn-no{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.5)}
-.auth-admin-box .req-empty{font-size:12px;color:rgba(255,255,255,0.25);text-align:center;padding:20px 0}
-.auth-admin-box .auth-log{font-size:11px;border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;margin-top:12px}
-.auth-admin-box .auth-log .log-item{display:flex;justify-content:space-between;padding:4px 0;font-size:11px;color:rgba(255,255,255,0.4)}
-.auth-admin-box .close-admin{display:block;width:100%;padding:10px;border:none;border-radius:8px;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.4);font-size:13px;cursor:pointer;margin-top:10px}
-.auth-admin-box .close-admin:active{background:rgba(255,255,255,0.1)}
+.auth-admin-box .req-item .ri-btns button{padding:7px 16px;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer}
+.auth-admin-box .req-item .ri-btns .btn-ok{background:linear-gradient(135deg,#27ae60,#219a52);color:#fff}
+.auth-admin-box .req-item .ri-btns .btn-no{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.4)}
+.auth-admin-box .req-empty{font-size:12px;color:rgba(255,255,255,0.2);text-align:center;padding:24px 0}
+.auth-admin-box .auth-log{border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;margin-top:12px;max-height:120px;overflow-y:auto}
+.auth-admin-box .auth-log .log-title{font-size:10px;color:rgba(255,255,255,0.2);margin-bottom:6px}
+.auth-admin-box .auth-log .log-item{display:flex;justify-content:space-between;padding:3px 0;font-size:10px;color:rgba(255,255,255,0.3)}
+.auth-admin-box .close-admin{display:block;width:100%;padding:10px;border:none;border-radius:8px;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.3);font-size:12px;cursor:pointer;margin-top:10px}
 .share-btn{position:fixed;bottom:70px;right:14px;z-index:999;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#f0c060,#e6a800);color:#1a1f2e;border:none;font-size:24px;box-shadow:0 4px 16px rgba(240,192,96,0.4);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s,box-shadow .15s}
 .share-btn:active{transform:scale(0.92);box-shadow:0 2px 8px rgba(240,192,96,0.3)}
 
@@ -307,29 +304,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="auth-box" id="authStep1">
     <div class="auth-logo" onclick="openAuthAdmin(event)" style="cursor:default">深投Pro</div>
     <div class="auth-sub">全维股票分析系统</div>
-    <input class="auth-field" id="authName" type="text" placeholder="请输入您的微信名" autocomplete="off">
+    <div class="auth-gold-line"></div>
     <button class="auth-btn" id="authBtn" onclick="submitRequest()">📩 申请访问</button>
     <div class="auth-err" id="authErr"></div>
-    <div class="auth-info">本系统需管理员授权方可查看<br>提交申请后请联系 <b style="color:rgba(255,255,255,0.5)">李惠敏</b> 同意</div>
-  </div>
-  <div class="auth-box" id="authStep2" style="display:none">
-    <div class="auth-logo" style="font-size:28px">⏳</div>
-    <div class="auth-sub" style="margin-bottom:16px">申请已发送</div>
-    <div style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.8;margin-bottom:12px">
-      管理员 <b style="color:#f0c060">李惠敏</b> 收到你的申请后<br>会发送 <b style="color:#f0c060">4位授权码</b> 给你
+    <div class="auth-wait" id="authWait">
+      <div class="wait-icon">⏳</div>
+      <div class="wait-txt">已发送申请</div>
+      <div class="wait-sub">等待管理员 <b>李惠敏</b> 授权<br>授权后你的页面将自动进入</div>
     </div>
-    <div class="auth-code-input" id="authCodeArea">
-      <div class="aci-label">收到授权码后输入：</div>
-      <div class="auth-code-box">
-        <input type="text" maxlength="1" id="c1" oninput="moveCode(1)" onkeydown="backCode(1)">
-        <input type="text" maxlength="1" id="c2" oninput="moveCode(2)" onkeydown="backCode(2)">
-        <input type="text" maxlength="1" id="c3" oninput="moveCode(3)" onkeydown="backCode(3)">
-        <input type="text" maxlength="1" id="c4" oninput="moveCode(4)" onkeydown="backCode(4)">
-      </div>
-      <button class="auth-btn" onclick="verifyCode()">✅ 确认授权码</button>
-      <div class="auth-err" id="codeErr"></div>
-    </div>
-    <div class="auth-info" style="margin-top:8px">还没收到？联系 <b style="color:rgba(255,255,255,0.5)">李惠敏</b> 催一下</div>
   </div>
 </div>
 
@@ -337,10 +319,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 <div class="auth-admin" id="authAdmin">
   <div class="auth-admin-box">
     <h3>🔐 授权管理</h3>
-    <div class="adm-desc">待授权列表 — 点击"同意"生成4位授权码发给对方</div>
+    <div class="adm-desc">待授权列表 — 点"同意"即可放行</div>
     <div id="pendingList"><div class="req-empty">暂无待授权的请求</div></div>
     <div class="auth-log" id="authLog">
-      <div style="font-size:11px;color:rgba(255,255,255,0.3);text-align:center">暂无授权记录</div>
+      <div class="log-title">授权记录</div>
+      <div style="text-align:center;color:rgba(255,255,255,0.15);font-size:10px">暂无</div>
     </div>
     <button class="close-admin" onclick="closeAuthAdmin()">关闭管理面板</button>
   </div>
@@ -2066,87 +2049,40 @@ function copyLink(url){
   alert('✅ 链接已复制，可粘贴分享给好友或发送到微信');
 }
 
-// ====== 授权访问（无密码，管理员手动同意） ======
-var PENDING_REQS=[]; // 待授权请求列表
-var AUTH_LOG=[]; // 授权记录
-var CURRENT_CODE=''; // 当前授权码
+// ====== 授权访问（管理员点"同意"→生成链接→发给对方→点开直接进） ======
+var PENDING_REQS=[];
+var AUTH_LOG=[];
+var ACCESS_TOKENS={};
 
-// 初始化
+// 初始化：检查URL是否有授权令牌
 function initAuth(){
-  if(sessionStorage.getItem('stock_authorized')){
-    document.getElementById('authOverlay').classList.add('hidden');
-  }
-}
-
-// 提交访问申请
-function submitRequest(){
-  var name=document.getElementById('authName').value.trim();
-  var errEl=document.getElementById('authErr');
-  if(!name){
-    errEl.textContent='请先输入您的微信名';
-    errEl.style.display='block';
-    return;
-  }
-  // 检查是否已在待授权列表
-  for(var i=0;i<PENDING_REQS.length;i++){
-    if(PENDING_REQS[i].name===name&&!PENDING_REQS[i].done){
-      errEl.textContent='您已经提交过申请，请等待管理员授权';
-      errEl.style.display='block';
+  var hash=window.location.hash;
+  if(hash&&hash.length>10){
+    var token=hash.substring(1); // 去掉#
+    if(ACCESS_TOKENS[token]&&ACCESS_TOKENS[token].used===false){
+      ACCESS_TOKENS[token].used=true;
+      sessionStorage.setItem('stock_auth','1');
+      document.getElementById('authOverlay').classList.add('hidden');
       return;
     }
   }
-  // 添加到待授权列表
-  PENDING_REQS.push({name:name,time:new Date().toLocaleString(),done:false});
-  // 切换到等待页面
-  document.getElementById('authStep1').style.display='none';
-  document.getElementById('authStep2').style.display='block';
-  document.getElementById('authCodeArea').style.display='block';
-  document.getElementById('c1').focus();
-  // 重置授权码输入
-  for(var j=1;j<=4;j++){
-    document.getElementById('c'+j).value='';
-  }
-}
-
-// 授权码输入跳转
-function moveCode(n){
-  var val=document.getElementById('c'+n).value;
-  if(val&&n<4){document.getElementById('c'+(n+1)).focus();}
-}
-function backCode(n){
-  var ev=window.event;
-  if(ev.key==='Backspace'&&!document.getElementById('c'+n).value&&n>1){
-    document.getElementById('c'+(n-1)).focus();
-  }
-  if(ev.key==='Enter'){verifyCode();}
-}
-
-// 验证授权码
-function verifyCode(){
-  var code='';
-  for(var i=1;i<=4;i++){
-    code+=document.getElementById('c'+i).value;
-  }
-  var errEl=document.getElementById('codeErr');
-  if(code.length!==4){
-    errEl.textContent='请输入完整的4位授权码';
-    errEl.style.display='block';
+  // 检查session
+  if(sessionStorage.getItem('stock_auth')){
+    document.getElementById('authOverlay').classList.add('hidden');
     return;
   }
-  if(code===CURRENT_CODE){
-    errEl.style.display='none';
-    // 授权通过
-    sessionStorage.setItem('stock_authorized','1');
-    document.getElementById('authOverlay').classList.add('hidden');
-  }else{
-    errEl.textContent='❌ 授权码无效，请联系管理员确认';
-    errEl.style.display='block';
-    for(var i=1;i<=4;i++){document.getElementById('c'+i).value='';}
-    document.getElementById('c1').focus();
-  }
 }
 
-// 管理员面板（点击标题5次打开）
+// 提交申请
+function submitRequest(){
+  var btn=document.getElementById('authBtn');
+  btn.textContent='⏳ 已发送...';
+  btn.classList.add('done');
+  PENDING_REQS.push({time:new Date().toLocaleString(),done:false});
+  document.getElementById('authWait').style.display='block';
+}
+
+// 管理员面板（点击标题5次）
 var clickCount=0;
 function openAuthAdmin(e){
   clickCount++;
@@ -2158,39 +2094,44 @@ function openAuthAdmin(e){
   }
   setTimeout(function(){clickCount=0;},2000);
 }
-
 function closeAuthAdmin(){
   document.getElementById('authAdmin').classList.remove('show');
 }
 
-// 同意授权
+// 同意授权 → 生成一键链接
 function approveReq(index){
   var req=PENDING_REQS[index];
   if(!req||req.done)return;
-  // 生成4位随机授权码
-  var code='';
-  for(var i=0;i<4;i++){
-    code+=Math.floor(Math.random()*10);
-  }
-  CURRENT_CODE=code;
   req.done=true;
   req.approved=true;
-  req.code=code;
-  // 记录日志
-  AUTH_LOG.push({name:req.name,time:req.time,action:'✅ 同意',code:code,approveTime:new Date().toLocaleString()});
+  // 生成唯一令牌
+  var token=Date.now()+'_'+Math.random().toString(36).substr(2,6);
+  ACCESS_TOKENS[token]={used:false,time:new Date().toLocaleString()};
+  // 构建一键链接
+  var base=window.location.href.split('#')[0].split('?')[0];
+  var link=base+'#'+token;
+  AUTH_LOG.push({action:'✅ 同意',approveTime:new Date().toLocaleString(),link:link});
   renderPendingList();
   renderAuthLog();
-  // 弹窗提示授权码
-  alert('✅ 已同意「'+req.name+'」的访问\n\n授权码：'+code+'\n\n请将此4位授权码通过微信发给对方。\n（对方输入后即可访问）');
+  // 弹出链接
+  var ta=document.createElement('textarea');
+  ta.value=link;
+  ta.style.position='fixed';ta.style.left='-999px';
+  document.body.appendChild(ta);
+  ta.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(ta);
+  
+  alert('✅ 已同意！\n\n一键访问链接已复制到剪贴板\n\n请通过微信发给对方\n对方点开链接即可直接进入，无需任何操作');
 }
 
-// 拒绝授权
+// 拒绝
 function rejectReq(index){
   var req=PENDING_REQS[index];
   if(!req||req.done)return;
   req.done=true;
   req.approved=false;
-  AUTH_LOG.push({name:req.name,time:req.time,action:'❌ 拒绝',approveTime:new Date().toLocaleString()});
+  AUTH_LOG.push({action:'❌ 拒绝',approveTime:new Date().toLocaleString()});
   renderPendingList();
   renderAuthLog();
 }
@@ -2202,15 +2143,18 @@ function renderPendingList(){
   for(var i=0;i<PENDING_REQS.length;i++){
     if(!PENDING_REQS[i].done) pending.push(i);
   }
+  if(pending.length===0&&PENDING_REQS.length===0){
+    el.innerHTML='<div class="req-empty">暂无待授权的请求</div>';
+    return;
+  }
   if(pending.length===0){
-    el.innerHTML='<div class="req-empty">✅ 暂无待授权的请求</div>';
+    el.innerHTML='<div class="req-empty">✅ 所有请求已处理</div>';
     return;
   }
   var h='';
   for(var j=0;j<pending.length;j++){
     var idx=pending[j];
-    var req=PENDING_REQS[idx];
-    h+='<div class="req-item"><div><div class="ri-name">'+req.name+'</div><span class="ri-time">'+req.time+'</span></div><div class="ri-btns"><button class="btn-ok" onclick="approveReq('+idx+')">同意</button><button class="btn-no" onclick="rejectReq('+idx+')">拒绝</button></div></div>';
+    h+='<div class="req-item"><div class="ri-text"><div class="ri-name">📩 访问请求</div><div class="ri-time">'+PENDING_REQS[idx].time+'</div></div><div class="ri-btns"><button class="btn-ok" onclick="approveReq('+idx+')">同意</button><button class="btn-no" onclick="rejectReq('+idx+')">拒绝</button></div></div>';
   }
   el.innerHTML=h;
 }
@@ -2219,13 +2163,13 @@ function renderPendingList(){
 function renderAuthLog(){
   var el=document.getElementById('authLog');
   if(AUTH_LOG.length===0){
-    el.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,0.3);text-align:center">暂无授权记录</div>';
+    el.innerHTML='<div class="log-title">授权记录</div><div style="text-align:center;color:rgba(255,255,255,0.15);font-size:10px">暂无</div>';
     return;
   }
-  var h='<div style="font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:6px">📋 授权记录</div>';
+  var h='<div class="log-title">授权记录</div>';
   for(var i=AUTH_LOG.length-1;i>=0;i--){
     var r=AUTH_LOG[i];
-    h+='<div class="log-item"><span>'+r.action+' '+r.name+'</span><span style="color:rgba(255,255,255,0.2)">'+r.approveTime+'</span></div>';
+    h+='<div class="log-item"><span>'+r.action+'</span><span style="color:rgba(255,255,255,0.15)">'+r.approveTime+'</span></div>';
   }
   el.innerHTML=h;
 }
