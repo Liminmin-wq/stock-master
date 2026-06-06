@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title>李惠敏律师 - 陕西罗泰律师事务所 | 专业法律文书服务</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;background:#f7f3ee;color:#2a2a2a;line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-overflow-scrolling:touch}
+::selection{background:rgba(138,92,46,0.25);color:#2a2a2a}
+
+/* ===== 律师名片头部 ===== */
+.profile-hero{background:linear-gradient(160deg,#0d1117 0%,#1a1f2e 30%,#1c2333 100%);padding:44px 20px 56px;text-align:center;position:relative;overflow:hidden}
+.profile-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 30%,rgba(180,145,95,0.07) 0%,transparent 55%),radial-gradient(ellipse at 80% 70%,rgba(160,130,85,0.05) 0%,transparent 50%);pointer-events:none}
+.profile-hero .deco-line{position:absolute;top:0;left:50%;transform:translateX(-50%);width:1px;height:100%;background:linear-gradient(180deg,transparent,rgba(180,145,95,0.2) 20%,rgba(180,145,95,0.2) 80%,transparent);opacity:0.4}
+
+.profile-hero .avatar{width:80px;height:80px;margin:0 auto 16px;border-radius:50%;background:linear-gradient(135deg,#b8914a,#8a5c2e);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:700;color:#fdf6ed;position:relative;z-index:1;box-shadow:0 0 0 3px rgba(180,145,95,0.3),0 0 0 8px rgba(180,145,95,0.1),0 8px 32px rgba(0,0,0,0.3)}
+.profile-hero .name{font-size:24px;font-weight:800;color:#fdf6ed;letter-spacing:1px;position:relative;z-index:1}
+.profile-hero .title{font-size:13px;color:rgba(255,255,255,0.6);margin-top:4px;letter-spacing:1.5px;position:relative;z-index:1}
+.profile-hero .firm{display:inline-block;margin-top:12px;background:rgba(180,145,95,0.12);border:1px solid rgba(180,145,95,0.25);border-radius:20px;padding:5px 18px;font-size:12px;color:#ccbb99;letter-spacing:1px;position:relative;z-index:1}
+.profile-hero .stats{margin-top:20px;display:flex;justify-content:center;gap:40px;position:relative;z-index:1}
+.profile-hero .stats .stat{text-align:center}
+.profile-hero .stats .stat .num{font-size:20px;font-weight:800;color:#d4b86a}
+.profile-hero .stats .stat .label{font-size:10px;color:rgba(255,255,255,0.45);margin-top:2px;letter-spacing:1px}
+
+/* ===== 服务标语条 ===== */
+.tagline-bar{background:#fff;margin:-26px 16px 0;border-radius:14px;padding:18px 20px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.06);position:relative;z-index:2;border:1px solid #eee8dc}
+.tagline-bar .icon-row{display:flex;justify-content:center;gap:32px;margin-bottom:10px}
+.tagline-bar .icon-row .it{text-align:center}
+.tagline-bar .icon-row .it .svg-wrap{width:36px;height:36px;margin:0 auto 4px;background:#faf6ef;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.tagline-bar .icon-row .it span{display:block;font-size:10px;color:#8b7355;letter-spacing:0.5px}
+.tagline-bar .desc{font-size:13px;color:#555;line-height:1.7;max-width:360px;margin:0 auto}
+
+/* ===== 通用标题 ===== */
+.sec-title{text-align:center;padding:32px 16px 4px}
+.sec-title h2{font-size:18px;font-weight:700;color:#1a1f2e;letter-spacing:0.5px}
+.sec-title .line{width:32px;height:2.5px;background:linear-gradient(90deg,#b8914a,#8a5c2e);margin:8px auto 0;border-radius:1px}
+
+/* ===== 产品卡片 ===== */
+.products{padding:8px 12px 10px}
+.product-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.prod-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.05);border:1px solid #f0ebe0;transition:box-shadow 0.2s}
+.prod-card:active{box-shadow:0 4px 18px rgba(0,0,0,0.1)}
+.prod-card .img-wrap{height:100px;overflow:hidden;position:relative}
+.prod-card .img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s}
+.prod-card:active .img-wrap img{transform:scale(1.05)}
+.prod-card .img-wrap .badge{position:absolute;top:8px;left:8px;background:rgba(0,0,0,0.6);color:#fff;font-size:9px;padding:3px 10px;border-radius:10px;letter-spacing:1px;backdrop-filter:blur(4px)}
+.prod-card .img-wrap .price-tag{position:absolute;bottom:8px;right:8px;background:rgba(180,145,95,0.9);color:#fff;font-size:13px;font-weight:800;padding:3px 10px;border-radius:10px;backdrop-filter:blur(4px)}
+.prod-card .img-wrap .price-tag em{font-size:9px;font-style:normal;font-weight:400;opacity:0.85}
+.prod-card .content{padding:10px 12px 12px}
+.prod-card .content h3{font-size:14px;font-weight:700;color:#1a1f2e;margin-bottom:2px}
+.prod-card .content .sub{font-size:11px;color:#888;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:8px;line-height:1.5}
+.prod-card .content .tags{display:flex;flex-wrap:wrap;gap:4px}
+.prod-card .content .tags span{font-size:9px;background:#faf6ef;color:#8b7355;padding:3px 8px;border-radius:6px;border:1px solid #eee8dc}
+
+/* ===== 价格表 ===== */
+.price-table{background:#fff;margin:0 12px 14px;border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.05);border:1px solid #f0ebe0}
+.price-table .pt-header{background:linear-gradient(135deg,#1a1f2e,#252d3a);padding:14px 16px;display:flex;align-items:center;gap:8px}
+.price-table .pt-header svg{flex-shrink:0}
+.price-table .pt-header h3{color:#fdf6ed;font-size:14px;font-weight:700;margin:0}
+.price-table .pt-header p{color:rgba(255,255,255,0.5);font-size:11px;margin:0}
+.price-table table{width:100%;border-collapse:collapse;font-size:12px}
+.price-table table td{padding:10px 10px;border-bottom:1px solid #f5f0e8;color:#555}
+.price-table table td:first-child{font-weight:600;color:#1a1f2e;width:28%}
+.price-table table td:last-child{text-align:right;color:#b8914a;font-weight:700;font-size:13px;width:22%}
+.price-table table tr:last-child td{border-bottom:none}
+
+/* ===== 联系卡片 ===== */
+.cta-section{padding:0 12px 16px}
+.cta-card{background:linear-gradient(160deg,#0d1117,#1c2333);border-radius:14px;padding:26px 20px;text-align:center;position:relative;overflow:hidden;border:1px solid rgba(180,145,95,0.15)}
+.cta-card::before{content:'';position:absolute;top:-60%;right:-40%;width:250px;height:250px;background:radial-gradient(circle,rgba(180,145,95,0.06) 0%,transparent 70%);pointer-events:none}
+.cta-card .cta-title{color:#fdf6ed;font-size:17px;font-weight:700;position:relative;z-index:1}
+.cta-card .cta-sub{color:rgba(255,255,255,0.5);font-size:12px;margin:6px 0 16px;position:relative;z-index:1}
+.cta-card .phone-box{display:flex;align-items:center;justify-content:center;gap:10px;background:rgba(255,255,255,0.06);border-radius:12px;padding:14px 18px;margin-bottom:14px;position:relative;z-index:1}
+.cta-card .phone-box .p-icon{width:38px;height:38px;background:linear-gradient(135deg,#b8914a,#8a5c2e);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cta-card .phone-box .p-num{font-size:22px;font-weight:800;color:#fdf6ed;letter-spacing:1px}
+.cta-card .phone-box .p-num small{display:block;font-size:11px;font-weight:400;color:rgba(255,255,255,0.4);margin-top:1px}
+.cta-card .call-btn{display:block;background:linear-gradient(90deg,#b8914a,#8a5c2e);color:#fff;font-weight:700;font-size:16px;text-align:center;padding:14px 0;border-radius:10px;position:relative;z-index:1;cursor:pointer;text-decoration:none;letter-spacing:1px;transition:opacity 0.2s}
+.cta-card .call-btn:active{opacity:0.88}
+
+/* ===== 页脚信息 ===== */
+.footer-info{padding:8px 20px 24px;text-align:center}
+.footer-info .info-row{display:flex;align-items:flex-start;justify-content:center;gap:8px;margin-bottom:8px;font-size:11px;color:#999}
+.footer-info .info-row svg{flex-shrink:0;margin-top:1px}
+.footer-info .info-row span{text-align:left;line-height:1.5}
+.footer-info .share-tip{margin-top:10px;font-size:10px;color:#c5b99a;letter-spacing:0.5px}
+</style>
+</head>
+<body>
+
+<!-- ====== 律师头部 ====== -->
+<section class="profile-hero">
+  <div class="deco-line"></div>
+  <div class="avatar">李</div>
+  <div class="name">李惠敏</div>
+  <div class="title">执业律师</div>
+  <div class="firm">陕西罗泰律师事务所</div>
+  <div class="stats">
+    <div class="stat"><div class="num">500+</div><div class="label">服务案件</div></div>
+    <div class="stat"><div class="num">5年</div><div class="label">执业经验</div></div>
+    <div class="stat"><div class="num">98%</div><div class="label">客户好评</div></div>
+  </div>
+</section>
+
+<!-- ====== 服务标语 ====== -->
+<div class="tagline-bar">
+  <div class="icon-row">
+    <div class="it">
+      <div class="svg-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b7355" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21.5 12a9.5 9.5 0 1 1-19 0 9.5 9.5 0 0 1 19 0z"/></svg></div>
+      <span>持证执业</span>
+    </div>
+    <div class="it">
+      <div class="svg-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b7355" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <span>信息安全</span>
+    </div>
+    <div class="it">
+      <div class="svg-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b7355" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+      <span>专业信赖</span>
+    </div>
+  </div>
+  <div class="desc">专注民商事法律文书服务，为每一位客户提供专业、高效、合规的一站式法律解决方案</div>
+</div>
+
+<!-- ====== 服务产品 ====== -->
+<div class="sec-title"><h2>法律服务产品</h2><div class="line"></div></div>
+<div class="products">
+  <div class="product-grid">
+
+    <!-- 1: 文书诉状 -->
+    <div class="prod-card">
+      <div class="img-wrap">
+        <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=500&q=80&auto=format&fit=crop" loading="lazy" alt="文书诉状">
+        <div class="badge">诉讼文书</div>
+        <div class="price-tag">¥800<em> 起</em></div>
+      </div>
+      <div class="content">
+        <h3>文书诉状起草</h3>
+        <p class="sub">民事起诉状、刑事自诉状、行政起诉状、答辩状等，格式规范，法条引用充分</p>
+        <div class="tags"><span>个性化定制</span><span>法条引用</span><span>格式标准</span></div>
+      </div>
+    </div>
+
+    <!-- 2: 律师函 -->
+    <div class="prod-card">
+      <div class="img-wrap">
+        <img src="https://images.unsplash.com/photo-1589391886085-8b6b0ac72a1a?w=500&q=80&auto=format&fit=crop" loading="lazy" alt="律师函">
+        <div class="badge">法律文书</div>
+        <div class="price-tag">¥1200<em> 起</em></div>
+      </div>
+      <div class="content">
+        <h3>律师函出具</h3>
+        <p class="sub">正式律师函，有效传达法律立场，适用于合同纠纷、侵权警告、债务催收等场景</p>
+        <div class="tags"><span>律师签章</span><span>风险评估</span><span>送达跟踪</span></div>
+      </div>
+    </div>
+
+    <!-- 3: 合同起草 -->
+    <div class="prod-card">
+      <div class="img-wrap">
+        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=500&q=80&auto=format&fit=crop" loading="lazy" alt="合同起草">
+        <div class="badge">合同服务</div>
+        <div class="price-tag">¥1500<em> 起</em></div>
+      </div>
+      <div class="content">
+        <h3>企业合同起草</h3>
+        <p class="sub">量身定制劳动合同、购销合同、租赁合同、合作协议等各类企业合同</p>
+        <div class="tags"><span>行业模板</span><span>风险提示</span><span>合规审查</span></div>
+      </div>
+    </div>
+
+    <!-- 4: 合同修改 -->
+    <div class="prod-card">
+      <div class="img-wrap">
+        <img src="https://images.unsplash.com/photo-1589578527966-fdac0ee0e1b0?w=500&q=80&auto=format&fit=crop" loading="lazy" alt="合同修改">
+        <div class="badge">合同服务</div>
+        <div class="price-tag">¥1000<em> 起</em></div>
+      </div>
+      <div class="content">
+        <h3>合同修改与审查</h3>
+        <p class="sub">逐条分析现有合同，识别风险条款，提供专业修改建议报告</p>
+        <div class="tags"><span>逐条分析</span><span>风险评估</span><span>修改建议</span></div>
+      </div>
+    </div>
+
+    <!-- 5: 按件代理 -->
+    <div class="prod-card">
+      <div class="img-wrap">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&q=80&auto=format&fit=crop" loading="lazy" alt="按件代理">
+        <div class="badge">代理服务</div>
+        <div class="price-tag">¥2000<em> 起</em></div>
+      </div>
+      <div class="content">
+        <h3>按件代理</h3>
+        <p class="sub">按案件提供专业法律代理，涵盖案件分析、证据梳理、庭审代理，维护当事人权益</p>
+        <div class="tags"><span>案件分析</span><span>证据梳理</span><span>庭审代理</span></div>
+      </div>
+    </div>
+
+    <!-- 6: 法律顾问 -->
+    <div class="prod-card">
+      <div class="img-wrap">
+        <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=500&q=80&auto=format&fit=crop" loading="lazy" alt="法律顾问">
+        <div class="badge">企业服务</div>
+        <div class="price-tag">¥15000<em>/年</em></div>
+      </div>
+      <div class="content">
+        <h3>企业法律顾问</h3>
+        <p class="sub">年度法律顾问套餐，不限次咨询、合同审查优先、法律培训等全方位支持</p>
+        <div class="tags"><span>不限次咨询</span><span>合同优先</span><span>法律培训</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ====== 价格表 ====== -->
+<div class="sec-title"><h2>服务价格明细</h2><div class="line"></div></div>
+<div class="price-table">
+  <div class="pt-header">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b8914a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+    <div><h3>透明定价</h3><p>按需选择 · 品质保障</p></div>
+  </div>
+  <table>
+    <tr><td>文书诉状起草</td><td>民事/刑事/行政起诉状等</td><td>¥800-2000</td></tr>
+    <tr><td>律师函出具</td><td>正式律师函（含签章）</td><td>¥1200-3000</td></tr>
+    <tr><td>企业合同起草</td><td>各类企业合同定制</td><td>¥1500-5000</td></tr>
+    <tr><td>合同修改与审查</td><td>风险审查与修改建议</td><td>¥1000-4000</td></tr>
+    <tr><td>按件代理</td><td>案件分析·庭审代理</td><td>¥2000-6000</td></tr>
+    <tr><td>企业法律顾问</td><td>年度全方位法律支持</td><td>¥15000/年起</td></tr>
+  </table>
+</div>
+
+<!-- ====== 联系下单 ====== -->
+<div class="cta-section" id="contact">
+  <div class="cta-card">
+    <div class="cta-title">📋 立即咨询 · 委托下单</div>
+    <div class="cta-sub">点击下方按钮，直接拨通李惠敏律师电话</div>
+    <div class="phone-box">
+      <div class="p-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </div>
+      <div class="p-num">18829357195<small>李惠敏律师</small></div>
+    </div>
+    <a href="tel:18829357195" class="call-btn">📞 点击拨打 · 立即联系</a>
+  </div>
+</div>
+
+<!-- ====== 页脚 ====== -->
+<div class="footer-info">
+  <div class="info-row">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+    <span>陕西省西安市雁塔区禾盛京广E座23层</span>
+  </div>
+  <div class="info-row">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    <span>李惠敏 · 陕西罗泰律师事务所</span>
+  </div>
+  <div class="share-tip">💡 点击右上角「···」分享到微信 / 朋友圈 / 视频号</div>
+</div>
+
+<script>
+document.querySelectorAll('.prod-card').forEach(function(card){
+  card.addEventListener('click',function(e){
+    if(e.target.closest('a')) return;
+    window.location.href='tel:18829357195';
+  });
+});
+</script>
+</body>
+</html>

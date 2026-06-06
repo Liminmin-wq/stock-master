@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1f2e"/>
+      <stop offset="100%" style="stop-color:#2a3040"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0c060"/>
+      <stop offset="100%" style="stop-color:#e6a800"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="40" fill="url(#bg)"/>
+  <text x="200" y="150" text-anchor="middle" font-family="Arial,sans-serif" font-size="100" font-weight="bold" fill="url(#gold)">深投</text>
+  <text x="200" y="225" text-anchor="middle" font-family="Arial,sans-serif" font-size="40" font-weight="bold" fill="#888">PRO</text>
+  <line x1="80" y1="260" x2="320" y2="260" stroke="url(#gold)" stroke-width="2" opacity="0.5"/>
+  <text x="200" y="320" text-anchor="middle" font-family="Arial,sans-serif" font-size="28" font-weight="bold" fill="url(#gold)">实时 · 分析 · 决策</text>
+</svg>

@@ -1,0 +1,23 @@
+127.0.0.1 - - [06/Jun/2026 00:30:21] "GET /lawyer.html HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jun/2026 00:31:19] "GET /lawyer.html HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jun/2026 00:31:26] "GET /lawyer.html HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jun/2026 00:31:59] "GET /lawyer.html HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jun/2026 00:32:23] "GET /lawyer.html HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jun/2026 00:32:23] code 404, message File not found
+127.0.0.1 - - [06/Jun/2026 00:32:23] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [06/Jun/2026 00:32:57] "GET /lawyer.html HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jun/2026 00:33:18] "GET /lawyer.html HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jun/2026 00:42:00] "GET /lawyer.html HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jun/2026 00:42:25] "GET /lawyer.html HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jun/2026 00:42:28] "GET /lawyer.html HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jun/2026 00:42:40] "GET /lawyer.html HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jun/2026 00:42:43] code 404, message File not found
+127.0.0.1 - - [06/Jun/2026 00:42:43] "GET /apple-touch-icon.png HTTP/1.1" 404 -
+127.0.0.1 - - [06/Jun/2026 00:42:43] code 404, message File not found
+127.0.0.1 - - [06/Jun/2026 00:42:43] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [06/Jun/2026 00:42:43] code 404, message File not found
+127.0.0.1 - - [06/Jun/2026 00:42:43] "GET /apple-touch-icon-precomposed.png HTTP/1.1" 404 -
+127.0.0.1 - - [06/Jun/2026 00:42:54] "GET /lawyer.html HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jun/2026 00:44:59] "GET /lawyer.html HTTP/1.1" 200 -
+127.0.0.1 - - [06/Jun/2026 00:44:59] code 404, message File not found
+127.0.0.1 - - [06/Jun/2026 00:44:59] "GET /favicon.ico HTTP/1.1" 404 -
