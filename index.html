@@ -201,22 +201,35 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .auth-box .auth-field::placeholder{color:rgba(255,255,255,0.25);font-size:13px}
 .auth-box .auth-btn{width:100%;padding:14px;border:none;border-radius:10px;background:linear-gradient(135deg,#f0c060,#e6a800);color:#1a1f2e;font-size:16px;font-weight:700;cursor:pointer;margin-top:4px}
 .auth-box .auth-btn:active{opacity:0.85}
+.auth-box .auth-btn.dim{opacity:0.5;pointer-events:none}
 .auth-box .auth-err{font-size:12px;color:#e74c3c;margin-top:10px;display:none}
-.auth-box .auth-info{font-size:11px;color:rgba(255,255,255,0.3);margin-top:14px;line-height:1.6}
-.auth-box .auth-info b{color:rgba(255,255,255,0.5)}
-/* 设置面板 */
+.auth-box .auth-wait{font-size:13px;color:rgba(255,255,255,0.6);margin-top:14px;line-height:1.8;display:none}
+.auth-box .auth-wait .dot-anim{display:inline-block;animation:dotPulse 1.4s infinite}
+@keyframes dotPulse{0%,100%{opacity:0.3}50%{opacity:1}}
+.auth-box .auth-code-input{display:none;margin-top:14px}
+.auth-box .auth-code-input .aci-label{font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:8px}
+.auth-box .auth-code-box{display:flex;gap:8px;justify-content:center;margin-bottom:10px}
+.auth-box .auth-code-box input{width:48px;height:52px;text-align:center;font-size:24px;font-weight:800;color:#f0c060;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;outline:none}
+.auth-box .auth-code-box input:focus{border-color:#f0c060;background:rgba(255,255,255,0.12)}
+.auth-box .auth-info{font-size:11px;color:rgba(255,255,255,0.25);margin-top:14px;line-height:1.6}
+/* 管理面板 */
 .auth-admin{position:fixed;top:0;left:0;right:0;bottom:0;z-index:99999;background:rgba(0,0,0,0.85);display:none;justify-content:center;align-items:center}
 .auth-admin.show{display:flex}
-.auth-admin-box{background:#1a1f2e;border-radius:14px;padding:24px;width:88%;max-width:340px;border:1px solid #f0c060}
+.auth-admin-box{background:#1a1f2e;border-radius:14px;padding:24px;width:88%;max-width:360px;border:1px solid #f0c060;max-height:80vh;overflow-y:auto}
 .auth-admin-box h3{color:#f0c060;font-size:16px;font-weight:700;margin-bottom:4px}
-.auth-admin-box p{color:rgba(255,255,255,0.5);font-size:11px;margin-bottom:16px}
-.auth-admin-box .af{width:100%;padding:12px 14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#fff;font-size:14px;outline:none;margin-bottom:10px;box-sizing:border-box}
-.auth-admin-box .af:focus{border-color:#f0c060}
-.auth-admin-box .abtn{width:100%;padding:12px;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:8px}
-.auth-admin-box .abtn.primary{background:#f0c060;color:#1a1f2e}
-.auth-admin-box .abtn.secondary{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6)}
-.auth-admin-box .abtn:active{opacity:0.85}
-.auth-admin-box .astatus{font-size:11px;color:#27ae60;margin-top:4px;display:none}
+.auth-admin-box .adm-desc{color:rgba(255,255,255,0.4);font-size:11px;margin-bottom:14px;line-height:1.5}
+.auth-admin-box .req-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,255,255,0.04);border-radius:8px;margin-bottom:8px}
+.auth-admin-box .req-item .ri-name{font-size:14px;font-weight:600;color:#fff}
+.auth-admin-box .req-item .ri-time{font-size:10px;color:rgba(255,255,255,0.3);display:block}
+.auth-admin-box .req-item .ri-btns{display:flex;gap:6px}
+.auth-admin-box .req-item .ri-btns button{padding:6px 14px;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer}
+.auth-admin-box .req-item .ri-btns .btn-ok{background:#27ae60;color:#fff}
+.auth-admin-box .req-item .ri-btns .btn-no{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.5)}
+.auth-admin-box .req-empty{font-size:12px;color:rgba(255,255,255,0.25);text-align:center;padding:20px 0}
+.auth-admin-box .auth-log{font-size:11px;border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;margin-top:12px}
+.auth-admin-box .auth-log .log-item{display:flex;justify-content:space-between;padding:4px 0;font-size:11px;color:rgba(255,255,255,0.4)}
+.auth-admin-box .close-admin{display:block;width:100%;padding:10px;border:none;border-radius:8px;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.4);font-size:13px;cursor:pointer;margin-top:10px}
+.auth-admin-box .close-admin:active{background:rgba(255,255,255,0.1)}
 .share-btn{position:fixed;bottom:70px;right:14px;z-index:999;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#f0c060,#e6a800);color:#1a1f2e;border:none;font-size:24px;box-shadow:0 4px 16px rgba(240,192,96,0.4);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s,box-shadow .15s}
 .share-btn:active{transform:scale(0.92);box-shadow:0 2px 8px rgba(240,192,96,0.3)}
 
@@ -291,28 +304,45 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 
 <!-- ====== 授权访问页 ====== -->
 <div class="auth-overlay" id="authOverlay">
-  <div class="auth-box">
-    <div class="auth-logo" onclick="openAuthAdmin(event)">深投Pro</div>
+  <div class="auth-box" id="authStep1">
+    <div class="auth-logo" onclick="openAuthAdmin(event)" style="cursor:default">深投Pro</div>
     <div class="auth-sub">全维股票分析系统</div>
     <input class="auth-field" id="authName" type="text" placeholder="请输入您的微信名" autocomplete="off">
-    <input class="auth-field" id="authPass" type="password" placeholder="请输入访客密码" autocomplete="off">
-    <button class="auth-btn" onclick="checkAuth()">🔐 申请访问</button>
-    <div class="auth-err" id="authErr">密码错误，请联系管理员获取密码</div>
-    <div class="auth-info">本系统为授权访问<br>需输入<b>访客密码</b>方可查看</div>
+    <button class="auth-btn" id="authBtn" onclick="submitRequest()">📩 申请访问</button>
+    <div class="auth-err" id="authErr"></div>
+    <div class="auth-info">本系统需管理员授权方可查看<br>提交申请后请联系 <b style="color:rgba(255,255,255,0.5)">李惠敏</b> 同意</div>
+  </div>
+  <div class="auth-box" id="authStep2" style="display:none">
+    <div class="auth-logo" style="font-size:28px">⏳</div>
+    <div class="auth-sub" style="margin-bottom:16px">申请已发送</div>
+    <div style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.8;margin-bottom:12px">
+      管理员 <b style="color:#f0c060">李惠敏</b> 收到你的申请后<br>会发送 <b style="color:#f0c060">4位授权码</b> 给你
+    </div>
+    <div class="auth-code-input" id="authCodeArea">
+      <div class="aci-label">收到授权码后输入：</div>
+      <div class="auth-code-box">
+        <input type="text" maxlength="1" id="c1" oninput="moveCode(1)" onkeydown="backCode(1)">
+        <input type="text" maxlength="1" id="c2" oninput="moveCode(2)" onkeydown="backCode(2)">
+        <input type="text" maxlength="1" id="c3" oninput="moveCode(3)" onkeydown="backCode(3)">
+        <input type="text" maxlength="1" id="c4" oninput="moveCode(4)" onkeydown="backCode(4)">
+      </div>
+      <button class="auth-btn" onclick="verifyCode()">✅ 确认授权码</button>
+      <div class="auth-err" id="codeErr"></div>
+    </div>
+    <div class="auth-info" style="margin-top:8px">还没收到？联系 <b style="color:rgba(255,255,255,0.5)">李惠敏</b> 催一下</div>
   </div>
 </div>
 
-<!-- ====== 授权管理员面板 ====== -->
+<!-- ====== 管理面板（点击标题5次打开） ====== -->
 <div class="auth-admin" id="authAdmin">
   <div class="auth-admin-box">
-    <h3>⚙️ 授权管理</h3>
-    <p>设置访客密码 → 只发给通过你授权的人<br>⚠️ 改密码后所有已有访问会立即失效</p>
-    <input class="af" id="adminOldPass" type="password" placeholder="当前管理员密码">
-    <input class="af" id="adminNewPass" type="text" placeholder="新访客密码">
-    <button class="abtn primary" onclick="saveAuthPass()">💾 保存新密码</button>
-    <button class="abtn secondary" onclick="closeAuthAdmin()">关闭</button>
-    <div class="astatus" id="adminStatus">✅ 密码已更新</div>
-    <div id="visitorLog" style="margin-top:12px;border-top:1px solid rgba(255,255,255,0.08);padding-top:10px"></div>
+    <h3>🔐 授权管理</h3>
+    <div class="adm-desc">待授权列表 — 点击"同意"生成4位授权码发给对方</div>
+    <div id="pendingList"><div class="req-empty">暂无待授权的请求</div></div>
+    <div class="auth-log" id="authLog">
+      <div style="font-size:11px;color:rgba(255,255,255,0.3);text-align:center">暂无授权记录</div>
+    </div>
+    <button class="close-admin" onclick="closeAuthAdmin()">关闭管理面板</button>
   </div>
 </div>
 
@@ -2036,57 +2066,84 @@ function copyLink(url){
   alert('✅ 链接已复制，可粘贴分享给好友或发送到微信');
 }
 
-// ====== 授权访问系统 ======
-var AUTH_PASS=''; // 当前访客密码（空=首次需设置）
-var ADMIN_PASS='admin888'; // 管理员密码
-var VISITOR_LOG=[]; // 访客记录
+// ====== 授权访问（无密码，管理员手动同意） ======
+var PENDING_REQS=[]; // 待授权请求列表
+var AUTH_LOG=[]; // 授权记录
+var CURRENT_CODE=''; // 当前授权码
 
-// 检查授权状态
+// 初始化
 function initAuth(){
-  var session=sessionStorage.getItem('stock_auth_ok');
-  if(session==='1'&&AUTH_PASS){
+  if(sessionStorage.getItem('stock_authorized')){
     document.getElementById('authOverlay').classList.add('hidden');
-  }else{
-    document.getElementById('authOverlay').classList.remove('hidden');
-    document.getElementById('authName').focus();
   }
 }
 
-// 验证访问
-function checkAuth(){
+// 提交访问申请
+function submitRequest(){
   var name=document.getElementById('authName').value.trim();
-  var pass=document.getElementById('authPass').value.trim();
   var errEl=document.getElementById('authErr');
-  
   if(!name){
     errEl.textContent='请先输入您的微信名';
     errEl.style.display='block';
     return;
   }
-  
-  if(!AUTH_PASS){
-    errEl.textContent='⚠ 系统初始化中，请先点击标题5次进入管理面板设置访客密码';
+  // 检查是否已在待授权列表
+  for(var i=0;i<PENDING_REQS.length;i++){
+    if(PENDING_REQS[i].name===name&&!PENDING_REQS[i].done){
+      errEl.textContent='您已经提交过申请，请等待管理员授权';
+      errEl.style.display='block';
+      return;
+    }
+  }
+  // 添加到待授权列表
+  PENDING_REQS.push({name:name,time:new Date().toLocaleString(),done:false});
+  // 切换到等待页面
+  document.getElementById('authStep1').style.display='none';
+  document.getElementById('authStep2').style.display='block';
+  document.getElementById('authCodeArea').style.display='block';
+  document.getElementById('c1').focus();
+  // 重置授权码输入
+  for(var j=1;j<=4;j++){
+    document.getElementById('c'+j).value='';
+  }
+}
+
+// 授权码输入跳转
+function moveCode(n){
+  var val=document.getElementById('c'+n).value;
+  if(val&&n<4){document.getElementById('c'+(n+1)).focus();}
+}
+function backCode(n){
+  var ev=window.event;
+  if(ev.key==='Backspace'&&!document.getElementById('c'+n).value&&n>1){
+    document.getElementById('c'+(n-1)).focus();
+  }
+  if(ev.key==='Enter'){verifyCode();}
+}
+
+// 验证授权码
+function verifyCode(){
+  var code='';
+  for(var i=1;i<=4;i++){
+    code+=document.getElementById('c'+i).value;
+  }
+  var errEl=document.getElementById('codeErr');
+  if(code.length!==4){
+    errEl.textContent='请输入完整的4位授权码';
     errEl.style.display='block';
     return;
   }
-  
-  if(pass!==AUTH_PASS){
-    // 记录失败的尝试
-    VISITOR_LOG.push({name:name,time:new Date().toLocaleString(),ok:false});
-    errEl.textContent='❌ 密码错误，本次访问已记录。请联系管理员（李惠敏）获取密码';
+  if(code===CURRENT_CODE){
+    errEl.style.display='none';
+    // 授权通过
+    sessionStorage.setItem('stock_authorized','1');
+    document.getElementById('authOverlay').classList.add('hidden');
+  }else{
+    errEl.textContent='❌ 授权码无效，请联系管理员确认';
     errEl.style.display='block';
-    document.getElementById('authPass').value='';
-    document.getElementById('authPass').focus();
-    return;
+    for(var i=1;i<=4;i++){document.getElementById('c'+i).value='';}
+    document.getElementById('c1').focus();
   }
-  
-  // 验证通过 - 记录访客
-  VISITOR_LOG.push({name:name,time:new Date().toLocaleString(),ok:true});
-  errEl.style.display='none';
-  
-  // 使用sessionStorage（关闭标签页即失效）
-  sessionStorage.setItem('stock_auth_ok','1');
-  document.getElementById('authOverlay').classList.add('hidden');
 }
 
 // 管理员面板（点击标题5次打开）
@@ -2096,11 +2153,8 @@ function openAuthAdmin(e){
   if(clickCount>=5){
     clickCount=0;
     document.getElementById('authAdmin').classList.add('show');
-    document.getElementById('adminOldPass').value='';
-    document.getElementById('adminNewPass').value='';
-    document.getElementById('adminStatus').style.display='none';
-    // 显示访客记录
-    showVisitorLog();
+    renderPendingList();
+    renderAuthLog();
   }
   setTimeout(function(){clickCount=0;},2000);
 }
@@ -2109,52 +2163,71 @@ function closeAuthAdmin(){
   document.getElementById('authAdmin').classList.remove('show');
 }
 
-// 保存新访客密码
-function saveAuthPass(){
-  var oldPass=document.getElementById('adminOldPass').value.trim();
-  var newPass=document.getElementById('adminNewPass').value.trim();
-  var statusEl=document.getElementById('adminStatus');
-  
-  if(oldPass!==ADMIN_PASS){
-    statusEl.textContent='❌ 管理员密码错误';
-    statusEl.style.color='#e74c3c';
-    statusEl.style.display='block';
-    return;
+// 同意授权
+function approveReq(index){
+  var req=PENDING_REQS[index];
+  if(!req||req.done)return;
+  // 生成4位随机授权码
+  var code='';
+  for(var i=0;i<4;i++){
+    code+=Math.floor(Math.random()*10);
   }
-  
-  if(!newPass||newPass.length<3){
-    statusEl.textContent='❌ 访客密码至少3位字符';
-    statusEl.style.color='#e74c3c';
-    statusEl.style.display='block';
-    return;
-  }
-  
-  // 更新密码
-  AUTH_PASS=newPass;
-  statusEl.textContent='✅ 已更新！当前访客密码：「'+newPass+'」';
-  statusEl.style.color='#27ae60';
-  statusEl.style.display='block';
-  
-  // 清除所有已有session，所有人需要重新登录
-  sessionStorage.removeItem('stock_auth_ok');
+  CURRENT_CODE=code;
+  req.done=true;
+  req.approved=true;
+  req.code=code;
+  // 记录日志
+  AUTH_LOG.push({name:req.name,time:req.time,action:'✅ 同意',code:code,approveTime:new Date().toLocaleString()});
+  renderPendingList();
+  renderAuthLog();
+  // 弹窗提示授权码
+  alert('✅ 已同意「'+req.name+'」的访问\n\n授权码：'+code+'\n\n请将此4位授权码通过微信发给对方。\n（对方输入后即可访问）');
 }
 
-// 显示访客记录
-function showVisitorLog(){
-  var logEl=document.getElementById('visitorLog');
-  if(!logEl)return;
-  if(VISITOR_LOG.length===0){
-    logEl.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,0.3);text-align:center;padding:8px">暂无访客记录</div>';
+// 拒绝授权
+function rejectReq(index){
+  var req=PENDING_REQS[index];
+  if(!req||req.done)return;
+  req.done=true;
+  req.approved=false;
+  AUTH_LOG.push({name:req.name,time:req.time,action:'❌ 拒绝',approveTime:new Date().toLocaleString()});
+  renderPendingList();
+  renderAuthLog();
+}
+
+// 渲染待授权列表
+function renderPendingList(){
+  var el=document.getElementById('pendingList');
+  var pending=[];
+  for(var i=0;i<PENDING_REQS.length;i++){
+    if(!PENDING_REQS[i].done) pending.push(i);
+  }
+  if(pending.length===0){
+    el.innerHTML='<div class="req-empty">✅ 暂无待授权的请求</div>';
     return;
   }
-  var h='<div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:6px">📋 最近访客记录：</div>';
-  for(var i=VISITOR_LOG.length-1;i>=0;i--){
-    var v=VISITOR_LOG[i];
-    h+='<div style="font-size:11px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between">';
-    h+='<span>'+(v.ok?'✅':'❌')+' '+v.name+'</span>';
-    h+='<span style="color:rgba(255,255,255,0.3)">'+v.time+'</span></div>';
+  var h='';
+  for(var j=0;j<pending.length;j++){
+    var idx=pending[j];
+    var req=PENDING_REQS[idx];
+    h+='<div class="req-item"><div><div class="ri-name">'+req.name+'</div><span class="ri-time">'+req.time+'</span></div><div class="ri-btns"><button class="btn-ok" onclick="approveReq('+idx+')">同意</button><button class="btn-no" onclick="rejectReq('+idx+')">拒绝</button></div></div>';
   }
-  logEl.innerHTML=h;
+  el.innerHTML=h;
+}
+
+// 渲染授权记录
+function renderAuthLog(){
+  var el=document.getElementById('authLog');
+  if(AUTH_LOG.length===0){
+    el.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,0.3);text-align:center">暂无授权记录</div>';
+    return;
+  }
+  var h='<div style="font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:6px">📋 授权记录</div>';
+  for(var i=AUTH_LOG.length-1;i>=0;i--){
+    var r=AUTH_LOG[i];
+    h+='<div class="log-item"><span>'+r.action+' '+r.name+'</span><span style="color:rgba(255,255,255,0.2)">'+r.approveTime+'</span></div>';
+  }
+  el.innerHTML=h;
 }
 
 // ====== 初始化 ======
