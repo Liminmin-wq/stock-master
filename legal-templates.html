@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>要素式起诉状生成系统</title>
+<meta property="og:title" content="要素式起诉状生成系统">
+<meta property="og:description" content="最高人民法院示范文本 · 要素式起诉状在线生成">
+<meta property="og:image" content="https://liminmin-wq.github.io/stock-master/legal/og-image.png">
+<meta property="og:image:width" content="600">
+<meta property="og:image:height" content="315">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'PingFang SC','Microsoft YaHei','SimSun',serif;
+  background:#f0f2f5;color:#222;min-height:100vh;
+}
+
+/* ===== 顶栏 ===== */
+.header{
+  background:linear-gradient(135deg,#1a237e,#283593);
+  color:#fff;padding:18px 24px;text-align:center;
+}
+.header h1{font-size:22px;font-weight:700;letter-spacing:2px}
+.header p{font-size:13px;opacity:.7;margin-top:4px}
+
+/* ===== 主容器 ===== */
+.container{max-width:1000px;margin:0 auto;padding:20px 16px 60px}
+
+/* ===== 案由选择 ===== */
+.case-selector{
+  background:#fff;border-radius:12px;padding:20px;margin-bottom:18px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+.case-selector h3{font-size:15px;color:#666;margin-bottom:12px}
+.case-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.case-btn{
+  padding:10px 12px;border:2px solid #e8e8e8;border-radius:8px;
+  background:#fff;cursor:pointer;font-size:13px;text-align:center;
+  transition:all .2s;font-family:inherit;color:#333;
+}
+.case-btn:hover{border-color:#1a237e;color:#1a237e}
+.case-btn.active{background:#1a237e;color:#fff;border-color:#1a237e}
+
+/* ===== 表单卡片 ===== */
+.form-card{
+  background:#fff;border-radius:12px;padding:24px;margin-bottom:18px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);display:none;
+}
+.form-card.active{display:block}
+
+.form-card h2{
+  font-size:18px;color:#1a237e;margin-bottom:16px;
+  padding-bottom:10px;border-bottom:2px solid #1a237e;
+}
+
+/* ===== 要素表格 ===== */
+.elem-table{width:100%;border-collapse:collapse;margin-bottom:16px}
+.elem-table td,.elem-table th{
+  border:1px solid #ddd;padding:10px 12px;font-size:14px;vertical-align:top;
+}
+.elem-table th{
+  background:#f5f6fa;font-weight:600;color:#333;text-align:center;width:100px;
+}
+.elem-table .label-cell{background:#fafbfd;font-weight:600;color:#555;width:90px;text-align:center}
+.elem-table input[type="text"],.elem-table input[type="tel"]{
+  width:100%;border:none;outline:none;font-size:14px;padding:4px 0;
+  font-family:inherit;background:transparent;
+  border-bottom:1px dashed #ddd;
+}
+.elem-table input:focus{border-bottom-color:#1a237e}
+.elem-table textarea{
+  width:100%;border:1px solid #eee;outline:none;font-size:14px;padding:8px;
+  font-family:inherit;border-radius:4px;resize:vertical;min-height:60px;
+}
+.elem-table textarea:focus{border-color:#1a237e}
+
+/* 选项勾选 */
+.check-group{display:flex;flex-wrap:wrap;gap:6px}
+.check-item{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:4px 10px;border:1px solid #ddd;border-radius:4px;
+  font-size:13px;cursor:pointer;transition:all .2s;
+  background:#fafafa;user-select:none;
+}
+.check-item:hover{border-color:#1a237e}
+.check-item.checked{background:#e8eaf6;border-color:#1a237e;color:#1a237e}
+.check-item input[type="checkbox"]{display:none}
+
+/* ===== 生成按钮 ===== */
+.action-bar{text-align:center;margin:20px 0}
+.btn-generate{
+  padding:12px 40px;background:linear-gradient(135deg,#1a237e,#283593);
+  color:#fff;border:none;border-radius:8px;font-size:16px;
+  cursor:pointer;font-family:inherit;transition:all .3s;
+  box-shadow:0 4px 15px rgba(26,35,126,.3);
+}
+.btn-generate:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(26,35,126,.4)}
+.btn-generate:active{transform:scale(.97)}
+
+/* ===== 预览/打印 ===== */
+.preview-section{display:none;margin-top:20px}
+.preview-section.active{display:block}
+
+.doc-preview{
+  background:#fff;padding:40px 50px;border-radius:8px;
+  box-shadow:0 2px 12px rgba(0,0,0,.1);
+  font-family:'SimSun','Songti SC','Noto Serif CJK SC',serif;
+  line-height:1.8;font-size:15px;
+}
+.doc-preview h2{text-align:center;font-size:20px;margin-bottom:20px}
+.doc-preview h3{font-size:16px;margin:14px 0 8px}
+.doc-preview p{margin:6px 0;text-indent:2em}
+.doc-preview .no-indent{text-indent:0}
+.doc-preview .right{text-align:right;margin-top:30px}
+.doc-preview .table-wrap{overflow-x:auto}
+.doc-preview table{
+  width:100%;border-collapse:collapse;margin:10px 0;
+}
+.doc-preview table td,.doc-preview table th{
+  border:1px solid #333;padding:6px 10px;font-size:14px;text-align:center;
+}
+
+.print-bar{text-align:center;margin-top:16px;display:flex;gap:10px;justify-content:center}
+.print-bar button{
+  padding:10px 28px;border:none;border-radius:8px;font-size:14px;
+  cursor:pointer;font-family:inherit;transition:all .2s;
+}
+.btn-print{background:#1a237e;color:#fff}
+.btn-back{background:#f0f0f0;color:#333}
+.btn-print:hover{opacity:.9}
+.btn-back:hover{opacity:.8}
+
+@media(max-width:600px){
+  .container{padding:12px 10px}
+  .form-card{padding:16px}
+  .doc-preview{padding:20px;font-size:14px}
+  .elem-table td,.elem-table th{padding:6px 8px;font-size:13px}
+  .case-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
+}
+
+/* 打印样式 */
+@media print{
+  .header,.case-selector,.form-card,.action-bar,.print-bar{display:none!important}
+  .preview-section{display:block!important;margin:0}
+  .doc-preview{box-shadow:none;padding:20px 30px;border:none}
+  body{background:#fff}
+}
+</style>
+</head>
+<body>
+
+<!-- 顶栏 -->
+<div class="header">
+  <h1>📜 要素式起诉状生成系统</h1>
+  <p>最高人民法院示范文本 · 在线填写 · 自动生成</p>
+</div>
+
+<div class="container">
+
+<!-- 案由选择 -->
+<div class="case-selector">
+  <h3>📂 选择案件类型</h3>
+  <div class="case-grid">
+    <button class="case-btn active" data-type="divorce">离婚纠纷</button>
+    <button class="case-btn" data-type="lending">民间借贷纠纷</button>
+    <button class="case-btn" data-type="enforce">强制执行申请</button>
+    <button class="case-btn" data-type="preserve">诉前保全申请</button>
+    <button class="case-btn" data-type="company">公司相关纠纷</button>
+  </div>
+</div>
+
+<!-- ====== 各案由表单 ====== -->
+
+<!-- 离婚纠纷 -->
+<div class="form-card active" id="form-divorce">
+  <h2>📋 离婚纠纷 · 要素表</h2>
+  <table class="elem-table">
+    <tr><td class="label-cell">原告</td><td><input type="text" id="d-pl-name" placeholder="姓名">　
+      <select id="d-pl-gender" style="border:none;outline:none;font-size:14px;font-family:inherit"><option value="">性别</option><option>男</option><option>女</option></select>　
+      <input type="text" id="d-pl-ethnic" placeholder="民族" style="width:60px">　
+      <input type="text" id="d-pl-birth" placeholder="出生年月日" style="width:140px"><br>
+      身份证号：<input type="text" id="d-pl-id" placeholder="公民身份号码" style="width:240px"><br>
+      住址：<input type="text" id="d-pl-addr" placeholder="详细住址" style="width:300px"><br>
+      电话：<input type="tel" id="d-pl-phone" placeholder="联系电话" style="width:140px"></td></tr>
+    <tr><td class="label-cell">被告</td><td><input type="text" id="d-def-name" placeholder="姓名">　
+      <select id="d-def-gender" style="border:none;outline:none;font-size:14px;font-family:inherit"><option value="">性别</option><option>男</option><option>女</option></select>　
+      <input type="text" id="d-def-ethnic" placeholder="民族" style="width:60px">　
+      <input type="text" id="d-def-birth" placeholder="出生年月日" style="width:140px"><br>
+      身份证号：<input type="text" id="d-def-id" placeholder="公民身份号码" style="width:240px"><br>
+      住址：<input type="text" id="d-def-addr" placeholder="详细住址" style="width:300px"><br>
+      电话：<input type="tel" id="d-def-phone" placeholder="联系电话" style="width:140px"></td></tr>
+    <tr><td class="label-cell">结婚情况</td><td>
+      登记结婚日期：<input type="text" id="d-marriage-date" placeholder="yyyy年mm月dd日" style="width:160px">　
+      是否生育子女：<label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">是</label>
+      <div style="margin-top:6px">子女姓名：<input type="text" id="d-child-name" placeholder="姓名" style="width:120px">　
+      性别：<select id="d-child-gender" style="border:none;outline:none;font-size:14px;font-family:inherit"><option value="">性别</option><option>男</option><option>女</option></select>　
+      出生日期：<input type="text" id="d-child-birth" placeholder="yyyy年mm月dd日" style="width:140px"></div></td></tr>
+    <tr><td class="label-cell">诉讼请求<br><span style="font-weight:400;font-size:12px;color:#999">（可多选）</span></td><td>
+      <div class="check-group">
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">判令离婚</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">判令子女由原告抚养</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">判令被告支付抚养费</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">依法分割夫妻共同财产</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">夫妻共同债务共同承担</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">家务劳动补偿</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">精神损害赔偿</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">诉讼费用由被告承担</label>
+      </div>
+      <div style="margin-top:8px">抚养费金额：<input type="text" id="d-support-amt" placeholder="每月___元" style="width:120px">　
+      补偿/赔偿金：<input type="text" id="d-comp-amt" placeholder="___元" style="width:120px"></div>
+      <div style="margin-top:6px">共同财产情况：<br><textarea id="d-property" placeholder="描述夫妻共同财产情况（房屋、车辆、存款等）" rows="3"></textarea></div>
+      <div style="margin-top:6px">共同债务情况：<br><textarea id="d-debt" placeholder="描述夫妻共同债务情况" rows="2"></textarea></div></td></tr>
+    <tr><td class="label-cell">事实与理由<br><span style="font-weight:400;font-size:12px;color:#999">（可多选）</span></td><td>
+      <div class="check-group">
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">感情破裂无和好可能</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">家庭暴力</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">酗酒/赌博等恶习</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">长期分居</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">精神冷暴力/经济控制</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">性格不合</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">未尽家庭义务</label>
+      </div>
+      <div style="margin-top:8px">详细事实描述：<br><textarea id="d-facts" placeholder="详细描述婚姻状况、矛盾产生过程、感情破裂原因等" rows="4"></textarea></div></td></tr>
+  </table>
+</div>
+
+<!-- 民间借贷纠纷 -->
+<div class="form-card" id="form-lending">
+  <h2>📋 民间借贷纠纷 · 要素表</h2>
+  <table class="elem-table">
+    <tr><td class="label-cell">原告</td><td><input type="text" id="l-pl-name" placeholder="姓名">　
+      <input type="text" id="l-pl-ethnic" placeholder="民族" style="width:60px">　
+      <input type="text" id="l-pl-birth" placeholder="出生年月日" style="width:140px"><br>
+      身份证号：<input type="text" id="l-pl-id" placeholder="公民身份号码" style="width:240px"><br>
+      住址：<input type="text" id="l-pl-addr" placeholder="详细住址" style="width:300px"><br>
+      电话：<input type="tel" id="l-pl-phone" placeholder="联系电话" style="width:140px"></td></tr>
+    <tr><td class="label-cell">被告</td><td><input type="text" id="l-def-name" placeholder="姓名">　
+      <input type="text" id="l-def-ethnic" placeholder="民族" style="width:60px">　
+      <input type="text" id="l-def-birth" placeholder="出生年月日" style="width:140px"><br>
+      身份证号：<input type="text" id="l-def-id" placeholder="公民身份号码" style="width:240px"><br>
+      住址：<input type="text" id="l-def-addr" placeholder="详细住址" style="width:300px"><br>
+      电话：<input type="tel" id="l-def-phone" placeholder="联系电话" style="width:140px"></td></tr>
+    <tr><td class="label-cell">借款事实</td><td>
+      出借日期：<input type="text" id="l-date" placeholder="yyyy年mm月dd日" style="width:140px">　
+      借款金额：<input type="text" id="l-amount" placeholder="___元" style="width:120px"><br>
+      交付方式：<label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">银行转账</label>
+      <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">微信转账</label>
+      <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">支付宝转账</label>
+      <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">现金交付</label><br>
+      是否约定利息：<label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">是</label>　
+      利率：<input type="text" id="l-rate" placeholder="如LPR、年利率__%" style="width:140px"><br>
+      是否出具借条：<label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">是</label>
+      <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">否</label></td></tr>
+    <tr><td class="label-cell">催讨情况</td><td><textarea id="l-collect" placeholder="描述催讨过程：何时、以何种方式催讨，被告的回应等" rows="3"></textarea></td></tr>
+    <tr><td class="label-cell">诉讼请求</td><td>
+      <div class="check-group">
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">判令被告偿还借款本金</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">判令被告支付利息</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">诉讼费用由被告承担</label>
+      </div></td></tr>
+  </table>
+</div>
+
+<!-- 强制执行申请 -->
+<div class="form-card" id="form-enforce">
+  <h2>📋 强制执行申请书 · 要素表</h2>
+  <table class="elem-table">
+    <tr><td class="label-cell">申请执行人</td><td><input type="text" id="e-app-name" placeholder="姓名">　
+      <input type="text" id="e-app-ethnic" placeholder="民族" style="width:60px">　
+      <input type="text" id="e-app-birth" placeholder="出生年月日" style="width:140px"><br>
+      身份证号：<input type="text" id="e-app-id" placeholder="公民身份号码" style="width:240px"><br>
+      住址：<input type="text" id="e-app-addr" placeholder="详细住址" style="width:300px"><br>
+      电话：<input type="tel" id="e-app-phone" placeholder="联系电话" style="width:140px"></td></tr>
+    <tr><td class="label-cell">被执行人</td><td><input type="text" id="e-exec-name" placeholder="姓名">　
+      <input type="text" id="e-exec-ethnic" placeholder="民族" style="width:60px">　
+      <input type="text" id="e-exec-birth" placeholder="出生年月日" style="width:140px"><br>
+      身份证号：<input type="text" id="e-exec-id" placeholder="公民身份号码" style="width:240px"><br>
+      住址：<input type="text" id="e-exec-addr" placeholder="详细住址" style="width:300px"><br>
+      电话：<input type="tel" id="e-exec-phone" placeholder="联系电话" style="width:140px"></td></tr>
+    <tr><td class="label-cell">执行依据</td><td>
+      案号：<input type="text" id="e-case-no" placeholder="如（2025）陕0103民初14072号" style="width:280px"><br>
+      作出法院：<input type="text" id="e-court" placeholder="法院名称" style="width:200px"><br>
+      判决日期：<input type="text" id="e-judge-date" placeholder="yyyy年mm月dd日" style="width:140px"></td></tr>
+    <tr><td class="label-cell">申请事项</td><td>
+      申请执行金额：<input type="text" id="e-amount" placeholder="___元" style="width:140px"><br>
+      具体内容：<br><textarea id="e-items" placeholder="逐项列明申请执行内容，如：1.被执行人支付借款本金___元及利息___元；2.被执行人承担诉讼费___元；3.执行费用由被执行人承担" rows="4"></textarea></td></tr>
+    <tr><td class="label-cell">履行情况</td><td><textarea id="e-status" placeholder="描述判决生效后被执行人的履行情况、催讨过程等" rows="3"></textarea></td></tr>
+  </table>
+</div>
+
+<!-- 诉前保全 -->
+<div class="form-card" id="form-preserve">
+  <h2>📋 诉前保全申请书 · 要素表</h2>
+  <table class="elem-table">
+    <tr><td class="label-cell">申请人</td><td><input type="text" id="p-app-name" placeholder="姓名">　
+      <input type="text" id="p-app-ethnic" placeholder="民族" style="width:60px">　
+      <input type="text" id="p-app-birth" placeholder="出生年月日" style="width:140px"><br>
+      身份证号：<input type="text" id="p-app-id" placeholder="公民身份号码" style="width:240px"><br>
+      住址：<input type="text" id="p-app-addr" placeholder="详细住址" style="width:300px"><br>
+      电话：<input type="tel" id="p-app-phone" placeholder="联系电话" style="width:140px"></td></tr>
+    <tr><td class="label-cell">被申请人</td><td><input type="text" id="p-def-name" placeholder="姓名">　
+      <input type="text" id="p-def-ethnic" placeholder="民族" style="width:60px">　
+      <input type="text" id="p-def-birth" placeholder="出生年月日" style="width:140px"><br>
+      身份证号：<input type="text" id="p-def-id" placeholder="公民身份号码" style="width:240px"><br>
+      住址：<input type="text" id="p-def-addr" placeholder="详细住址" style="width:300px"><br>
+      电话：<input type="tel" id="p-def-phone" placeholder="联系电话" style="width:140px"></td></tr>
+    <tr><td class="label-cell">保全金额</td><td>
+      保全标的额：<input type="text" id="p-amount" placeholder="___元" style="width:140px">　
+      （请求查封、冻结被申请人名下价值相当于该金额的财产）</td></tr>
+    <tr><td class="label-cell">申请理由</td><td><textarea id="p-reason" placeholder="描述申请保全的原因：如被申请人可能转移财产、有转移财产的风险等" rows="4"></textarea></td></tr>
+  </table>
+</div>
+
+<!-- 公司相关纠纷 -->
+<div class="form-card" id="form-company">
+  <h2>📋 公司相关纠纷 · 要素表</h2>
+  <table class="elem-table">
+    <tr><td class="label-cell">原告</td><td><input type="text" id="c-pl-name" placeholder="姓名">　
+      <input type="text" id="c-pl-ethnic" placeholder="民族" style="width:60px">　
+      <input type="text" id="c-pl-birth" placeholder="出生年月日" style="width:140px"><br>
+      身份证号：<input type="text" id="c-pl-id" placeholder="公民身份号码" style="width:240px"><br>
+      住址：<input type="text" id="c-pl-addr" placeholder="详细住址" style="width:300px"><br>
+      电话：<input type="tel" id="c-pl-phone" placeholder="联系电话" style="width:140px"></td></tr>
+    <tr><td class="label-cell">被告</td><td>
+      公司名称：<input type="text" id="c-def-company" placeholder="公司全称" style="width:280px"><br>
+      住所地：<input type="text" id="c-def-addr" placeholder="住所地址" style="width:300px"><br>
+      统一社会信用代码：<input type="text" id="c-def-code" placeholder="统一社会信用代码" style="width:240px"><br>
+      法定代表人：<input type="text" id="c-def-legal" placeholder="姓名" style="width:120px">　
+      电话：<input type="tel" id="c-def-phone" placeholder="电话" style="width:140px"></td></tr>
+    <tr><td class="label-cell">案由类型</td><td>
+      <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">涤除监事/董事登记</label>
+      <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">股东知情权纠纷</label>
+      <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">公司决议纠纷</label>
+      <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox">股权转让纠纷</label></td></tr>
+    <tr><td class="label-cell">诉讼请求</td><td><textarea id="c-claims" placeholder="逐项列明诉讼请求" rows="3"></textarea></td></tr>
+    <tr><td class="label-cell">事实与理由</td><td><textarea id="c-facts" placeholder="描述案件事实经过" rows="5"></textarea></td></tr>
+  </table>
+</div>
+
+<!-- 操作按钮 -->
+<div class="action-bar">
+  <button class="btn-generate" onclick="generateDoc()">📄 生成起诉状</button>
+</div>
+
+<!-- 预览区 -->
+<div class="preview-section" id="previewSection">
+  <div class="doc-preview" id="docPreview"></div>
+  <div class="print-bar">
+    <button class="btn-print" onclick="window.print()">🖨️ 打印 / 导出PDF</button>
+    <button class="btn-back" onclick="backToEdit()">✏️ 返回修改</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+function toggleCheck(el){
+  el.classList.toggle('checked');
+  var cb=el.querySelector('input[type="checkbox"]');
+  if(cb) cb.checked=!cb.checked;
+}
+
+function getChecked(container){
+  var items=container.querySelectorAll('.check-item.checked');
+  var arr=[];
+  items.forEach(function(it){arr.push(it.textContent.trim())});
+  return arr;
+}
+
+function getVal(id){var el=document.getElementById(id);return el?el.value.trim():''}
+
+// 案由切换
+var caseBtns=document.querySelectorAll('.case-btn');
+caseBtns.forEach(function(btn){
+  btn.onclick=function(){
+    caseBtns.forEach(function(b){b.classList.remove('active')});
+    this.classList.add('active');
+    document.querySelectorAll('.form-card').forEach(function(f){f.classList.remove('active')});
+    document.getElementById('form-'+this.dataset.type).classList.add('active');
+    document.getElementById('previewSection').classList.remove('active');
+  };
+});
+
+function backToEdit(){
+  document.getElementById('previewSection').classList.remove('active');
+  document.querySelector('.action-bar').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function generateDoc(){
+  var type=document.querySelector('.case-btn.active');
+  if(!type) return;
+  var t=type.dataset.type;
+  var html='';
+  switch(t){
+    case 'divorce': html=genDivorce();break;
+    case 'lending': html=genLending();break;
+    case 'enforce': html=genEnforce();break;
+    case 'preserve': html=genPreserve();break;
+    case 'company': html=genCompany();break;
+  }
+  if(!html) return;
+  document.getElementById('docPreview').innerHTML=html;
+  document.getElementById('previewSection').classList.add('active');
+  document.querySelector('.action-bar').style.display='none';
+  window.scrollTo({top:document.getElementById('previewSection').offsetTop-20,behavior:'smooth'});
+}
+
+// ===== 生成各类型文书 =====
+
+function genDivorce(){
+  var pn=getVal('d-pl-name'),pg=document.getElementById('d-pl-gender').value;
+  var pe=getVal('d-pl-ethnic'),pb=getVal('d-pl-birth'),pi=getVal('d-pl-id');
+  var pa=getVal('d-pl-addr'),pp=getVal('d-pl-phone');
+  var dn=getVal('d-def-name'),dg=document.getElementById('d-def-gender').value;
+  var de=getVal('d-def-ethnic'),db=getVal('d-def-birth'),di=getVal('d-def-id');
+  var da=getVal('d-def-addr'),dp=getVal('d-def-phone');
+  var md=getVal('d-marriage-date');
+  var cn=getVal('d-child-name'),cb=getVal('d-child-birth');
+  var sa=getVal('d-support-amt'),ca=getVal('d-comp-amt');
+  var prop=getVal('d-property'),debt=getVal('d-debt'),facts=getVal('d-facts');
+  if(!pn||!dn){alert('请填写原告和被告姓名');return''}
+
+  var requests=[];
+  var reqItems=document.querySelectorAll('#form-divorce .check-group .check-item.checked');
+  reqItems.forEach(function(it){requests.push(it.textContent.trim())});
+
+  var reasonItems=[];
+  var resItems=document.querySelectorAll('#form-divorce .check-group:last-child .check-item.checked');
+  resItems.forEach(function(it){reasonItems.push(it.textContent.trim())});
+
+  var r='<h2>民事起诉状</h2>';
+  r+='<p class="no-indent"><b>原告：</b>'+pn+'，'+(pg||'')+(pe?'，'+pe:'')+'，'+(pb||'')+'出生'+(pi?'，公民身份号码：'+pi:'')+'</p>';
+  r+='<p class="no-indent">住址：'+(pa||'________________')+'。电话：'+(pp||'________________')+'。</p>';
+  r+='<p class="no-indent"><b>被告：</b>'+dn+'，'+(dg||'')+(de?'，'+de:'')+'，'+(db||'')+'出生'+(di?'，公民身份号码：'+di:'')+'</p>';
+  r+='<p class="no-indent">住址：'+(da||'________________')+'。电话：'+(dp||'________________')+'。</p>';
+  r+='<h3>诉讼请求：</h3>';
+  if(requests.length){
+    requests.forEach(function(req,i){r+='<p>'+(i+1)+'. '+req+'；</p>'});
+  } else {r+='<p>1. 判令原告与被告离婚；</p>'}
+  if(ca) r+='<p>（补偿/赔偿金额：'+ca+'元）</p>';
+  r+='<h3>事实与理由：</h3>';
+  r+='<p>原告与被告于'+(md||'____年__月__日')+'登记结婚。'+(cn?'双方于'+cb+'生育一子/女'+cn+'。':'')+'</p>';
+  r+='<p>'+(facts||'婚后因性格不合，夫妻感情逐渐破裂，已无和好可能。')+'</p>';
+  if(reasonItems.length){
+    r+='<p>具体表现为：'+reasonItems.join('、')+'。</p>';
+  }
+  if(prop) r+='<p>夫妻共同财产情况：'+prop+'。</p>';
+  if(debt) r+='<p>夫妻共同债务情况：'+debt+'。</p>';
+  r+='<p>综上所述，原告为维护自身合法权益，特向贵院提起诉讼，请求依法裁判。</p>';
+  r+='<h3>此致</h3><p>________________人民法院</p>';
+  r+='<div class="right"><p class="no-indent">具状人：</p><p class="no-indent">____年__月__日</p></div>';
+  return r;
+}
+
+function genLending(){
+  var pn=getVal('l-pl-name'),pb=getVal('l-pl-birth'),pi=getVal('l-pl-id');
+  var pa=getVal('l-pl-addr'),pp=getVal('l-pl-phone');
+  var dn=getVal('l-def-name'),db=getVal('l-def-birth'),di=getVal('l-def-id');
+  var da=getVal('l-def-addr'),dp=getVal('l-def-phone');
+  var ld=getVal('l-date'),la=getVal('l-amount'),lr=getVal('l-rate');
+  var lc=getVal('l-collect');
+  if(!pn||!dn){alert('请填写原告和被告姓名');return''}
+
+  var r='<h2>民事起诉状</h2>';
+  r+='<p class="no-indent"><b>原告：</b>'+pn+'，'+(pb||'')+'出生'+(pi?'，公民身份号码：'+pi:'')+'</p>';
+  r+='<p class="no-indent">住址：'+(pa||'________________')+'。电话：'+(pp||'________________')+'。</p>';
+  r+='<p class="no-indent"><b>被告：</b>'+dn+'，'+(db||'')+'出生'+(di?'，公民身份号码：'+di:'')+'</p>';
+  r+='<p class="no-indent">住址：'+(da||'________________')+'。电话：'+(dp||'________________')+'。</p>';
+  r+='<h3>诉讼请求：</h3>';
+  r+='<p>1. 判令被告偿还借款本金'+(la||'____')+'元'+(lr?'及利息（按'+lr+'计算）':'')+'；</p>';
+  r+='<p>2. 本案诉讼费用由被告承担。</p>';
+  r+='<h3>事实与理由：</h3>';
+  r+='<p>原告与被告系____关系。'+(ld||'____年__月__日')+'，被告因____向原告借款人民币'+(la||'____')+'元整。'+(lr?'双方约定利息按'+lr+'计算。':'')+'原告通过____方式将借款交付给被告，被告向原告出具借条一份。</p>';
+  r+='<p>'+(lc||'借款到期后，原告多次向被告催讨，被告至今未予偿还。')+'</p>';
+  r+='<p>综上所述，原告为维护自身合法权益，特向贵院提起诉讼，请求依法裁判。</p>';
+  r+='<h3>此致</h3><p>________________人民法院</p>';
+  r+='<div class="right"><p class="no-indent">具状人：</p><p class="no-indent">____年__月__日</p></div>';
+  return r;
+}
+
+function genEnforce(){
+  var an=getVal('e-app-name'),ab=getVal('e-app-birth'),ai=getVal('e-app-id');
+  var aa=getVal('e-app-addr'),ap=getVal('e-app-phone');
+  var en=getVal('e-exec-name'),eb=getVal('e-exec-birth'),ei=getVal('e-exec-id');
+  var ea=getVal('e-exec-addr'),ep=getVal('e-exec-phone');
+  var cn=getVal('e-case-no'),ct=getVal('e-court'),jd=getVal('e-judge-date');
+  var amt=getVal('e-amount'),items=getVal('e-items'),st=getVal('e-status');
+  if(!an||!en){alert('请填写申请执行人和被执行人');return''}
+
+  var r='<h2>强制执行申请书</h2>';
+  r+='<p class="no-indent"><b>申请执行人：</b>'+an+'，'+(ab||'')+'出生'+(ai?'，公民身份号码：'+ai:'')+'</p>';
+  r+='<p class="no-indent">住址：'+(aa||'________________')+'。联系电话：'+(ap||'________________')+'。</p>';
+  r+='<p class="no-indent"><b>被执行人：</b>'+en+'，'+(eb||'')+'出生'+(ei?'，公民身份号码：'+ei:'')+'</p>';
+  r+='<p class="no-indent">住址：'+(ea||'________________')+'。联系电话：'+(ep||'________________')+'。</p>';
+  r+='<p class="no-indent"><b>执行依据：</b>'+(cn||'________________')+'民事判决书</p>';
+  r+='<h3>申请事项：</h3>';
+  if(items) r+='<p>'+items.replace(/\n/g,'</p><p>')+'</p>';
+  else r+='<p>共计'+(amt||'____')+'元</p>';
+  r+='<h3>事实与理由：</h3>';
+  r+='<p>申请执行人与被执行人因____纠纷诉至贵院，经贵院审理并于'+(jd||'____年__月__日')+'作出'+(cn||'________________')+'民事判决书。上述生效判决书确定的履行期限届满后，被执行人未履行给付义务'+(st?'，'+st:'')+'。故申请人特向贵院申请强制执行该生效判决书。</p>';
+  r+='<h3>此致</h3><p>'+(ct||'________________')+'人民法院</p>';
+  r+='<div class="right"><p class="no-indent">申请人：</p><p class="no-indent">____年__月__日</p></div>';
+  return r;
+}
+
+function genPreserve(){
+  var an=getVal('p-app-name'),ab=getVal('p-app-birth'),ai=getVal('p-app-id');
+  var aa=getVal('p-app-addr'),ap=getVal('p-app-phone');
+  var dn=getVal('p-def-name'),db=getVal('p-def-birth'),di=getVal('p-def-id');
+  var da=getVal('p-def-addr'),dp=getVal('p-def-phone');
+  var amt=getVal('p-amount'),reason=getVal('p-reason');
+  if(!an||!dn){alert('请填写申请人和被申请人');return''}
+
+  var r='<h2>保全申请书</h2>';
+  r+='<p class="no-indent"><b>申请人：</b>'+an+'，'+(ab||'')+'出生'+(ai?'，公民身份号码：'+ai:'')+'</p>';
+  r+='<p class="no-indent">住址：'+(aa||'________________')+'。联系电话：'+(ap||'________________')+'。</p>';
+  r+='<p class="no-indent"><b>被申请人：</b>'+dn+'，'+(db||'')+'出生'+(di?'，公民身份号码：'+di:'')+'</p>';
+  r+='<p class="no-indent">住址：'+(da||'________________')+'。联系电话：'+(dp||'________________')+'。</p>';
+  r+='<h3>申请事项：</h3>';
+  r+='<p>请求贵院依法查封、冻结被申请人名下银行存款或价值相当于人民币'+(amt||'____')+'元的财产。</p>';
+  r+='<h3>事实与理由：</h3>';
+  r+='<p>申请人'+an+'与被申请人'+dn+'____纠纷一案'+(reason?'，'+reason:'')+'。为防止被申请人在诉讼期间转移财产，保障申请人之债权得以实现，申请人现依据《中华人民共和国民事诉讼法》第一百零三条之规定，特向贵院申请对被申请人采取财产保全措施，请贵院予以准许。若因保全行为对被申请人造成财产损失，我方自愿承担赔偿责任。</p>';
+  r+='<h3>此致</h3><p>________________人民法院</p>';
+  r+='<div class="right"><p class="no-indent">申请人：</p><p class="no-indent">____年__月__日</p></div>';
+  return r;
+}
+
+function genCompany(){
+  var pn=getVal('c-pl-name'),pb=getVal('c-pl-birth'),pi=getVal('c-pl-id');
+  var pa=getVal('c-pl-addr'),pp=getVal('c-pl-phone');
+  var dn=getVal('c-def-company'),da=getVal('c-def-addr'),dc=getVal('c-def-code');
+  var dl=getVal('c-def-legal'),dp2=getVal('c-def-phone');
+  var claims=getVal('c-claims'),facts=getVal('c-facts');
+  if(!pn||!dn){alert('请填写原告和被告');return''}
+
+  var r='<h2>民事起诉状</h2>';
+  r+='<p class="no-indent"><b>原告：</b>'+pn+'，'+(pb||'')+'出生'+(pi?'，公民身份号码：'+pi:'')+'</p>';
+  r+='<p class="no-indent">住址：'+(pa||'________________')+'。电话：'+(pp||'________________')+'。</p>';
+  r+='<p class="no-indent"><b>被告：</b>'+dn+'</p>';
+  r+='<p class="no-indent">住所地：'+(da||'________________')+(dc?'，统一社会信用代码：'+dc:'')+'。</p>';
+  r+='<p class="no-indent">法定代表人：'+(dl||'____')+'，电话：'+(dp2||'________________')+'。</p>';
+  r+='<h3>诉讼请求：</h3>';
+  r+='<p>'+(claims||'1. 判令被告________________；\n2. 本案诉讼费用由被告承担。').replace(/\n/g,'</p><p>')+'</p>';
+  r+='<h3>事实与理由：</h3>';
+  r+='<p>'+(facts||'')+'</p>';
+  r+='<p>综上所述，原告为维护自身合法权益，特向贵院提起诉讼，请求依法裁判。</p>';
+  r+='<h3>此致</h3><p>________________人民法院</p>';
+  r+='<div class="right"><p class="no-indent">具状人：</p><p class="no-indent">____年__月__日</p></div>';
+  return r;
+}
+</script>
+</body>
+</html>
