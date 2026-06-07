@@ -3,91 +3,103 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
-<title>智讼 · 律师智能办案系统</title>
-<meta property="og:title" content="智讼 · 律师智能办案系统">
-<meta property="og:description" content="智能办案 · 证据管理 · 文书生成 · 立案材料清单">
+<title>智讼 · 律师办案系统</title>
+<meta property="og:title" content="智讼 · 律师办案系统">
+<meta property="og:description" content="四大板块：客户上传 → 整理生成 → 签署指导 → 客户回传">
 <meta property="og:image" content="https://liminmin-wq.github.io/stock-master/zhisong/og-image.png">
 <meta property="og:image:width" content="600">
 <meta property="og:image:height" content="315">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'PingFang SC','Microsoft YaHei',sans-serif;background:#f0f2f5;color:#222;min-height:100vh;font-size:14px}
-:root{--primary:#1a237e;--primary-light:#283593;--accent:#ff6f00;--bg:#f0f2f5;--card:#fff;--border:#e0e0e0;--success:#2e7d32;--warn:#e65100;--danger:#c62828}
-.header{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;padding:0 20px;display:flex;align-items:center;height:56px;position:sticky;top:0;z-index:100}
-.header .logo{font-size:18px;font-weight:700;cursor:pointer}
+body{font-family:'PingFang SC','Microsoft YaHei',sans-serif;background:#f0f2f5;color:#222;font-size:14px}
+:root{--primary:#1a237e;--primary-light:#283593;--accent:#ff6f00;--success:#2e7d32;--warn:#e65100;--border:#e0e0e0}
+
+.header{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;padding:0 20px;display:flex;align-items:center;height:52px;position:sticky;top:0;z-index:100}
+.header .logo{font-size:17px;font-weight:700;cursor:pointer}
 .header .logo span{color:#ffab00}
-.header .nav{display:flex;margin-left:20px;gap:2px;flex:1;overflow-x:auto}
-.header .nav a{padding:6px 12px;color:rgba(255,255,255,.7);text-decoration:none;font-size:12px;border-radius:6px;cursor:pointer;white-space:nowrap}
+.header .nav{display:flex;margin-left:16px;gap:2px;flex:1;overflow-x:auto}
+.header .nav a{padding:6px 12px;color:rgba(255,255,255,.7);font-size:12px;cursor:pointer;white-space:nowrap;border-radius:5px}
 .header .nav a:hover,.header .nav a.active{color:#fff;background:rgba(255,255,255,.1)}
-.container{max-width:1100px;margin:0 auto;padding:16px}
+.container{max-width:1000px;margin:0 auto;padding:14px}
 .page{display:none}.page.active{display:block}
-.card{background:var(--card);border-radius:10px;padding:20px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.card h2{font-size:16px;margin-bottom:12px;color:var(--primary);display:flex;align-items:center;gap:6px}
-.card h3{font-size:14px;margin:12px 0 6px;color:#333;font-weight:600}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:14px}
-.stat-card{background:var(--card);border-radius:8px;padding:14px 16px}
-.stat-card .num{font-size:24px;font-weight:700;color:var(--primary)}
-.stat-card .label{font-size:12px;color:#888;margin-top:2px}
+.card{background:#fff;border-radius:10px;padding:18px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.card h2{font-size:16px;margin-bottom:10px;color:var(--primary);display:flex;align-items:center;gap:6px}
+.card h3{font-size:14px;margin:10px 0 5px;color:#333;font-weight:600}
 table{width:100%;border-collapse:collapse;font-size:13px}
-table th{background:#f5f6fa;padding:8px 10px;text-align:left;font-weight:600;color:#555;border-bottom:2px solid var(--border)}
-table td{padding:8px 10px;border-bottom:1px solid #f0f0f0}
+table th{background:#f5f6fa;padding:7px 9px;text-align:left;font-weight:600;color:#555;border-bottom:2px solid var(--border)}
+table td{padding:7px 9px;border-bottom:1px solid #f0f0f0}
 .btn{padding:7px 16px;border:none;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:4px;transition:all .2s}
 .btn-primary{background:var(--primary);color:#fff}.btn-primary:hover{background:var(--primary-light)}
-.btn-accent{background:var(--accent);color:#fff}.btn-accent:hover{opacity:.9}
-.btn-outline{background:transparent;border:1px solid var(--border);color:#555}.btn-outline:hover{border-color:var(--primary);color:var(--primary)}
-.btn-sm{padding:4px 10px;font-size:11px}.btn-success{background:var(--success);color:#fff}
-.btn-danger{background:var(--danger);color:#fff}
-.form-group{margin-bottom:10px}
-.form-group label{display:block;font-size:12px;color:#555;margin-bottom:3px;font-weight:600}
-.form-group input,.form-group select,.form-group textarea{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:5px;font-size:13px;font-family:inherit}
+.btn-accent{background:var(--accent);color:#fff}.btn-sm{padding:4px 10px;font-size:11px}
+.btn-outline{background:transparent;border:1px solid var(--border);color:#555}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary)}
+.btn-success{background:var(--success);color:#fff}
+.form-group{margin-bottom:8px}
+.form-group label{display:block;font-size:12px;color:#555;margin-bottom:2px;font-weight:600}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:6px 9px;border:1px solid var(--border);border-radius:5px;font-size:13px;font-family:inherit}
 .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--primary)}
-.form-group textarea{min-height:60px;resize:vertical}
+.form-group textarea{min-height:50px;resize:vertical}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:600px){.form-row{grid-template-columns:1fr}}
-.client-link-box{background:#f5f6fa;border:2px dashed var(--border);border-radius:8px;padding:12px;text-align:center;margin:8px 0}
-.client-link-box code{font-size:14px;color:var(--primary);word-break:break-all}
-.upload-zone{border:2px dashed var(--border);border-radius:8px;padding:30px 16px;text-align:center;cursor:pointer;margin:8px 0}
+.upload-zone{border:2px dashed var(--border);border-radius:8px;padding:24px 16px;text-align:center;cursor:pointer;margin:6px 0}
 .upload-zone:hover{border-color:var(--primary);background:#f5f6fa}
-.upload-zone .icon{font-size:36px}.upload-zone .txt{color:#888;font-size:13px}
+.upload-zone .icon{font-size:32px}.upload-zone .txt{color:#888;font-size:13px}
 .upload-zone input{display:none}
 .file-list{list-style:none}
-.file-list li{display:flex;align-items:center;padding:8px 10px;border:1px solid #eee;border-radius:5px;margin-bottom:4px;gap:8px;font-size:13px}
+.file-list li{display:flex;align-items:center;padding:6px 10px;border:1px solid #eee;border-radius:5px;margin-bottom:3px;gap:8px;font-size:13px}
 .file-list li .name{flex:1}.file-list li .size{color:#999;font-size:11px}
-.file-list li .del{cursor:pointer;color:#ccc;font-size:16px}.file-list li .del:hover{color:var(--danger)}
-.doc-preview{background:#fff;padding:24px 32px;border:1px solid var(--border);font-family:'SimSun','Songti SC',serif;font-size:14px;line-height:2;margin:8px 0}
-.doc-preview h2{text-align:center;font-size:18px;margin-bottom:14px;color:#222}
-.doc-preview h3{font-size:15px;margin:10px 0 4px;color:#333}
-.doc-preview p{text-indent:2em;margin:3px 0}
-.doc-preview .no-indent{text-indent:0}
-.doc-preview .right{text-align:right;margin-top:20px}
-.steps{display:flex;gap:0;margin:14px 0;overflow-x:auto}.step{flex:1;text-align:center;padding:8px 4px;min-width:70px}
-.step .circle{width:28px;height:28px;border-radius:50%;background:#e0e0e0;display:flex;align-items:center;justify-content:center;margin:0 auto 4px;font-size:12px;color:#999;font-weight:600}
-.step.done .circle{background:var(--success);color:#fff}
-.step.active .circle{background:var(--primary);color:#fff}
-.step .label{font-size:11px;color:#999}
-.step.done .label{color:var(--success)}.step.active .label{color:var(--primary);font-weight:600}
-.tabs{display:flex;gap:0;margin-bottom:12px;border-bottom:2px solid var(--border);overflow-x:auto}
-.tab{padding:8px 14px;font-size:13px;cursor:pointer;color:#666;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap}
+.file-list li .del{cursor:pointer;color:#ccc;font-size:15px}.file-list li .del:hover{color:var(--warn)}
+.doc-preview{background:#fff;padding:20px 28px;border:1px solid var(--border);font-family:'SimSun','Songti SC',serif;font-size:14px;line-height:2;margin:6px 0}
+.doc-preview h2{text-align:center;font-size:17px;margin-bottom:12px;color:#222}
+.doc-preview h3{font-size:14px;margin:8px 0 3px}
+.doc-preview p{text-indent:2em;margin:2px 0}.doc-preview .no-indent{text-indent:0}
+.doc-preview .right{text-align:right;margin-top:16px}
+.tabs{display:flex;gap:0;margin-bottom:10px;border-bottom:2px solid var(--border);overflow-x:auto}
+.tab{padding:7px 12px;font-size:12px;cursor:pointer;color:#666;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap}
 .tab.active{color:var(--primary);border-bottom-color:var(--primary);font-weight:600}
 .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);z-index:200;align-items:center;justify-content:center}
 .modal.show{display:flex}
-.modal-content{background:#fff;border-radius:10px;padding:24px;width:90%;max-width:560px;max-height:85vh;overflow-y:auto}
-.modal-content h2{font-size:17px;margin-bottom:12px}
-.progress-bar{height:5px;background:#eee;border-radius:3px;margin:4px 0;overflow:hidden}
-.progress-bar .fill{height:100%;background:var(--primary);border-radius:3px;transition:width .5s}
-.law-ref{padding:8px 12px;background:#f5f6fa;border-left:3px solid var(--primary);border-radius:4px;margin:4px 0;font-size:12px;line-height:1.5}
-.tag{padding:2px 8px;border-radius:4px;font-size:11px;display:inline-block;margin:1px}
+.modal-content{background:#fff;border-radius:10px;padding:22px;width:90%;max-width:540px;max-height:85vh;overflow-y:auto}
+.tag{padding:2px 8px;border-radius:4px;font-size:11px;display:inline-block}
 .tag-blue{background:#e3f2fd;color:#1565c0}.tag-green{background:#e8f5e9;color:#2e7d32}.tag-orange{background:#fff3e0;color:#e65100}
-.material-list{list-style:none;padding:0}
-.material-list li{padding:8px 12px;border:1px solid #eee;border-radius:6px;margin-bottom:5px;display:flex;align-items:center;gap:8px;font-size:13px}
-.material-list li .count{background:var(--primary);color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
-.material-list li .info{flex:1}.material-list li .note{font-size:11px;color:#e65100}
+
+/* ===== 四大板块样式 ===== */
+.stage-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-bottom:14px}
+.stage-card{border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s;position:relative;border:2px solid #eee}
+.stage-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.stage-card .num{font-size:20px;font-weight:700;margin-bottom:2px;display:flex;align-items:center;gap:6px}
+.stage-card .title{font-size:13px;font-weight:600;margin-bottom:2px}
+.stage-card .desc{font-size:11px;color:#888}
+.stage-card .badge{position:absolute;top:8px;right:8px;font-size:10px;padding:2px 8px;border-radius:8px}
+.stage-card.s1{border-color:#1565c0}.stage-card.s1 .num{color:#1565c0}
+.stage-card.s2{border-color:#2e7d32}.stage-card.s2 .num{color:#2e7d32}
+.stage-card.s3{border-color:#e65100}.stage-card.s3 .num{color:#e65100}
+.stage-card.s4{border-color:#6a1b9a}.stage-card.s4 .num{color:#6a1b9a}
+.stage-card.done{background:#f5f5f5;opacity:.7}
+.stage-card.done .badge{background:var(--success);color:#fff}
+.stage-card.active{background:#f8f9ff}
+.stage-card.active .badge{background:var(--primary);color:#fff}
+
+/* ===== 签署指导卡 ===== */
+.sign-guide{border:1px solid #e8e0d0;border-radius:8px;padding:14px;background:#fefcf5;margin:8px 0}
+.sign-guide h4{font-size:13px;margin-bottom:6px;color:#5d4037}
+.sign-item{display:flex;align-items:center;padding:6px 0;border-bottom:1px dashed #f0e8d8;font-size:13px}
+.sign-item:last-child{border:none}
+.sign-item .doc-name{flex:1;font-weight:600}
+.sign-item .action{font-size:12px;margin:0 8px;white-space:nowrap}
+.sign-item .count{background:#e65100;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px}
+
+/* ===== 客户链接醒目 ===== */
+.client-link-box{background:linear-gradient(135deg,#e8eaf6,#f5f6fa);border:2px solid var(--primary);border-radius:10px;padding:16px;text-align:center;margin:8px 0}
+.client-link-box code{font-size:15px;color:var(--primary);word-break:break-all;font-weight:600}
+.client-link-box .hint{font-size:12px;color:#666;margin-top:6px}
+
 @media(max-width:600px){
-  .header{padding:0 10px;height:auto;min-height:48px;flex-wrap:wrap}
-  .header .nav{margin-left:6px;padding:4px 0}
+  .header{padding:0 10px;height:auto;min-height:44px;flex-wrap:wrap}
   .container{padding:10px}.card{padding:14px}.doc-preview{padding:14px;font-size:13px}
+  .stage-grid{grid-template-columns:1fr 1fr}
 }
-.print-only{display:none}@media print{.no-print{display:none!important}.print-only{display:block}}
+@media print{.no-print{display:none!important}}
 </style>
 </head>
 <body>
@@ -97,239 +109,253 @@ table td{padding:8px 10px;border-bottom:1px solid #f0f0f0}
   <nav class="nav" id="mainNav">
     <a class="active" onclick="showPage('dashboard')">📊 工作台</a>
     <a onclick="showPage('cases')">📁 案件</a>
-    <a onclick="showPage('templates')">📋 模板</a>
   </nav>
-  <div style="font-size:12px;color:rgba(255,255,255,.6);margin-left:auto">陕西罗泰律师事务所</div>
+  <div style="font-size:11px;color:rgba(255,255,255,.5);margin-left:auto">陕西罗泰律师事务所</div>
 </div>
 
 <div class="container">
 
 <!-- ===== 工作台 ===== -->
 <div class="page active" id="page-dashboard">
-  <div class="stats-grid">
-    <div class="stat-card"><div class="num" id="statTotal">0</div><div class="label">总案件</div></div>
-    <div class="stat-card"><div class="num" id="statActive">0</div><div class="label">进行中</div></div>
-    <div class="stat-card"><div class="num" id="statDone">0</div><div class="label">已完成</div></div>
+  <div class="card"><h2>📌 快捷操作</h2>
+    <button class="btn btn-primary" onclick="showCreateCase()">➕ 创建新案件</button>
+    <button class="btn btn-outline" onclick="showPage('cases')" style="margin-left:6px">📂 案件列表</button>
   </div>
-  <div class="card">
-    <h2>📌 快捷操作</h2>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="btn btn-primary" onclick="showCreateCase()">➕ 创建案件</button>
-      <button class="btn btn-outline" onclick="showPage('cases')">📂 案件列表</button>
-    </div>
-  </div>
-  <div class="card"><h2>📋 最近案件</h2>
-    <table><thead><tr><th>案件</th><th>客户</th><th>案由</th><th>状态</th><th>操作</th></tr></thead>
-      <tbody id="recentCasesBody"><tr><td colspan="5" style="text-align:center;color:#999;padding:20px">暂无案件</td></tr></tbody></table></div>
+  <div class="card"><h2>📋 案件列表</h2>
+    <table><thead><tr><th>案件</th><th>原告</th><th>案由</th><th style="width:160px">进展</th><th>操作</th></tr></thead>
+      <tbody id="caseListBody"><tr><td colspan="5" style="text-align:center;color:#999;padding:24px">暂无案件，点击"创建新案件"开始</td></tr></tbody></table></div>
 </div>
 
 <!-- ===== 案件列表 ===== -->
 <div class="page" id="page-cases">
-  <div style="display:flex;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
-    <h2 style="font-size:18px;color:var(--primary)">📁 全部案件</h2>
-    <button class="btn btn-primary" onclick="showCreateCase()">➕ 创建案件</button>
+  <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+    <h2 style="font-size:17px;color:var(--primary)">📁 全部案件</h2>
+    <button class="btn btn-primary btn-sm" onclick="showCreateCase()">➕ 创建</button>
   </div>
   <div class="card"><table>
-    <thead><tr><th>案件名称</th><th>客户</th><th>原告类型</th><th>被告数</th><th>案由</th><th>状态</th><th>操作</th></tr></thead>
+    <thead><tr><th>案件</th><th>原告</th><th>类型</th><th>被告</th><th>案由</th><th>进度</th><th>操作</th></tr></thead>
     <tbody id="allCasesBody"></tbody></table></div>
 </div>
 
-<!-- ===== 模板 ===== -->
-<div class="page" id="page-templates">
-  <h2 style="font-size:18px;color:var(--primary);margin-bottom:12px">📋 法律文书模板</h2>
-  <div class="card"><table>
-    <thead><tr><th>模板名称</th><th>说明</th><th>操作</th></tr></thead>
-    <tbody>
-      <tr><td>民事起诉状（普通）</td><td>通用民事起诉状</td><td><button class="btn btn-sm btn-outline" onclick="alert('在案件详情中使用"生成文书"功能')">预览</button></td></tr>
-      <tr><td>要素式起诉状</td><td>法院要素式模板</td><td><button class="btn btn-sm btn-outline" onclick="alert('在案件详情中使用"生成文书"功能')">预览</button></td></tr>
-      <tr><td>授权委托书（罗泰所）</td><td>陕西罗泰律师事务所特别授权</td><td><button class="btn btn-sm btn-outline" onclick="previewProxy()">预览</button></td></tr>
-      <tr><td>证据目录</td><td>证据材料清单</td><td><button class="btn btn-sm btn-outline" onclick="alert('在案件详情中使用"生成文书"功能')">预览</button></td></tr>
-      <tr><td>法定代表人身份证明</td><td>企业法人身份证明</td><td><button class="btn btn-sm btn-outline" onclick="previewLegalRep()">预览</button></td></tr>
-      <tr><td>送达地址确认书</td><td>诉讼文书送达地址</td><td><button class="btn btn-sm btn-outline" onclick="previewAddrConfirm()">预览</button></td></tr>
-      <tr><td>强制执行申请书</td><td>申请强制执行</td><td><button class="btn btn-sm btn-outline" onclick="alert('在案件中使用生成文书')">预览</button></td></tr>
-      <tr><td>诉前保全申请书</td><td>诉讼财产保全</td><td><button class="btn btn-sm btn-outline" onclick="alert('在案件中使用生成文书')">预览</button></td></tr>
-    </tbody></table></div>
-</div>
-
-<!-- ===== 案件详情 ===== -->
+<!-- ===== 案件详情（四大板块） ===== -->
 <div class="page" id="page-caseDetail">
-  <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+  <div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:8px;margin-bottom:8px">
     <div><a onclick="showPage('cases')" style="color:var(--primary);cursor:pointer;font-size:13px">← 返回</a>
-      <h2 style="font-size:18px;color:var(--primary);margin-top:4px" id="caseDetailTitle">案件详情</h2></div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap">
-      <button class="btn btn-outline btn-sm" onclick="copyClientLink()">🔗 复制客户链接</button>
-      <button class="btn btn-primary btn-sm" onclick="generateAllDocs()">📄 生成全部文书</button>
-    </div>
-  </div>
-  <div class="card" style="padding:12px 16px"><div class="steps" id="caseSteps"></div></div>
-
-  <div class="tabs" id="detailTabs">
-    <div class="tab active" data-tab="info" onclick="switchTab('info')">📋 案件信息</div>
-    <div class="tab" data-tab="filing" onclick="switchTab('filing')">📋 立案材料</div>
-    <div class="tab" data-tab="client" onclick="switchTab('client')">👤 客户上传</div>
-    <div class="tab" data-tab="docs" onclick="switchTab('docs')">📄 文书</div>
-    <div class="tab" data-tab="analysis" onclick="switchTab('analysis')">🔍 分析</div>
+      <h2 style="font-size:17px;color:var(--primary);margin-top:2px" id="caseTitle">案件详情</h2></div>
   </div>
 
-  <!-- 案件信息 -->
-  <div class="detail-content active" id="tab-info"><div class="card"><div id="caseInfoDisplay"></div></div></div>
+  <!-- 四大板块导航 -->
+  <div class="stage-grid" id="stageGrid"></div>
 
-  <!-- 立案材料 -->
-  <div class="detail-content" id="tab-filing" style="display:none">
-    <div class="card"><h2>📋 立案所需材料清单</h2>
-      <div id="filingList"></div>
-      <div style="margin-top:12px;text-align:center"><button class="btn btn-primary btn-sm" onclick="printFilingList()">🖨️ 打印清单</button></div>
-    </div>
-    <div class="card"><h2>🏢 被告工商信息查询</h2>
-      <p style="font-size:12px;color:#666;margin-bottom:8px">如被告为企业，可在此查询并下载工商信息</p>
-      <div class="form-row">
-        <div class="form-group"><label>企业名称</label><input type="text" id="companySearch" placeholder="输入被告企业全称"></div>
-        <div class="form-group"><label>统一社会信用代码</label><input type="text" id="creditCodeSearch" placeholder="统一社会信用代码（选填）"></div>
-      </div>
-      <button class="btn btn-primary btn-sm" onclick="searchCompany()">🔍 查询工商信息</button>
-      <div id="companyResult" style="margin-top:10px"></div>
-    </div>
-  </div>
-
-  <!-- 客户上传 -->
-  <div class="detail-content" id="tab-client" style="display:none">
-    <div class="card"><h2>📎 客户上传材料</h2>
-      <h3>🪪 身份证明材料</h3><div id="idMaterials"></div>
-      <h3>📄 证据材料</h3><div id="clientEvidenceList"></div>
-      <h3>📝 送达地址确认书</h3><div id="addrConfirmView"></div>
-      <h3>🏦 账户信息</h3><div id="accountInfoView"></div>
-    </div>
-  </div>
-
-  <!-- 文书 -->
-  <div class="detail-content" id="tab-docs" style="display:none">
+  <!-- ===== 板块1：客户上传 ===== -->
+  <div class="stage-panel" id="stage1">
     <div class="card">
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
-        <button class="btn btn-sm btn-primary" onclick="genDoc('complaint')">📄 普通起诉状</button>
+      <h2>📤 第一步：客户上传证据材料</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:8px">将下方链接发给客户，客户点开即可上传材料</p>
+      <div class="client-link-box">
+        <code id="clientLinkDisplay">创建案件后生成链接</code>
+        <div class="hint">🔗 点击右侧按钮复制链接 → 发微信给客户</div>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="copyClientLink()">📋 复制链接</button>
+      <button class="btn btn-outline btn-sm" onclick="simulateClient()" style="margin-left:6px">👤 模拟客户上传</button>
+      <div style="margin-top:10px;padding:8px 12px;background:#f5f6fa;border-radius:6px">
+        <p style="font-size:12px;color:#666"><b>客户上传状态：</b><span id="clientUploadStatus">⏳ 等待中</span></p>
+        <p style="font-size:12px;color:#666"><b>已上传材料：</b><span id="clientUploadSummary">暂无</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 板块2：整理生成文书 ===== -->
+  <div class="stage-panel" id="stage2" style="display:none">
+    <div class="card">
+      <h2>📄 第二步：整理证据 + 生成文书</h2>
+      <h3>📎 客户上传的证据</h3>
+      <div id="s2Evidence"></div>
+      <h3 style="margin-top:10px">📋 客户填写的材料</h3>
+      <div id="s2ClientInfo"></div>
+      <h3 style="margin-top:12px">📄 生成法律文书</h3>
+      <p style="font-size:12px;color:#666;margin-bottom:6px">点击生成后自动填充案件信息</p>
+      <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px">
+        <button class="btn btn-sm btn-primary" onclick="genDoc('complaint')">📄 起诉状</button>
         <button class="btn btn-sm btn-primary" onclick="genDoc('yaosu')">📋 要素式起诉状</button>
         <button class="btn btn-sm btn-primary" onclick="genDoc('proxy')">📝 授权委托书</button>
         <button class="btn btn-sm btn-primary" onclick="genDoc('evidList')">📑 证据目录</button>
         <button class="btn btn-sm btn-primary" onclick="genDoc('legalRep')">🏢 法人身份证明</button>
         <button class="btn btn-sm btn-primary" onclick="genDoc('addrConfirm')">📍 送达地址确认书</button>
-        <button class="btn btn-sm btn-accent" onclick="generateAllDocs()">📦 全部生成</button>
       </div>
-      <div id="docOutput"><p style="color:#999;text-align:center;padding:16px">点击按钮生成文书</p></div>
+      <div id="s2DocOutput"></div>
+      <div style="margin-top:8px;text-align:center">
+        <button class="btn btn-accent btn-sm" onclick="generateAllDocs()">📦 一键生成全部文书</button>
+      </div>
     </div>
   </div>
 
-  <!-- 分析 -->
-  <div class="detail-content" id="tab-analysis" style="display:none">
-    <div class="card"><h2>🔍 诉讼分析</h2><div id="analysisOutput"></div></div>
-    <div class="card"><h2>📚 法律依据</h2><div id="lawRefOutput"></div></div>
+  <!-- ===== 板块3：签署指导 + 发给客户 ===== -->
+  <div class="stage-panel" id="stage3" style="display:none">
+    <div class="card">
+      <h2>✍️ 第三步：发送文书给客户签署</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:8px">将生成的文书发给客户，告知签署要求和份数</p>
+
+      <div style="display:flex;gap:8px;margin-bottom:10px">
+        <button class="btn btn-primary btn-sm" onclick="sendDocsToClient()">📤 生成发送给客户的信息</button>
+        <button class="btn btn-outline btn-sm" onclick="regenerateClientLink()">🔄 重置客户回传链接</button>
+      </div>
+
+      <div id="sendContent" style="display:none">
+        <div class="sign-guide">
+          <h4>📋 签署要求清单</h4>
+          <div id="signInstructions"></div>
+        </div>
+
+        <div style="margin-top:10px;padding:12px;background:#e8f5e9;border-radius:8px">
+          <p style="font-size:13px;font-weight:600;color:#2e7d32">✅ 发送给客户的微信话术（可复制）</p>
+          <div id="wechatMessage" style="background:#fff;border:1px solid #ddd;border-radius:6px;padding:12px;margin-top:6px;font-size:13px;line-height:1.8;white-space:pre-wrap"></div>
+          <button class="btn btn-sm btn-outline" onclick="copyWechatMsg()" style="margin-top:6px">📋 复制话术</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📋 立案材料总清单</h2>
+      <div id="filingChecklist"></div>
+      <button class="btn btn-sm btn-outline" onclick="printFilingList()" style="margin-top:6px">🖨️ 打印清单</button>
+    </div>
+  </div>
+
+  <!-- ===== 板块4：客户回传 ===== -->
+  <div class="stage-panel" id="stage4" style="display:none">
+    <div class="card">
+      <h2>📥 第四步：客户回传签署材料</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:8px">客户签署/盖章完成后，通过回传链接上传</p>
+      <div id="s4ReturnStatus">
+        <p style="color:#999">⏳ 等待客户回传签署材料...</p>
+      </div>
+      <h3>📎 已回传文件</h3>
+      <div id="s4ReturnFiles"></div>
+      <div style="margin-top:8px">
+        <button class="btn btn-success btn-sm" onclick="confirmReturn()" id="confirmReturnBtn" style="display:none">✅ 确认收到，案件完成</button>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- ===== 客户上传页 ===== -->
-<div class="page" id="page-client" style="max-width:700px;margin:0 auto">
-  <div class="card" style="text-align:center">
-    <div style="font-size:36px">⚖️</div>
-    <h2 style="font-size:18px">案件材料上传</h2>
-    <p style="color:#666;font-size:13px" id="clientCaseInfo">请上传您的案件材料</p>
+<!-- ===== 客户上传/回传页面 ===== -->
+<div class="page" id="page-client" style="max-width:680px;margin:0 auto">
+  <div class="card" style="text-align:center;padding:14px">
+    <div style="font-size:28px">⚖️</div>
+    <h2 style="font-size:16px" id="clientPageTitle">案件材料</h2>
+    <p style="color:#666;font-size:12px" id="clientCaseInfo">请上传您的案件材料</p>
   </div>
 
-  <!-- 当事人类型 -->
-  <div class="card">
-    <h2>👤 当事人信息</h2>
-    <div class="form-row">
-      <div class="form-group"><label>当事人类型</label>
-        <select id="clientPartyType" onchange="toggleClientPartyType()">
-          <option value="individual">自然人（个人）</option>
-          <option value="company">企业/单位</option>
-        </select></div>
-      <div class="form-group"><label>姓名/名称</label><input type="text" id="clientPartyName" placeholder="姓名或企业全称"></div>
-    </div>
-    <div id="clientCompanyFields" style="display:none">
+  <!-- ===== 客户Tab：上传 vs 回传 ===== -->
+  <div class="tabs" id="clientTabs">
+    <div class="tab active" data-ctab="upload" onclick="switchClientTab('upload')">📤 上传材料</div>
+    <div class="tab" data-ctab="return" onclick="switchClientTab('return')">📥 回传签署材料</div>
+  </div>
+
+  <!-- 上传材料 -->
+  <div class="client-tab-content" id="ctab-upload">
+    <div class="card">
+      <h2>👤 当事人信息</h2>
       <div class="form-row">
-        <div class="form-group"><label>统一社会信用代码</label><input type="text" id="clientCompanyCode" placeholder="统一社会信用代码"></div>
-        <div class="form-group"><label>法定代表人</label><input type="text" id="clientLegalPerson" placeholder="法定代表人姓名"></div>
+        <div class="form-group"><label>类型</label>
+          <select id="clPartyType" onchange="toggleClParty()">
+            <option value="individual">自然人（个人）</option>
+            <option value="company">企业/单位</option>
+          </select></div>
+        <div class="form-group"><label>姓名/名称</label><input type="text" id="clPartyName" placeholder="姓名或企业全称"></div>
+      </div>
+      <div id="clCompanyFields" style="display:none">
+        <div class="form-row">
+          <div class="form-group"><label>统一社会信用代码</label><input type="text" id="clCompCode" placeholder="统一社会信用代码"></div>
+          <div class="form-group"><label>法定代表人</label><input type="text" id="clLegalPerson" placeholder="法定代表人姓名"></div>
+        </div>
+      </div>
+      <div class="form-group"><label>联系电话</label><input type="tel" id="clPhone" placeholder="手机号"></div>
+      <div class="form-row">
+        <div class="form-group"><label>被告类型</label>
+          <select id="clDefType" onchange="toggleClDef()">
+            <option value="individual">自然人</option>
+            <option value="company">企业</option>
+          </select></div>
+        <div class="form-group"><label>被告姓名/名称</label><input type="text" id="clDefName" placeholder="被告姓名或企业全称"></div>
+      </div>
+      <div id="clDefExtra" style="display:none">
+        <div class="form-group"><label>统一社会信用代码</label><input type="text" id="clDefCode" placeholder="选填"></div>
       </div>
     </div>
-    <div class="form-group"><label>联系电话</label><input type="tel" id="clientPhoneUpload" placeholder="手机号"></div>
-  </div>
 
-  <!-- 上传身份证/身份材料 -->
-  <div class="card">
-    <h2>🪪 身份证明材料上传</h2>
-    <p style="font-size:12px;color:#e65100;margin-bottom:6px">⚠️ 此材料仅用于立案，不归入证据目录</p>
-    <div class="upload-zone" onclick="document.getElementById('idFileInput').click()">
-      <div class="icon">🪪</div>
-      <div class="txt">点击上传身份证/身份证明材料</div>
-      <input type="file" id="idFileInput" multiple accept=".jpg,.jpeg,.png,.pdf" onchange="handleIdUpload(this)">
-    </div>
-    <ul class="file-list" id="idFileList"></ul>
-    <div id="companyDocUpload" style="display:none;margin-top:8px">
-      <p style="font-size:12px;color:#555;margin-bottom:4px">企业还需上传：</p>
-      <div class="upload-zone" style="padding:16px" onclick="document.getElementById('companyDocInput').click()">
-        <div class="txt">📄 营业执照副本 + 法定代表人身份证 + 法定代表人身份证明</div>
-        <input type="file" id="companyDocInput" multiple accept=".jpg,.jpeg,.png,.pdf" onchange="handleCompanyDocUpload(this)">
+    <div class="card">
+      <h2>🪪 身份材料 <span style="font-weight:400;font-size:11px;color:#e65100">（不归入证据目录）</span></h2>
+      <div class="upload-zone" onclick="document.getElementById('clIdInput').click()">
+        <div class="icon">🪪</div><div class="txt">点击上传身份证/身份证明材料</div>
+        <input type="file" id="clIdInput" multiple accept=".jpg,.jpeg,.png,.pdf" onchange="handleClUpload('id',this)">
       </div>
-      <ul class="file-list" id="companyDocList"></ul>
+      <ul class="file-list" id="clIdList"></ul>
+      <div id="clCompanyDocs" style="display:none;margin-top:6px">
+        <p style="font-size:12px;color:#555;margin-bottom:4px">企业还需上传：营业执照副本、法定代表人身份证、法定代表人身份证明</p>
+        <div class="upload-zone" style="padding:14px" onclick="document.getElementById('clCompInput').click()">
+          <div class="txt">📄 点击选择企业材料</div>
+          <input type="file" id="clCompInput" multiple accept=".jpg,.jpeg,.png,.pdf" onchange="handleClUpload('comp',this)">
+        </div>
+        <ul class="file-list" id="clCompList"></ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📄 证据材料</h2>
+      <div class="upload-zone" onclick="document.getElementById('clEvInput').click()">
+        <div class="icon">📤</div><div class="txt">点击上传证据文件（支持图片、PDF、Word、Excel）</div>
+        <input type="file" id="clEvInput" multiple accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.xls,.xlsx" onchange="handleClUpload('ev',this)">
+      </div>
+      <ul class="file-list" id="clEvList"></ul>
+    </div>
+
+    <div class="card">
+      <h2>📍 送达地址确认书</h2>
+      <div class="form-row">
+        <div class="form-group"><label>收件人</label><input type="text" id="clAddrName" placeholder="收件人姓名"></div>
+        <div class="form-group"><label>电话</label><input type="tel" id="clAddrPhone" placeholder="手机号"></div>
+      </div>
+      <div class="form-group"><label>送达地址</label><input type="text" id="clAddrDetail" placeholder="省/市/区/详细地址"></div>
+      <div class="form-row">
+        <div class="form-group"><label>电子邮箱</label><input type="email" id="clAddrEmail" placeholder="邮箱"></div>
+        <div class="form-group"><label>微信号</label><input type="text" id="clAddrWechat" placeholder="微信号"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🏦 收款账户信息</h2>
+      <div class="form-row">
+        <div class="form-group"><label>户名</label><input type="text" id="clBankHolder" placeholder="户名"></div>
+        <div class="form-group"><label>账号</label><input type="text" id="clBankAccount" placeholder="银行账号"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>开户行全称</label><input type="text" id="clBankBranch" placeholder="XX银行XX支行"></div>
+        <div class="form-group"><label>联行号</label><input type="text" id="clBankCode" placeholder="12位联行号"></div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin:12px 0">
+      <button class="btn btn-primary" onclick="submitClientUpload()" style="padding:9px 28px;font-size:14px">📤 提交全部材料</button>
     </div>
   </div>
 
-  <!-- 被告信息 -->
-  <div class="card">
-    <h2>👥 被告信息</h2>
-    <div class="form-row">
-      <div class="form-group"><label>被告类型</label>
-        <select id="clientDefType" onchange="toggleDefType()">
-          <option value="individual">自然人（个人）</option>
-          <option value="company">企业/单位</option>
-        </select></div>
-      <div class="form-group"><label>被告姓名/名称</label><input type="text" id="clientDefName" placeholder="被告姓名或企业全称"></div>
+  <!-- 回传签署材料 -->
+  <div class="client-tab-content" id="ctab-return" style="display:none">
+    <div class="card">
+      <h2>📥 回传已签署/盖章的文书</h2>
+      <p style="font-size:13px;color:#e65100;margin-bottom:8px">请将律师发给您的文书打印 → 签字/盖章 → 扫描或拍照上传</p>
+      <div id="returnInstructions"></div>
+      <div class="upload-zone" onclick="document.getElementById('clReturnInput').click()">
+        <div class="icon">📤</div><div class="txt">点击上传已签署的文件</div>
+        <input type="file" id="clReturnInput" multiple accept=".jpg,.jpeg,.png,.pdf" onchange="handleReturnUpload(this)">
+      </div>
+      <ul class="file-list" id="clReturnList"></ul>
+      <div style="text-align:center;margin-top:8px">
+        <button class="btn btn-success btn-sm" onclick="submitReturn()">📤 提交回传文件</button>
+      </div>
     </div>
-    <div id="clientDefCompanyExtra" style="display:none">
-      <div class="form-group"><label>统一社会信用代码</label><input type="text" id="clientDefCode" placeholder="统一社会信用代码"></div>
-      <p style="font-size:12px;color:#888">⚠️ 被告为企业时，需提供国家企业信用信息公示系统查询截图（前两页）</p>
-    </div>
-  </div>
-
-  <!-- 上传证据 -->
-  <div class="card">
-    <h2>📄 上传证据材料</h2>
-    <p style="font-size:12px;color:#666;margin-bottom:6px">支持格式：图片、PDF、Word、Excel</p>
-    <div class="upload-zone" onclick="document.getElementById('evFileInput').click()">
-      <div class="icon">📤</div>
-      <div class="txt">点击选择文件</div>
-      <input type="file" id="evFileInput" multiple accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.xls,.xlsx,.txt" onchange="handleEvUpload(this)">
-    </div>
-    <ul class="file-list" id="evFileList"></ul>
-  </div>
-
-  <!-- 送达地址确认书 -->
-  <div class="card">
-    <h2>📍 送达地址确认书</h2>
-    <div class="form-row">
-      <div class="form-group"><label>收件人姓名</label><input type="text" id="clientAddrName" placeholder="收件人"></div>
-      <div class="form-group"><label>联系电话</label><input type="tel" id="clientAddrPhone" placeholder="手机号"></div>
-    </div>
-    <div class="form-group"><label>送达地址</label><input type="text" id="clientAddrDetail" placeholder="省/市/区/详细地址"></div>
-    <div class="form-row">
-      <div class="form-group"><label>电子邮箱</label><input type="email" id="clientAddrEmail" placeholder="邮箱"></div>
-      <div class="form-group"><label>微信号</label><input type="text" id="clientAddrWechat" placeholder="微信号"></div>
-    </div>
-  </div>
-
-  <!-- 账户信息 -->
-  <div class="card">
-    <h2>🏦 收款账户信息</h2>
-    <div class="form-row">
-      <div class="form-group"><label>户名</label><input type="text" id="clientBankName" placeholder="银行户名"></div>
-      <div class="form-group"><label>账号</label><input type="text" id="clientBankAccount" placeholder="银行账号"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>开户行全称</label><input type="text" id="clientBankBranch" placeholder="如：中国工商银行西安XX支行"></div>
-      <div class="form-group"><label>联行号</label><input type="text" id="clientBankCode" placeholder="12位联行号"></div>
-    </div>
-  </div>
-
-  <div style="text-align:center;margin:16px 0">
-    <button class="btn btn-primary" onclick="submitClientAll()" style="padding:10px 30px;font-size:14px">📤 提交全部材料</button>
   </div>
 </div>
 
@@ -338,9 +364,9 @@ table td{padding:8px 10px;border-bottom:1px solid #f0f0f0}
   <div class="modal-content">
     <h2>➕ 创建新案件</h2>
     <div class="form-row">
-      <div class="form-group"><label>案件名称 *</label><input type="text" id="cName" placeholder="如：张三诉李四借贷纠纷"></div>
+      <div class="form-group"><label>案件名称 *</label><input type="text" id="cName" placeholder="如：张三诉李四"></div>
       <div class="form-group"><label>案由 *</label>
-        <select id="cType"><option value="">选择案由...</option>
+        <select id="cType"><option value="">选择...</option>
           <option>离婚纠纷</option><option>民间借贷纠纷</option><option>买卖合同纠纷</option>
           <option>房屋买卖合同纠纷</option><option>租赁合同纠纷</option><option>劳务合同纠纷</option>
           <option>建设工程施工合同纠纷</option><option>机动车交通事故责任纠纷</option>
@@ -348,618 +374,620 @@ table td{padding:8px 10px;border-bottom:1px solid #f0f0f0}
           <option>继承纠纷</option><option>物业服务合同纠纷</option><option>其他</option>
         </select></div>
     </div>
-    <!-- 原告信息 -->
     <div class="form-row">
       <div class="form-group"><label>原告类型</label>
-        <select id="cPlaintiffType" onchange="toggleCreatePlaintiff()">
-          <option value="individual">自然人（个人）</option>
-          <option value="company">企业/单位</option>
+        <select id="cPlaintiffType" onchange="toggleCreatePl()">
+          <option value="individual">自然人</option>
+          <option value="company">企业</option>
         </select></div>
       <div class="form-group"><label>原告姓名/名称 *</label><input type="text" id="cPlaintiffName" placeholder="姓名或企业全称"></div>
     </div>
-    <div id="createPlaintiffCompany" style="display:none">
+    <div id="createPlCompany" style="display:none">
       <div class="form-row">
-        <div class="form-group"><label>统一社会信用代码</label><input type="text" id="cPlaintiffCode" placeholder="统一社会信用代码"></div>
-        <div class="form-group"><label>法定代表人</label><input type="text" id="cPlaintiffLegal" placeholder="法定代表人姓名"></div>
+        <div class="form-group"><label>统一社会信用代码</label><input type="text" id="cPlCode" placeholder="代码"></div>
+        <div class="form-group"><label>法定代表人</label><input type="text" id="cPlLegal" placeholder="法定代表人"></div>
       </div>
     </div>
-    <!-- 被告信息 -->
     <div class="form-row">
       <div class="form-group"><label>被告数量</label>
         <select id="cDefCount"><option value="1">1个</option><option value="2">2个</option><option value="3">3个</option><option value="4">4个+</option></select></div>
       <div class="form-group"><label>被告类型</label>
-        <select id="cDefType"><option value="individual">自然人</option><option value="company">企业/单位</option></select></div>
+        <select id="cDefType2"><option value="individual">自然人</option><option value="company">企业</option></select></div>
     </div>
-    <div class="form-group"><label>被告基本信息</label><textarea id="cDefInfo" placeholder="被告姓名/名称、住址等信息" rows="2"></textarea></div>
-    <div class="form-group"><label>联系方式</label><input type="tel" id="cPhone" placeholder="原告联系电话"></div>
-    <div class="form-group"><label>案件简介</label><textarea id="cDesc" placeholder="简要描述案件情况" rows="2"></textarea></div>
-    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
-      <button class="btn btn-outline" onclick="closeModal('createCaseModal')">取消</button>
-      <button class="btn btn-primary" onclick="saveCase()">✅ 创建</button>
+    <div class="form-group"><label>被告信息</label><textarea id="cDefInfo" placeholder="被告姓名/名称等" rows="2"></textarea></div>
+    <div class="form-group"><label>联系电话</label><input type="tel" id="cPhone" placeholder="原告电话"></div>
+    <div class="form-group"><label>案情简介</label><textarea id="cDesc" rows="2"></textarea></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+      <button class="btn btn-outline btn-sm" onclick="closeModal('createCaseModal')">取消</button>
+      <button class="btn btn-primary btn-sm" onclick="saveCase()">✅ 创建</button>
     </div>
-  </div>
-</div>
-
-<!-- 模板预览模态框 -->
-<div class="modal" id="templateModal">
-  <div class="modal-content">
-    <h2 id="templateModalTitle">模板预览</h2>
-    <div id="templateModalBody"></div>
-    <div style="text-align:right;margin-top:10px"><button class="btn btn-outline" onclick="closeModal('templateModal')">关闭</button></div>
   </div>
 </div>
 
 </div>
 
 <script>
-var CASES=JSON.parse(localStorage.getItem('zhisong_cases')||'[]');
-var CASE_ID=CASES.length?Math.max.apply(Math,CASES.map(function(c){return c.id})):0;
-var _currentCaseId=null,_clientToken=null;
+var CASES=JSON.parse(localStorage.getItem('zs_cases')||'[]');
+var CID=CASES.length?Math.max.apply(Math,CASES.map(function(c){return c.id})):0;
+var _curCase=null,_clientTok=null;
 
-function saveData(){localStorage.setItem('zhisong_cases',JSON.stringify(CASES));updateStats()}
+function save(){localStorage.setItem('zs_cases',JSON.stringify(CASES));renderCaseList()}
 
 // ===== 导航 =====
 function showPage(p){
-  document.querySelectorAll('.page').forEach(function(el){el.classList.remove('active')});
+  document.querySelectorAll('.page').forEach(function(e){e.classList.remove('active')});
   var el=document.getElementById('page-'+p);if(el)el.classList.add('active');
   document.querySelectorAll('#mainNav a').forEach(function(a){a.classList.remove('active')});
   var nav=document.querySelectorAll('#mainNav a');
-  var idx={dashboard:0,cases:1,templates:2}[p];
+  var idx={dashboard:0,cases:1}[p];
   if(idx!==undefined&&nav[idx])nav[idx].classList.add('active');
-  if(p==='cases')renderCasesList();
-  if(p==='dashboard')updateStats();
+  if(p==='dashboard')renderCaseList();
 }
-
-// ===== 统计 =====
-function updateStats(){
-  document.getElementById('statTotal').textContent=CASES.length;
-  var a=CASES.filter(function(c){return c.status!=='done'}).length;
-  var d=CASES.filter(function(c){return c.status==='done'}).length;
-  document.getElementById('statActive').textContent=a;
-  document.getElementById('statDone').textContent=d;
-  var recent=CASES.slice(-5).reverse();
-  var b=document.getElementById('recentCasesBody');
-  if(recent.length){
-    b.innerHTML=recent.map(function(c){
-      var s={'wait_upload':'⏳进行中','uploaded':'📎已上传','docs':'📄文书已生','done':'✅已完成'};
-      return '<tr><td>'+c.name+'</td><td>'+c.plaintiff+'</td><td>'+c.type+'</td><td>'+(s[c.status]||'⏳')+'</td><td><button class="btn btn-sm btn-primary" onclick="openCase('+c.id+')">查看</button></td></tr>';
+function renderCaseList(){
+  var b=document.getElementById('caseListBody');
+  if(!CASES.length){b.innerHTML='<tr><td colspan="5" style="text-align:center;color:#999;padding:24px">暂无案件</td></tr>';return}
+  b.innerHTML=CASES.slice().reverse().map(function(c){
+    var stages=['📤上传','📄整理','✍️签署','📥回传','✅完成'];
+    var si={wait_upload:0,uploaded:1,docs:2,sent:3,returned:4,done:4};
+    var s=si[c.status]||0;
+    return '<tr><td>'+c.name+'</td><td>'+c.plaintiff+'</td><td>'+c.type+'</td><td><span class="tag '+
+      (s===4?'tag-green':s>=2?'tag-blue':'tag-orange')+'">'+stages[Math.min(s,4)]+'</span></td><td><button class="btn btn-sm btn-primary" onclick="openCase('+c.id+')">查看</button></td></tr>';
+  }).join('');
+  var b2=document.getElementById('allCasesBody');
+  if(b2){
+    b2.innerHTML=CASES.slice().reverse().map(function(c){
+      var stages=['⏳待上传','📤已上传','📄文书已生','✍️已发送','📥已回传','✅完成'];
+      var si={wait_upload:0,uploaded:1,docs:2,sent:3,returned:4,done:5};
+      var s=si[c.status]||0;
+      return '<tr><td>'+c.name+'</td><td>'+c.plaintiff+'</td><td>'+(c.plaintiffType==='company'?'🏢企业':'👤个人')+'</td><td>'+c.defCount+'</td><td>'+c.type+'</td><td>'+stages[Math.min(s,5)]+'</td><td><button class="btn btn-sm btn-primary" onclick="openCase('+c.id+')">查看</button></td></tr>';
     }).join('');
-  }else{b.innerHTML='<tr><td colspan="5" style="text-align:center;color:#999;padding:20px">暂无案件</td></tr>';}
+  }
 }
 
 // ===== 创建案件 =====
 function showCreateCase(){document.getElementById('createCaseModal').classList.add('show')}
-function toggleCreatePlaintiff(){
-  var v=document.getElementById('cPlaintiffType').value;
-  document.getElementById('createPlaintiffCompany').style.display=v==='company'?'block':'none';
+function toggleCreatePl(){
+  document.getElementById('createPlCompany').style.display=
+    document.getElementById('cPlaintiffType').value==='company'?'block':'none';
 }
 function saveCase(){
   var n=document.getElementById('cName').value.trim();
   var t=document.getElementById('cType').value;
-  var pt=document.getElementById('cPlaintiffType').value;
   var pn=document.getElementById('cPlaintiffName').value.trim();
-  var defC=parseInt(document.getElementById('cDefCount').value)||1;
-  var defT=document.getElementById('cDefType').value;
-  var defI=document.getElementById('cDefInfo').value.trim();
   if(!n||!pn||!t){alert('请填写案件名称、原告和案由');return}
-  CASE_ID++;
-  var c={id:CASE_ID,name:n,type:t,plaintiffType:pt,plaintiff:pn,defCount:defC,defType:defT,defInfo:defI,
-    phone:document.getElementById('cPhone').value.trim(),desc:document.getElementById('cDesc').value.trim(),
+  CID++;var pt=document.getElementById('cPlaintiffType').value;
+  var c={id:CID,name:n,type:t,plaintiffType:pt,plaintiff:pn,
+    defCount:parseInt(document.getElementById('cDefCount').value)||1,
+    defType:document.getElementById('cDefType2').value,
+    defInfo:document.getElementById('cDefInfo').value.trim(),
+    phone:document.getElementById('cPhone').value.trim(),
+    desc:document.getElementById('cDesc').value.trim(),
     status:'wait_upload',created:new Date().toLocaleString(),
-    clientToken:'tk_'+Date.now()+'_'+Math.random().toString(36).substr(2,6),
-    evidence:[],idFiles:[],companyDocs:[],addrConfirm:{},accountInfo:{},partyName:'',partyType:'individual',
-    defName:'',defCode:''};
+    token:'tk_'+Date.now()+'_'+Math.random().toString(36).substr(2,6),
+    evidence:[],idFiles:[],compDocs:[],returnFiles:[],
+    partyName:'',partyType:'individual',defName:'',defCode:'',
+    addrConfirm:{},accountInfo:{}};
   if(pt==='company'){
-    c.plaintiffCode=document.getElementById('cPlaintiffCode').value.trim();
-    c.plaintiffLegal=document.getElementById('cPlaintiffLegal').value.trim();
+    c.plaintiffCode=document.getElementById('cPlCode').value.trim();
+    c.plaintiffLegal=document.getElementById('cPlLegal').value.trim();
   }
-  CASES.push(c);
-  saveData();
-  closeModal('createCaseModal');
-  document.getElementById('cName').value='';document.getElementById('cPlaintiffName').value='';
-  document.getElementById('cPhone').value='';document.getElementById('cDesc').value='';
+  CASES.push(c);save();closeModal('createCaseModal');
+  ['cName','cPlaintiffName','cPhone','cDesc'].forEach(function(id){document.getElementById(id).value=''});
   openCase(c.id);
 }
 
 // ===== 打开案件 =====
 function openCase(id){
   var c=CASES.find(function(x){return x.id===id});if(!c)return;
-  showPage('caseDetail');
-  _currentCaseId=id;
-  document.getElementById('caseDetailTitle').textContent=c.name+' · '+c.plaintiff;
-  document.getElementById('clientLinkDisplay')&&(document.getElementById('clientLinkDisplay').textContent=
-    window.location.href.split('?')[0].split('#')[0]+'?client='+c.clientToken);
+  _curCase=c;showPage('caseDetail');
+  document.getElementById('caseTitle').textContent=c.name+' · '+c.plaintiff;
+  document.getElementById('clientLinkDisplay').textContent=
+    window.location.href.split('?')[0].split('#')[0]+'?client='+c.token;
 
-  var steps=[{label:'创建',key:'created'},{label:'客户上传',key:'uploaded'},{label:'生成文书',key:'docs'},{label:'完成',key:'done'}];
-  var sm={wait_upload:0,uploaded:1,docs:2,done:3};var cur=sm[c.status]||0;
-  document.getElementById('caseSteps').innerHTML=steps.map(function(s,i){
-    return '<div class="step '+(i<cur?'done':i===cur?'active':'')+'"><div class="circle">'+(i<cur?'✓':(i+1))+'</div><div class="label">'+s.label+'</div></div>';}).join('');
-
-  var smap={'wait_upload':'⏳待客户上传','uploaded':'📎已上传','docs':'📄文书已生成','done':'✅已完成'};
-  document.getElementById('caseInfoDisplay').innerHTML='<table><tr><td style="width:70px;color:#666;font-weight:600">案由</td><td>'+c.type+'</td></tr>'+
-    '<tr><td style="color:#666;font-weight:600">原告</td><td>'+(c.plaintiffType==='company'?'🏢 ':'👤 ')+c.plaintiff+(c.plaintiffCode?'（'+c.plaintiffCode+'）':'')+
-    (c.plaintiffLegal?' · 法人：'+c.plaintiffLegal:'')+'</td></tr>'+
-    '<tr><td style="color:#666;font-weight:600">被告</td><td>'+(c.defType==='company'?'🏢 ':'👤 ')+'共'+c.defCount+'个 · '+(c.defInfo||'待补充')+'</td></tr>'+
-    '<tr><td style="color:#666;font-weight:600">状态</td><td>'+(smap[c.status]||'⏳')+'</td></tr>'+
-    (c.desc?'<tr><td style="color:#666;font-weight:600">简介</td><td>'+c.desc+'</td></tr>':'')+'</table>';
-
-  // 立案材料清单
-  renderFilingList(c);
-  // 客户上传的材料
-  renderClientMaterials(c);
-  // 文书
-  document.getElementById('docOutput').innerHTML='<p style="color:#999;text-align:center;padding:16px">点击上方按钮生成文书</p>';
-  // 分析
-  document.getElementById('analysisOutput').innerHTML='';
-  switchTab('info');
-}
-
-function switchTab(tab){
-  document.querySelectorAll('.detail-content').forEach(function(el){el.style.display='none'});
-  document.getElementById('tab-'+tab).style.display='block';
-  document.querySelectorAll('#detailTabs .tab').forEach(function(el){el.classList.remove('active')});
-  var tabs=document.querySelectorAll('#detailTabs .tab');
-  for(var i=0;i<tabs.length;i++){if(tabs[i].dataset.tab===tab){tabs[i].classList.add('active');break}}
-  if(tab==='analysis'){var c=CASES.find(function(x){return x.id===_currentCaseId});if(c)genAnalysis(c);}
-  if(tab==='filing'){var c=CASES.find(function(x){return x.id===_currentCaseId});if(c)renderFilingList(c);}
-}
-
-// ===== 立案材料清单 =====
-function renderFilingList(c){
-  var defCount=c.defCount||1;
-  var totalCopies=defCount+1; // 被告人数+1份给法院
-  var isCompany=c.plaintiffType==='company';
-  var html='<p style="font-size:13px;color:#555;margin-bottom:10px">⚠️ 以下为立案所需全部材料，请按清单准备：</p>';
-
-  html+='<h3>📄 一、起诉状 <span class="tag tag-orange">需'+(totalCopies+1)+'份</span></h3>'; // +1份原告留存
-  html+='<p style="font-size:12px;color:#666;margin:2px 0 8px">诉状份数 = 被告人数('+defCount+') + 法院(1) + 原告留存(1) = <b>'+(totalCopies+1)+'份</b></p>';
-  if(isCompany)html+='<p style="font-size:12px;color:#e65100">🏢 企业原告：每份起诉状均需加盖公司公章</p>';
-  else html+='<p style="font-size:12px;color:#1565c0">👤 个人原告：每份起诉状需本人签字</p>';
-
-  html+='<h3>🪪 二、原告身份证明材料</h3>';
-  if(isCompany){
-    html+='<ul class="material-list">'+
-      '<li><span class="count">1</span><span class="info">营业执照副本复印件 <b>（加盖公章）</b></span><span class="note">需'+totalCopies+'份</span></li>'+
-      '<li><span class="count">2</span><span class="info">法定代表人身份证明书 <b>（加盖公章）</b></span><span class="note">需'+totalCopies+'份</span></li>'+
-      '<li><span class="count">3</span><span class="info">法定代表人身份证复印件</span><span class="note">需'+totalCopies+'份</span></li>'+
-      '<li><span class="count">4</span><span class="info">授权委托书 <b>（加盖公章）</b></span><span class="note">需2份</span></li>'+
-      '</ul>';
-  } else {
-    html+='<ul class="material-list">'+
-      '<li><span class="count">1</span><span class="info">原告身份证复印件</span><span class="note">需1份，不归入证据</span></li>'+
-      '<li><span class="count">2</span><span class="info">授权委托书（本人签字）</span><span class="note">需2份</span></li>'+
-      '</ul>';
-  }
-
-  html+='<h3>👥 三、被告身份信息</h3>';
-  if(c.defType==='company'){
-    html+='<ul class="material-list"><li><span class="count">1</span><span class="info">国家企业信用信息公示系统查询截图（前两页）</span>'+
-      '<span class="note">可通过下方"被告工商信息查询"获取</span></li></ul>';
-  } else {
-    html+='<p style="font-size:12px;color:#666;margin:2px 0 8px">👤 被告为自然人：提供姓名、住址等基本信息即可，无需身份证复印件</p>';
-  }
-
-  html+='<h3>📎 四、证据材料 <span class="tag tag-blue">按证据目录整理</span></h3>';
-  html+='<p style="font-size:12px;color:#666;margin:2px 0 8px">按照当事人上传的证据整理成证据目录，证据材料一式'+(totalCopies+1)+'份</p>';
-
-  html+='<h3>📍 五、送达地址确认书 <span class="tag tag-orange">需1份</span></h3>';
-  html+='<p style="font-size:12px;color:#666;margin:2px 0 8px">当事人填写送达地址、联系方式</p>';
-
-  html+='<h3>🏦 六、收款账户信息</h3>';
-  html+='<p style="font-size:12px;color:#666;margin:2px 0 8px">户名、账号、开户行全称、联行号</p>';
-
-  document.getElementById('filingList').innerHTML=html;
-}
-
-function printFilingList(){
-  var c=CASES.find(function(x){return x.id===_currentCaseId});
-  if(!c)return;
-  var w=window.open('','_blank');
-  w.document.write('<html><head><title>立案材料清单 - '+c.name+'</title>'+
-    '<style>body{font-family:SimSun,serif;padding:30px;font-size:14px;line-height:2}'+
-    'h2{text-align:center}h3{margin:14px 0 4px}ul{list-style:none;padding:0}li{padding:6px 10px;border:1px solid #eee;margin:3px 0}</style></head><body>');
-  w.document.write('<h2>立案材料清单</h2>');
-  w.document.write('<p>案件：'+c.name+' | 原告：'+c.plaintiff+' | 案由：'+c.type+' | 被告：'+c.defCount+'个</p>');
-  w.document.write(document.getElementById('filingList').innerHTML);
-  w.document.write('</body></html>');
-  w.document.close();w.print();
-}
-
-// ===== 被告工商信息查询 =====
-function searchCompany(){
-  var name=document.getElementById('companySearch').value.trim();
-  var code=document.getElementById('creditCodeSearch').value.trim();
-  if(!name&&!code){alert('请输入企业名称或统一社会信用代码');return}
-  var q=encodeURIComponent(name||code);
-  var url='https://www.gsxt.gov.cn/index.html';
-  var api='https://api.qichacha.com/CompanySearch?key='+q;
-  document.getElementById('companyResult').innerHTML=
-    '<p style="font-size:13px;color:#1565c0">🔗 <a href="'+url+'" target="_blank" rel="noopener">点击前往 国家企业信用信息公示系统</a> 查询"'+name+'"</p>'+
-    '<div style="margin-top:8px;padding:10px;background:#f5f6fa;border-radius:6px">'+
-    '<p style="font-size:13px;font-weight:600">查询指引：</p>'+
-    '<p style="font-size:12px;color:#555;margin:2px 0">1. 点击上方链接打开国家企业信用信息公示系统</p>'+
-    '<p style="font-size:12px;color:#555;margin:2px 0">2. 输入企业名称搜索</p>'+
-    '<p style="font-size:12px;color:#555;margin:2px 0">3. 进入企业详情页，按 Ctrl+P 打印前两页</p>'+
-    '<p style="font-size:12px;color:#555;margin:2px 0">4. 或截图保存后上传到系统</p></div>';
-}
-
-// ===== 客户上传页 =====
-function showClientPage(token){
-  _clientToken=token;
-  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
-  document.getElementById('page-client').classList.add('active');
-  var c=CASES.find(function(x){return x.clientToken===token});
-  if(c){
-    document.getElementById('clientCaseInfo').textContent='⚖️ '+c.name+' · 请上传以下材料';
-    // 加载已有数据
-    if(c.partyName)document.getElementById('clientPartyName').value=c.partyName;
-    if(c.partyType)document.getElementById('clientPartyType').value=c.partyType;
-    if(c.plaintiffCode)document.getElementById('clientCompanyCode').value=c.plaintiffCode;
-    if(c.plaintiffLegal)document.getElementById('clientLegalPerson').value=c.plaintiffLegal;
-    if(c.phone)document.getElementById('clientPhoneUpload').value=c.phone;
-    if(c.defName)document.getElementById('clientDefName').value=c.defName;
-    if(c.defCode)document.getElementById('clientDefCode').value=c.defCode;
-    if(c.addrConfirm){
-      document.getElementById('clientAddrName').value=c.addrConfirm.name||'';
-      document.getElementById('clientAddrPhone').value=c.addrConfirm.phone||'';
-      document.getElementById('clientAddrDetail').value=c.addrConfirm.addr||'';
-      document.getElementById('clientAddrEmail').value=c.addrConfirm.email||'';
-      document.getElementById('clientAddrWechat').value=c.addrConfirm.wechat||'';
-    }
-    if(c.accountInfo){
-      document.getElementById('clientBankName').value=c.accountInfo.holder||'';
-      document.getElementById('clientBankAccount').value=c.accountInfo.account||'';
-      document.getElementById('clientBankBranch').value=c.accountInfo.branch||'';
-      document.getElementById('clientBankCode').value=c.accountInfo.code||'';
-    }
-    toggleClientPartyType();toggleDefType();
-    renderClientIdFiles(c);renderClientEvFiles(c);renderClientCompanyDocs(c);
-  }
-}
-
-function toggleClientPartyType(){
-  var v=document.getElementById('clientPartyType').value;
-  document.getElementById('clientCompanyFields').style.display=v==='company'?'block':'none';
-  document.getElementById('companyDocUpload').style.display=v==='company'?'block':'none';
-}
-function toggleDefType(){
-  var v=document.getElementById('clientDefType').value;
-  document.getElementById('clientDefCompanyExtra').style.display=v==='company'?'block':'none';
-}
-
-// 客户上传 - 身份证
-function handleIdUpload(input){
-  var c=CASES.find(function(x){return x.clientToken===_clientToken});if(!c)return;
-  for(var i=0;i<input.files.length;i++){
-    c.idFiles.push({name:input.files[i].name,size:(input.files[i].size/1024).toFixed(1)+'KB'});
-  }
-  saveData();renderClientIdFiles(c);input.value='';
-}
-function renderClientIdFiles(c){
-  var list=document.getElementById('idFileList');
-  if(!c.idFiles||!c.idFiles.length){list.innerHTML='';return}
-  list.innerHTML=c.idFiles.map(function(f,i){
-    return '<li><span class="file-icon">🪪</span><span class="name">'+f.name+'</span><span class="size">'+f.size+'</span><span class="del" onclick="delIdFile('+c.id+','+i+')">✕</span></li>';
+  // 四大板块状态
+  var st=c.status||'wait_upload';
+  var stages=[{key:'s1',label:'📤 客户上传',s:['wait_upload','uploaded','docs','sent','returned','done'],num:1,cl:'s1'},
+    {key:'s2',label:'📄 整理生成',s:['uploaded','docs','sent','returned','done'],num:2,cl:'s2'},
+    {key:'s3',label:'✍️ 签署指导',s:['docs','sent','returned','done'],num:3,cl:'s3'},
+    {key:'s4',label:'📥 客户回传',s:['returned','done'],num:4,cl:'s4'}];
+  var curIdx=st==='done'?4:st==='returned'?3:st==='sent'?3:st==='docs'?2:st==='uploaded'?1:0;
+  document.getElementById('stageGrid').innerHTML=stages.map(function(s,i){
+    var done=i<curIdx;
+    var active=i===curIdx;
+    var labels=['等待客户上传','等待整理','等待发送','等待回传','✅已完成'];
+    return '<div class="stage-card '+s.cl+(done?' done':'')+(active?' active':'')+'" onclick="switchStage('+s.num+')">'+
+      '<div class="badge">'+(done?'✅':active?'进行中':'待处理')+'</div>'+
+      '<div class="num">'+(done?'✓':s.num)+'</div>'+
+      '<div class="title">'+s.label+'</div>'+
+      '<div class="desc">'+labels[i]+'</div></div>';
   }).join('');
-}
-function delIdFile(caseId,i){
-  var c=CASES.find(function(x){return x.id===caseId});if(!c)return;
-  c.idFiles.splice(i,1);saveData();renderClientIdFiles(c);
+
+  // 显示当前阶段
+  switchStage(Math.min(curIdx+1,4));
+
+  // 更新客户上传状态
+  updateUploadStatus(c);
 }
 
-// 客户上传 - 企业材料
-function handleCompanyDocUpload(input){
-  var c=CASES.find(function(x){return x.clientToken===_clientToken});if(!c)return;
-  for(var i=0;i<input.files.length;i++){
-    c.companyDocs.push({name:input.files[i].name,size:(input.files[i].size/1024).toFixed(1)+'KB'});
+function switchStage(n){
+  for(var i=1;i<=4;i++){
+    document.getElementById('stage'+i).style.display=i===n?'block':'none';
   }
-  saveData();renderClientCompanyDocs(c);input.value='';
-}
-function renderClientCompanyDocs(c){
-  var list=document.getElementById('companyDocList');
-  if(!c.companyDocs||!c.companyDocs.length){list.innerHTML='';return}
-  list.innerHTML=c.companyDocs.map(function(f,i){
-    return '<li><span class="file-icon">📄</span><span class="name">'+f.name+'</span><span class="size">'+f.size+'</span><span class="del" onclick="delCompanyDoc('+c.id+','+i+')">✕</span></li>';
-  }).join('');
-}
-function delCompanyDoc(caseId,i){
-  var c=CASES.find(function(x){return x.id===caseId});if(!c)return;
-  c.companyDocs.splice(i,1);saveData();renderClientCompanyDocs(c);
+  var c=_curCase;if(!c)return;
+  if(n===2)renderStage2(c);
+  if(n===3)renderStage3(c);
+  if(n===4)renderStage4(c);
 }
 
-// 客户上传 - 证据
-function handleEvUpload(input){
-  var c=CASES.find(function(x){return x.clientToken===_clientToken});if(!c)return;
-  for(var i=0;i<input.files.length;i++){
-    c.evidence.push({name:input.files[i].name,size:(input.files[i].size/1024).toFixed(1)+'KB',time:new Date().toLocaleString()});
+// ===== 客户上传状态 =====
+function updateUploadStatus(c){
+  var statusEl=document.getElementById('clientUploadStatus');
+  var summaryEl=document.getElementById('clientUploadSummary');
+  if(!statusEl)return;
+  if(c.status==='wait_upload'){
+    statusEl.innerHTML='⏳ 等待客户上传';
+    summaryEl.textContent='暂无';
+  }else if(c.status==='uploaded'||c.status==='docs'||c.status==='sent'||c.status==='returned'||c.status==='done'){
+    statusEl.innerHTML='✅ 已上传';
+    var total=(c.evidence?c.evidence.length:0)+(c.idFiles?c.idFiles.length:0);
+    summaryEl.textContent=total+'个文件'+(c.addrConfirm&&c.addrConfirm.name?' · 地址已填写':'');
   }
-  saveData();renderClientEvFiles(c);input.value='';
-}
-function renderClientEvFiles(c){
-  var list=document.getElementById('evFileList');
-  if(!c.evidence||!c.evidence.length){list.innerHTML='';return}
-  list.innerHTML=c.evidence.map(function(f,i){
-    var ext=f.name.split('.').pop().toLowerCase();
-    var icon={pdf:'📕',doc:'📘',docx:'📘',jpg:'🖼️',jpeg:'🖼️',png:'🖼️',xls:'📊',xlsx:'📊'}[ext]||'📄';
-    return '<li><span>'+icon+'</span><span class="name">'+f.name+'</span><span class="size">'+f.size+'</span><span class="del" onclick="delEvFile('+c.id+','+i+')">✕</span></li>';
-  }).join('');
-}
-function delEvFile(caseId,i){
-  var c=CASES.find(function(x){return x.id===caseId});if(!c)return;
-  c.evidence.splice(i,1);saveData();renderClientEvFiles(c);
 }
 
-// 客户提交全部
-function submitClientAll(){
-  var c=CASES.find(function(x){return x.clientToken===_clientToken});if(!c)return;
-  if(!document.getElementById('clientPartyName').value.trim()){alert('请填写您的姓名/名称');return}
-  c.partyName=document.getElementById('clientPartyName').value.trim();
-  c.partyType=document.getElementById('clientPartyType').value;
-  c.phone=document.getElementById('clientPhoneUpload').value.trim();
-  if(c.partyType==='company'){
-    c.plaintiffCode=document.getElementById('clientCompanyCode').value.trim();
-    c.plaintiff=document.getElementById('clientLegalPerson').value.trim()||c.plaintiff;
-  }
-  c.defName=document.getElementById('clientDefName').value.trim();
-  c.defType=document.getElementById('clientDefType').value;
-  if(c.defType==='company')c.defCode=document.getElementById('clientDefCode').value.trim();
-  c.addrConfirm={
-    name:document.getElementById('clientAddrName').value.trim(),
-    phone:document.getElementById('clientAddrPhone').value.trim(),
-    addr:document.getElementById('clientAddrDetail').value.trim(),
-    email:document.getElementById('clientAddrEmail').value.trim(),
-    wechat:document.getElementById('clientAddrWechat').value.trim()
-  };
-  c.accountInfo={
-    holder:document.getElementById('clientBankName').value.trim(),
-    account:document.getElementById('clientBankAccount').value.trim(),
-    branch:document.getElementById('clientBankBranch').value.trim(),
-    code:document.getElementById('clientBankCode').value.trim()
-  };
-  if(c.status==='wait_upload')c.status='uploaded';
-  saveData();
-  alert('✅ 全部材料已提交！律师将尽快处理。');
-}
-
-// ===== 律师端查看客户材料 =====
-function renderClientMaterials(c){
-  // 身份材料
-  var idEl=document.getElementById('idMaterials');
-  if(c.idFiles&&c.idFiles.length){
-    idEl.innerHTML=c.idFiles.map(function(f){return '<span class="tag tag-blue" style="margin:2px">🪪 '+f.name+'</span>';}).join('');
-  }else{idEl.innerHTML='<p style="font-size:12px;color:#999">未上传</p>';}
-
-  // 企业材料
-  if(c.partyType==='company'&&c.companyDocs&&c.companyDocs.length){
-    idEl.innerHTML+=c.companyDocs.map(function(f){return '<span class="tag tag-orange" style="margin:2px">📄 '+f.name+'</span>';}).join('');
-  }
-
+// ===== 板块2：整理生成 =====
+function renderStage2(c){
   // 证据
-  var evEl=document.getElementById('clientEvidenceList');
+  var evEl=document.getElementById('s2Evidence');
   if(c.evidence&&c.evidence.length){
     evEl.innerHTML='<ul class="file-list">'+c.evidence.map(function(f){
-      return '<li><span class="file-icon">📄</span><span class="name">'+f.name+'</span><span class="size">'+f.size+'</span></li>';
+      return '<li><span>📄</span><span class="name">'+f.name+'</span><span class="size">'+f.size+'</span></li>';
     }).join('')+'</ul>';
-  }else{evEl.innerHTML='<p style="font-size:12px;color:#999">未上传</p>';}
+  }else{evEl.innerHTML='<p style="font-size:12px;color:#999">客户暂未上传证据</p>';}
 
-  // 送达地址
-  var addrEl=document.getElementById('addrConfirmView');
+  // 客户信息
+  var infoEl=document.getElementById('s2ClientInfo');
+  var info='';
   if(c.addrConfirm&&c.addrConfirm.name){
-    addrEl.innerHTML='<p style="font-size:13px">收件人：'+c.addrConfirm.name+' | 电话：'+(c.addrConfirm.phone||'')+'</p>'+
-      '<p style="font-size:13px">地址：'+(c.addrConfirm.addr||'')+'</p>'+
-      '<p style="font-size:13px">邮箱：'+(c.addrConfirm.email||'')+' | 微信：'+(c.addrConfirm.wechat||'')+'</p>';
-  }else{addrEl.innerHTML='<p style="font-size:12px;color:#999">未填写</p>';}
-
-  // 账户信息
-  var accEl=document.getElementById('accountInfoView');
+    info+='<p style="font-size:13px">📍 送达地址：'+c.addrConfirm.name+' · '+(c.addrConfirm.phone||'')+' · '+(c.addrConfirm.addr||'')+'</p>';
+  }
   if(c.accountInfo&&c.accountInfo.holder){
-    accEl.innerHTML='<p style="font-size:13px">户名：'+c.accountInfo.holder+' | 账号：'+(c.accountInfo.account||'')+'</p>'+
-      '<p style="font-size:13px">开户行：'+(c.accountInfo.branch||'')+' | 联行号：'+(c.accountInfo.code||'')+'</p>';
-  }else{accEl.innerHTML='<p style="font-size:12px;color:#999">未填写</p>';}
+    info+='<p style="font-size:13px">🏦 账户：'+c.accountInfo.holder+' · '+(c.accountInfo.account||'')+' · '+(c.accountInfo.branch||'')+'</p>';
+  }
+  infoEl.innerHTML=info||'<p style="font-size:12px;color:#999">客户暂未填写</p>';
+}
+
+// ===== 板块3：签署指导 =====
+function renderStage3(c){
+  var defCount=c.defCount||1;
+  var total=defCount+2; // 被告+法院+原告留存
+  var isComp=c.plaintiffType==='company';
+  var signHtml='';
+
+  // 起诉状
+  signHtml+='<div class="sign-item">'+
+    '<span class="doc-name">📄 民事起诉状</span>'+
+    '<span class="action">'+(isComp?'<span style="color:#e65100">🔴 盖公章</span>':'<span style="color:#1565c0">✍️ 签字</span>')+'</span>'+
+    '<span class="count">'+total+'份</span></div>';
+
+  // 要素式起诉状
+  signHtml+='<div class="sign-item">'+
+    '<span class="doc-name">📋 要素式起诉状</span>'+
+    '<span class="action">'+(isComp?'<span style="color:#e65100">🔴 盖公章</span>':'<span style="color:#1565c0">✍️ 签字</span>')+'</span>'+
+    '<span class="count">'+total+'份</span></div>';
+
+  // 授权委托书
+  signHtml+='<div class="sign-item">'+
+    '<span class="doc-name">📝 授权委托书</span>'+
+    '<span class="action">'+(isComp?'<span style="color:#e65100">🔴 盖公章</span>':'<span style="color:#1565c0">✍️ 签字</span>')+'</span>'+
+    '<span class="count">2份</span></div>';
+
+  // 法人身份证明（企业）
+  if(isComp){
+    signHtml+='<div class="sign-item">'+
+      '<span class="doc-name">🏢 法定代表人身份证明</span>'+
+      '<span class="action"><span style="color:#e65100">🔴 盖公章</span></span>'+
+      '<span class="count">'+(defCount+1)+'份</span></div>';
+    signHtml+='<div class="sign-item">'+
+      '<span class="doc-name">📄 营业执照副本复印件</span>'+
+      '<span class="action"><span style="color:#e65100">🔴 盖公章</span></span>'+
+      '<span class="count">'+(defCount+1)+'份</span></div>';
+    signHtml+='<div class="sign-item">'+
+      '<span class="doc-name">🪪 法定代表人身份证复印件</span>'+
+      '<span class="action">提交复印件</span>'+
+      '<span class="count">'+(defCount+1)+'份</span></div>';
+  }
+
+  // 送达地址确认书
+  signHtml+='<div class="sign-item">'+
+    '<span class="doc-name">📍 送达地址确认书</span>'+
+    '<span class="action"><span style="color:#1565c0">✍️ 签字</span></span>'+
+    '<span class="count">1份</span></div>';
+
+  // 证据目录
+  signHtml+='<div class="sign-item">'+
+    '<span class="doc-name">📑 证据目录+证据材料</span>'+
+    '<span class="action">按目录整理</span>'+
+    '<span class="count">'+total+'份</span></div>';
+
+  document.getElementById('signInstructions').innerHTML=signHtml;
+
+  // 微信话术
+  var msg='【签署通知】'+c.name+'\n\n';
+  msg+='您好，以下是本次立案所需签署的材料清单，请按以下要求准备：\n\n';
+  msg+='📄 起诉状 × '+total+'份 → '+(isComp?'盖公章':'签字')+'\n';
+  msg+='📋 要素式起诉状 × '+total+'份 → '+(isComp?'盖公章':'签字')+'\n';
+  msg+='📝 授权委托书 × 2份 → '+(isComp?'盖公章（律所已盖章）':'签字')+'\n';
+  if(isComp){
+    msg+='🏢 法人身份证明 × '+(defCount+1)+'份 → 盖公章\n';
+    msg+='📄 营业执照副本复印件 × '+(defCount+1)+'份 → 盖公章\n';
+    msg+='🪪 法人身份证复印件 × '+(defCount+1)+'份\n';
+  }
+  msg+='📍 送达地址确认书 × 1份 → 签字\n';
+  msg+='📑 证据材料 × '+total+'份 → 按目录整理\n\n';
+  msg+='❗ 请打印上述文书 → 按要求签字/盖章 → 扫描或拍照上传至回传链接：\n';
+  msg+=window.location.href.split('?')[0].split('#')[0]+'?client='+c.token;
+
+  document.getElementById('wechatMessage').textContent=msg;
+  document.getElementById('sendContent').style.display='block';
+
+  // 立案材料清单
+  renderFilingChecklist(c);
+}
+
+function renderFilingChecklist(c){
+  var dc=c.defCount||1;var tl=dc+2;var cp=c.plaintiffType==='company';
+  var h='<ul class="file-list">'+
+    '<li><span>📄</span><span class="name">民事起诉状</span><span class="size">'+(cp?'🔴盖公章':'✍️签字')+' × '+tl+'份</span></li>'+
+    '<li><span>📋</span><span class="name">要素式起诉状</span><span class="size">'+(cp?'🔴盖公章':'✍️签字')+' × '+tl+'份</span></li>'+
+    '<li><span>📝</span><span class="name">授权委托书</span><span class="size">'+(cp?'🔴盖公章':'✍️签字')+' × 2份</span></li>';
+  if(cp){
+    h+='<li><span>🏢</span><span class="name">法定代表人身份证明</span><span class="size">🔴盖公章 × '+(dc+1)+'份</span></li>'+
+      '<li><span>📄</span><span class="name">营业执照副本复印件</span><span class="size">🔴盖公章 × '+(dc+1)+'份</span></li>'+
+      '<li><span>🪪</span><span class="name">法人身份证复印件</span><span class="size">× '+(dc+1)+'份</span></li>';
+  }else{
+    h+='<li><span>🪪</span><span class="name">原告身份证复印件</span><span class="size">1份（不入证据）</span></li>';
+  }
+  h+='<li><span>📍</span><span class="name">送达地址确认书</span><span class="size">✍️签字 × 1份</span></li>'+
+    '<li><span>🏦</span><span class="name">收款账户信息</span><span class="size">填写账号开户行</span></li>'+
+    '<li><span>📑</span><span class="name">证据材料（含目录）</span><span class="size">× '+tl+'份</span></li>'+
+    (c.defType==='company'?'<li><span>🏢</span><span class="name">被告工商信息（公示系统截图前两页）</span><span class="size">1份</span></li>':'')+
+    '</ul>';
+  document.getElementById('filingChecklist').innerHTML=h;
+}
+
+// ===== 板块4：客户回传 =====
+function renderStage4(c){
+  var el=document.getElementById('s4ReturnStatus');
+  if(c.returnFiles&&c.returnFiles.length){
+    el.innerHTML='<p style="color:#2e7d32;font-weight:600">✅ 客户已回传 '+c.returnFiles.length+' 个文件</p>';
+    document.getElementById('s4ReturnFiles').innerHTML='<ul class="file-list">'+c.returnFiles.map(function(f){
+      return '<li><span>📄</span><span class="name">'+f.name+'</span><span class="size">'+f.size+'</span></li>';
+    }).join('')+'</ul>';
+    if(c.status!=='done')document.getElementById('confirmReturnBtn').style.display='inline-block';
+  }else{
+    el.innerHTML='<p style="color:#999">⏳ 等待客户回传...</p>';
+    document.getElementById('confirmReturnBtn').style.display='none';
+  }
+}
+
+function confirmReturn(){
+  if(!confirm('确认收到所有回传文件？案件将标记为"已完成"'))return;
+  if(_curCase){_curCase.status='done';save();alert('✅ 案件已完成！');switchStage(4);}
 }
 
 // ===== 文书生成 =====
 function genDoc(type){
-  var c=CASES.find(function(x){return x.id===_currentCaseId});if(!c)return;
+  var c=_curCase;if(!c)return;
   var fns={complaint:genComplaint,yaosu:genYaosu,proxy:genProxy,evidList:genEvidList,
     legalRep:genLegalRep,addrConfirm:genAddrConfirm};
-  var titles={complaint:'民事起诉状（普通）',yaosu:'要素式起诉状',proxy:'授权委托书',
+  var titles={complaint:'民事起诉状',yaosu:'要素式起诉状',proxy:'授权委托书',
     evidList:'证据目录',legalRep:'法定代表人身份证明',addrConfirm:'送达地址确认书'};
   if(!fns[type])return;
   var html='<div class="doc-preview"><h2>'+titles[type]+'</h2>'+fns[type](c)+'</div>'+
-    '<div style="text-align:center;margin-top:8px">'+
-    '<button class="btn btn-sm btn-primary" onclick="window.print()">🖨️ 打印</button>'+
-    '</div>';
-  document.getElementById('docOutput').innerHTML=html;
-  if(c.status==='wait_upload'||c.status==='uploaded'){c.status='docs';saveData();}
+    '<div style="text-align:center;margin-top:6px"><button class="btn btn-sm btn-primary" onclick="window.print()">🖨️ 打印</button></div>';
+  document.getElementById('s2DocOutput').innerHTML=html;
+  if(c.status==='wait_upload'||c.status==='uploaded'){c.status='docs';save();switchStage(2);}
 }
 
 function genComplaint(c){
-  var d=new Date();
-  var defCount=c.defCount||1;
-  return '<h2>民事起诉状</h2>'+
-    '<p class="no-indent"><b>原告：</b>'+(c.plaintiffType==='company'?c.plaintiff+'（统一社会信用代码：'+(c.plaintiffCode||'____')+'）':c.plaintiff)+
-    (c.plaintiffType==='company'? '<br>法定代表人：'+(c.plaintiffLegal||'____') : '，性别____，____年__月__日出生，公民身份号码：________________')+'</p>'+
-    '<p class="no-indent">住址：________________。电话：'+(c.phone||'________________')+'。</p>'+
-    '<p class="no-indent"><b>被告：</b>'+(c.defInfo||'________________')+'</p>'+
-    '<h3>诉讼请求：</h3><p>1. 判令被告________________；</p><p>2. 本案诉讼费用由被告承担。</p>'+
-    '<h3>事实与理由：</h3><p>'+(c.desc||'原告与被告因____发生纠纷，经多次协商未果。')+'</p>'+
-    '<p>综上所述，原告为维护自身合法权益，特向贵院提起诉讼，请求依法裁判。</p>'+
-    '<h3>此致</h3><p>________________人民法院</p>'+
-    '<p class="no-indent" style="margin-top:16px"><b>附：</b>本起诉状副本<b>'+(defCount+1)+'</b>份</p>'+
-    '<div class="right"><p class="no-indent">具状人：'+(c.plaintiffType==='company'?c.plaintiff+'（公章）':c.plaintiff)+'</p><p class="no-indent">'+d.getFullYear()+'年__月__日</p></div>';
-}
-
-function genYaosu(c){
-  var d=new Date();
-  return '<h2>要素式起诉状</h2>'+
-    '<h3>一、当事人信息</h3>'+
-    '<p class="no-indent"><b>原告：</b>'+c.plaintiff+(c.plaintiffType==='company'?'（统一社会信用代码：'+(c.plaintiffCode||'____')+'，法定代表人：'+(c.plaintiffLegal||'____')+'）':'，性别____，____年__月__日出生')+'</p>'+
+  var d=new Date();var dc=c.defCount||1;
+  return '<p class="no-indent"><b>原告：</b>'+(c.plaintiffType==='company'?c.plaintiff:'👤 '+c.plaintiff)+
+    (c.plaintiffType==='company'?'（统一社会信用代码：'+(c.plaintiffCode||'____')+'，法定代表人：'+(c.plaintiffLegal||'____')+'）':'，性别____，____年__月__日出生')+'</p>'+
     '<p class="no-indent">住址：________________。电话：'+(c.phone||'____')+'。</p>'+
-    '<p class="no-indent"><b>被告：</b>'+(c.defInfo||'________________')+'</p>'+
-    '<h3>二、案由</h3><p>'+c.type+'</p>'+
-    '<h3>三、诉讼请求</h3><p>□ 判令被告________________</p><p>□ 本案诉讼费用由被告承担</p>'+
-    '<h3>四、事实要素</h3><p>1. 法律关系：□ 合同关系 □ 侵权关系 □ 其他</p>'+
-    '<p>2. 事实经过：'+(c.desc||'____')+'</p>'+
-    '<p>3. 争议焦点：________________</p>'+
-    '<h3>五、法律依据</h3><p>《中华人民共和国民法典》第____条、《中华人民共和国民事诉讼法》第____条。</p>'+
+    '<p class="no-indent"><b>被告：</b>'+(c.defInfo||'____')+'</p>'+
+    '<h3>诉讼请求：</h3><p>1. 判令被告________________；</p><p>2. 本案诉讼费用由被告承担。</p>'+
+    '<h3>事实与理由：</h3><p>'+(c.desc||'原告与被告因____发生纠纷。')+'</p><p>综上所述，为维护合法权益，特向贵院提起诉讼。</p>'+
     '<h3>此致</h3><p>________________人民法院</p>'+
-    '<p class="no-indent" style="margin-top:10px"><b>附：</b>本起诉状副本<b>'+((c.defCount||1)+1)+'</b>份</p>'+
+    '<p class="no-indent" style="margin-top:10px"><b>附：</b>本起诉状副本<b>'+(dc+1)+'</b>份</p>'+
     '<div class="right"><p class="no-indent">具状人：'+(c.plaintiffType==='company'?c.plaintiff+'（公章）':c.plaintiff)+'</p><p class="no-indent">'+d.getFullYear()+'年__月__日</p></div>';
 }
-
+function genYaosu(c){
+  var d=new Date();var dc=c.defCount||1;
+  return '<h3>一、当事人信息</h3><p class="no-indent"><b>原告：</b>'+c.plaintiff+'</p>'+
+    '<p class="no-indent"><b>被告：</b>'+(c.defInfo||'____')+'</p>'+
+    '<h3>二、案由</h3><p>'+c.type+'</p>'+
+    '<h3>三、诉讼请求</h3><p>□ 判令被告________________</p><p>□ 本案诉讼费由被告承担</p>'+
+    '<h3>四、事实要素</h3><p>'+(c.desc||'____')+'</p>'+
+    '<h3>五、法律依据</h3><p>《中华人民共和国民法典》第____条、《民事诉讼法》第____条。</p>'+
+    '<h3>此致</h3><p>________________人民法院</p>'+
+    '<p class="no-indent"><b>附：</b>副本<b>'+(dc+1)+'</b>份</p>'+
+    '<div class="right"><p class="no-indent">具状人：'+(c.plaintiffType==='company'?c.plaintiff+'（公章）':c.plaintiff)+'</p><p class="no-indent">'+d.getFullYear()+'年__月__日</p></div>';
+}
 function genProxy(c){
   var d=new Date();
-  var name=c.clientToken?c.partyName||c.plaintiff:c.plaintiff;
-  return '<p class="no-indent" style="text-align:center;font-size:16px;font-weight:700">民事授权委托书</p>'+
-    '<p>委托人<b>'+name+'</b>。根据委托人与陕西罗泰律师事务所签订的委托代理合同，陕西罗泰律师事务所指派<b>________________</b>律师作为委托人与<b>________________</b>纠纷一案中委托人的代理人，参加本案<b>________________</b>程序。</p>'+
+  return '<p class="no-indent" style="text-align:center;font-size:15px;font-weight:700">民事授权委托书</p>'+
+    '<p>委托人<b>'+c.plaintiff+'</b>。根据委托人与陕西罗泰律师事务所签订的委托代理合同，陕西罗泰律师事务所指派<b>________________</b>律师作为委托人与<b>________________</b>纠纷一案中委托人的代理人，参加本案<b>________________</b>程序。</p>'+
     '<p>代理人代理权限为：<b>特别授权</b></p>'+
     '<p>包括：（1）代为立案、参加庭审、进行答辩和举证质证及其他诉讼（仲裁）活动等；（2）代为签收法律文书，代为填写送达地址确认书及收款账户确认书；（3）代为承认、变更、增加、放弃诉讼（仲裁）请求，代为和解、调解、撤诉（撤回仲裁请求）、申请司法确认；（4）代为调查取证，查阅复制案件档案；（5）代为约定仲裁庭组成方式、选择仲裁员；（6）代为办理保全；（7）代为提起管辖权异议及上诉；（8）代为申请执行、执行异议、参与分配、执行和解等。</p>'+
-    '<div style="margin-top:24px"><p class="no-indent">委托人：</p><p class="no-indent">'+d.getFullYear()+'年__月__日</p></div>';
+    '<div style="margin-top:20px"><p class="no-indent">委托人：</p><p class="no-indent">'+d.getFullYear()+'年__月__日</p></div>';
 }
-
 function genEvidList(c){
   var d=new Date();
-  var html='<p class="no-indent">案由：'+c.type+'</p><p class="no-indent">当事人：'+c.plaintiff+'</p>'+
-    '<table style="margin:10px 0"><tr><th>编号</th><th>证据名称</th><th>证据形式</th><th>证明目的</th><th>页数</th></tr>';
+  var h='<p class="no-indent">案由：'+c.type+' | 当事人：'+c.plaintiff+'</p><table style="margin:8px 0"><tr><th>编号</th><th>证据名称</th><th>形式</th><th>证明目的</th><th>页数</th></tr>';
   if(c.evidence&&c.evidence.length){
     c.evidence.forEach(function(f,i){
-      var ext=f.name.split('.').pop().toUpperCase();
-      html+='<tr><td>'+(i+1)+'</td><td>'+f.name+'</td><td>'+ext+'</td><td>证明________________</td><td>__页</td></tr>';
+      h+='<tr><td>'+(i+1)+'</td><td>'+f.name+'</td><td>'+f.name.split('.').pop().toUpperCase()+'</td><td>证明____</td><td>__页</td></tr>';
     });
-  } else {
-    html+='<tr><td colspan="5" style="text-align:center;color:#999">（待补充）</td></tr>';
-  }
-  html+='</table><p class="no-indent">提交人：'+c.plaintiff+'</p><p class="no-indent">日期：'+d.getFullYear()+'年__月__日</p>';
-  return html;
+  } else {h+='<tr><td colspan="5" style="color:#999">待补充</td></tr>';}
+  h+='</table><p class="no-indent">提交人：'+c.plaintiff+'</p><p class="no-indent">日期：'+d.getFullYear()+'年__月__日</p>';
+  return h;
 }
-
 function genLegalRep(c){
   var d=new Date();
-  return '<p class="no-indent" style="text-align:center;font-size:16px;font-weight:700">法定代表人身份证明书</p>'+
-    '<p class="no-indent">________________（写明公司全称）在________________工商行政管理局办理了工商登记，依法成立。</p>'+
-    '<p>现任<b>'+(c.plaintiffLegal||'________________')+'</b>担任我单位<b>法定代表人</b>，任期____年，特此证明。</p>'+
-    '<table style="margin:16px 0"><tr><th>法定代表人信息</th><th></th></tr>'+
-    '<tr><td>姓名</td><td>'+(c.plaintiffLegal||'________________')+'</td></tr>'+
-    '<tr><td>职务</td><td>法定代表人</td></tr>'+
-    '<tr><td>身份证号</td><td>________________</td></tr></table>'+
+  return '<p class="no-indent" style="text-align:center;font-size:15px;font-weight:700">法定代表人身份证明书</p>'+
+    '<p>现任<b>'+(c.plaintiffLegal||'____')+'</b>担任我单位<b>法定代表人</b>，任期____年，特此证明。</p>'+
+    '<table style="margin:10px 0"><tr><td>姓名</td><td>'+(c.plaintiffLegal||'____')+'</td></tr><tr><td>职务</td><td>法定代表人</td></tr><tr><td>身份证号</td><td>________________</td></tr></table>'+
     '<div class="right"><p class="no-indent">单位名称：</p><p class="no-indent">（公章）</p><p class="no-indent">'+d.getFullYear()+'年__月__日</p></div>';
 }
-
 function genAddrConfirm(c){
-  return '<p class="no-indent" style="text-align:center;font-size:16px;font-weight:700">送达地址确认书</p>'+
-    '<table style="margin:10px 0"><tr><td style="width:100px;font-weight:600">案由</td><td>'+c.type+'</td></tr>'+
-    '<tr><td style="font-weight:600">当事人</td><td>'+c.plaintiff+'</td></tr>'+
+  return '<p class="no-indent" style="text-align:center;font-size:15px;font-weight:700">送达地址确认书</p>'+
+    '<table style="margin:8px 0"><tr><td style="width:80px;font-weight:600">当事人</td><td>'+c.plaintiff+'</td></tr>'+
     '<tr><td style="font-weight:600">收件人</td><td>'+(c.addrConfirm?c.addrConfirm.name||'____':'____')+'</td></tr>'+
-    '<tr><td style="font-weight:600">联系电话</td><td>'+(c.addrConfirm?c.addrConfirm.phone||'____':'____')+'</td></tr>'+
-    '<tr><td style="font-weight:600">送达地址</td><td>'+(c.addrConfirm?c.addrConfirm.addr||'____':'____')+'</td></tr>'+
-    '<tr><td style="font-weight:600">电子邮箱</td><td>'+(c.addrConfirm?c.addrConfirm.email||'____':'____')+'</td></tr>'+
-    '<tr><td style="font-weight:600">微信号</td><td>'+(c.addrConfirm?c.addrConfirm.wechat||'____':'____')+'</td></tr></table>'+
-    '<p>本人确认上述地址为有效送达地址。如因提供地址不准确、变更未及时告知导致诉讼文书未能被接收，由本人承担相应法律后果。</p>'+
+    '<tr><td style="font-weight:600">电话</td><td>'+(c.addrConfirm?c.addrConfirm.phone||'____':'____')+'</td></tr>'+
+    '<tr><td style="font-weight:600">地址</td><td>'+(c.addrConfirm?c.addrConfirm.addr||'____':'____')+'</td></tr>'+
+    '<tr><td style="font-weight:600">邮箱</td><td>'+(c.addrConfirm?c.addrConfirm.email||'____':'____')+'</td></tr>'+
+    '<tr><td style="font-weight:600">微信</td><td>'+(c.addrConfirm?c.addrConfirm.wechat||'____':'____')+'</td></tr></table>'+
+    '<p>本人确认上述地址为有效送达地址。</p>'+
     '<div class="right"><p class="no-indent">当事人签名：</p><p class="no-indent">____年__月__日</p></div>';
 }
 
 function generateAllDocs(){
-  var c=CASES.find(function(x){return x.id===_currentCaseId});if(!c)return;
+  var c=_curCase;if(!c)return;
   var types=['complaint','yaosu','proxy','evidList'];
   var fns={complaint:genComplaint,yaosu:genYaosu,proxy:genProxy,evidList:genEvidList};
-  var titles={complaint:'民事起诉状（普通）',yaosu:'要素式起诉状',proxy:'授权委托书',evidList:'证据目录'};
-  if(c.partyType==='company'){types.push('legalRep');fns.legalRep=genLegalRep;titles.legalRep='法定代表人身份证明';}
+  var titles={complaint:'民事起诉状',yaosu:'要素式起诉状',proxy:'授权委托书',evidList:'证据目录'};
+  if(c.plaintiffType==='company'){types.push('legalRep');fns.legalRep=genLegalRep;titles.legalRep='法定代表人身份证明';}
   types.push('addrConfirm');fns.addrConfirm=genAddrConfirm;titles.addrConfirm='送达地址确认书';
 
   var html='';
   types.forEach(function(t){
-    html+='<div style="page-break-after:always;margin-bottom:24px;border-bottom:2px dashed #ccc;padding-bottom:16px">'+
-      '<h3 style="text-align:center;color:var(--primary);margin-bottom:8px;font-size:16px">'+titles[t]+'</h3>'+fns[t](c)+'</div>';
+    html+='<div style="page-break-after:always;margin-bottom:16px;border-bottom:1px dashed #ccc;padding-bottom:12px">'+
+      '<h3 style="text-align:center;color:var(--primary);margin-bottom:6px;font-size:15px">'+titles[t]+'</h3>'+fns[t](c)+'</div>';
   });
-  document.getElementById('docOutput').innerHTML='<div class="doc-preview">'+html+'</div>'+
-    '<div style="text-align:center;margin-top:8px"><button class="btn btn-primary" onclick="window.print()">🖨️ 全部打印</button></div>';
-  if(c.status!=='done'){c.status='done';saveData();}
+  document.getElementById('s2DocOutput').innerHTML='<div class="doc-preview">'+html+'</div>'+
+    '<div style="text-align:center;margin-top:6px"><button class="btn btn-primary btn-sm" onclick="window.print()">🖨️ 全部打印</button></div>';
+  if(c.status!=='done'){c.status='docs';save();}
 }
 
-// ===== 诉讼分析 =====
-function genAnalysis(c){
-  var html='<h3>一、案件基本信息</h3><p>案由：'+c.type+'｜原告：'+c.plaintiff+'｜被告数：'+c.defCount+'</p>';
-
-  html+='<h3>二、证据情况</h3>';
-  if(c.evidence&&c.evidence.length){html+='<p>已上传 <b>'+c.evidence.length+'</b> 份证据</p>';}
-  else {html+='<p style="color:#e65100">⚠️ 客户尚未上传证据</p>';}
-
-  html+='<h3>三、补充证据建议</h3><ul>';
-  var missing=[];
-  if(!c.evidence||!c.evidence.some(function(f){return f.name.match(/合同|协议|借条|欠条/)}))missing.push('📄 合同/协议/借条等核心书证');
-  if(!c.evidence||!c.evidence.some(function(f){return f.name.match(/转账|流水|付款|收据|发票/)}))missing.push('📄 付款/转账凭证');
-  if(!c.evidence||!c.evidence.some(function(f){return f.name.match(/聊天|微信|短信/)}))missing.push('📄 沟通记录（微信聊天记录等）');
-  if(missing.length){missing.forEach(function(m){html+='<li>'+m+'</li>';});}
-  else{html+='<li>✅ 证据较为完整</li>';}
-
-  html+='</ul><h3>四、诉讼风险提示</h3>';
-  html+='<div class="law-ref">⚠️ 注意诉讼时效（一般3年）</div>';
-  html+='<div class="law-ref">⚖️ 管辖法院：被告住所地或合同履行地</div>';
-  html+='<div class="law-ref">📌 举证责任：原告对诉讼请求所依据的事实承担举证责任</div>';
-
-  document.getElementById('analysisOutput').innerHTML=html;
-  document.getElementById('lawRefOutput').innerHTML=
-    '<div class="law-ref"><b>《中华人民共和国民法典》</b> 合同编/侵权编/物权编</div>'+
-    '<div class="law-ref"><b>《中华人民共和国民事诉讼法》</b> 第67条（举证责任）、第122条（起诉条件）</div>'+
-    '<div class="law-ref"><b>最高人民法院关于民事诉讼证据的若干规定</b></div>'+
-    '<div class="law-ref"><b>最高人民法院关于深入推进要素式审判方式改革的指导意见</b></div>'+
-    '<p style="margin-top:8px;font-size:12px;color:#666">法律法规查询：<a href="https://flk.npc.gov.cn" target="_blank" rel="noopener">国家法律法规数据库</a> | '+
-    '<a href="https://www.gsxt.gov.cn" target="_blank" rel="noopener">国家企业信用信息公示系统</a></p>';
+// ===== 发送给客户 =====
+function sendDocsToClient(){
+  document.getElementById('sendContent').style.display='block';
+  renderStage3(_curCase);
+  if(_curCase){_curCase.status='sent';save();}
+}
+function regenerateClientLink(){
+  if(!_curCase)return;
+  _curCase.token='tk_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
+  save();
+  document.getElementById('clientLinkDisplay').textContent=
+    window.location.href.split('?')[0].split('#')[0]+'?client='+_curCase.token;
+  alert('✅ 回传链接已重置，新链接已更新');
+}
+function copyWechatMsg(){
+  var t=document.getElementById('wechatMessage');if(!t)return;
+  var ta=document.createElement('textarea');ta.value=t.textContent;
+  ta.style.position='fixed';ta.style.left='-999px';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy')}catch(e){}
+  document.body.removeChild(ta);alert('✅ 话术已复制，去微信粘贴发送');
+}
+function printFilingList(){
+  var c=_curCase;if(!c)return;
+  var w=window.open('','_blank');
+  w.document.write('<html><head><title>立案材料清单</title><style>body{font-family:SimSun;padding:30px}</style></head><body>');
+  w.document.write('<h2 style="text-align:center">立案材料清单</h2><p>案件：'+c.name+' | 原告：'+c.plaintiff+' | 案由：'+c.type+'</p>');
+  w.document.write(document.getElementById('filingChecklist').innerHTML);
+  w.document.write('</body></html>');
+  w.document.close();w.print();
 }
 
-// ===== 模板预览 =====
-function previewProxy(){
-  document.getElementById('templateModalTitle').textContent='📋 授权委托书（陕西罗泰律师事务所）';
-  var c=CASES.find(function(x){return x.id===_currentCaseId})||{plaintiff:'____',clientToken:null};
-  document.getElementById('templateModalBody').innerHTML='<div class="doc-preview">'+genProxy(c).replace(/<h2>.*?<\/h2>/,'')+'</div>';
-  document.getElementById('templateModal').classList.add('show');
-}
-function previewLegalRep(){
-  var c=CASES.find(function(x){return x.id===_currentCaseId})||{plaintiffLegal:'____'};
-  document.getElementById('templateModalTitle').textContent='📋 法定代表人身份证明书';
-  document.getElementById('templateModalBody').innerHTML='<div class="doc-preview">'+genLegalRep(c).replace(/<h2>.*?<\/h2>/,'')+'</div>';
-  document.getElementById('templateModal').classList.add('show');
-}
-function previewAddrConfirm(){
-  var c=CASES.find(function(x){return x.id===_currentCaseId})||{plaintiff:'____',type:'____',addrConfirm:{name:'____',phone:'____',addr:'____',email:'____',wechat:'____'}};
-  document.getElementById('templateModalTitle').textContent='📋 送达地址确认书';
-  document.getElementById('templateModalBody').innerHTML='<div class="doc-preview">'+genAddrConfirm(c).replace(/<h2>.*?<\/h2>/,'')+'</div>';
-  document.getElementById('templateModal').classList.add('show');
+// ===== 客户端逻辑 =====
+function showClientPage(token){
+  _clientTok=token;
+  document.querySelectorAll('.page').forEach(function(e){e.classList.remove('active')});
+  document.getElementById('page-client').classList.add('active');
+  var c=CASES.find(function(x){return x.token===token});
+  if(!c){document.getElementById('clientCaseInfo').textContent='❌ 案件不存在';return}
+  document.getElementById('clientPageTitle').textContent='⚖️ '+c.name;
+  document.getElementById('clientCaseInfo').textContent='原告：'+c.plaintiff+' · 案由：'+c.type;
+
+  // 回传提示
+  if(c.status==='sent'||c.status==='returned'||c.status==='done'){
+    var ri=document.getElementById('returnInstructions');
+    ri.innerHTML='<div class="sign-guide"><p style="font-size:13px;font-weight:600;color:#e65100">请回传以下已签署文件：</p>'+
+      '<p style="font-size:12px;color:#555;margin:4px 0">📄 起诉状 × '+(c.defCount+2)+'份 → '+(c.plaintiffType==='company'?'盖公章':'签字')+'</p>'+
+      '<p style="font-size:12px;color:#555">📝 授权委托书 × 2份 → '+(c.plaintiffType==='company'?'盖公章':'签字')+'</p>'+
+      (c.plaintiffType==='company'?'<p style="font-size:12px;color:#555">🏢 法人身份证明+营业执照 → 盖公章</p>':'')+
+      '<p style="font-size:12px;color:#555">📍 送达地址确认书 × 1份 → 签字</p></div>';
+  }else{
+    document.getElementById('returnInstructions').innerHTML='<p style="font-size:12px;color:#999">律师尚未发送签署文件，请等待通知</p>';
+  }
+
+  // 加载已有数据
+  loadClientData(c);
 }
 
-// ===== 工具 =====
+function loadClientData(c){
+  if(c.partyName)document.getElementById('clPartyName').value=c.partyName;
+  if(c.partyType)document.getElementById('clPartyType').value=c.partyType;
+  toggleClParty();
+  if(c.plaintiffCode)document.getElementById('clCompCode').value=c.plaintiffCode;
+  if(c.plaintiffLegal)document.getElementById('clLegalPerson').value=c.plaintiffLegal;
+  if(c.phone)document.getElementById('clPhone').value=c.phone;
+  if(c.defName)document.getElementById('clDefName').value=c.defName;
+  if(c.defCode)document.getElementById('clDefCode').value=c.defCode;
+  if(c.addrConfirm){
+    document.getElementById('clAddrName').value=c.addrConfirm.name||'';
+    document.getElementById('clAddrPhone').value=c.addrConfirm.phone||'';
+    document.getElementById('clAddrDetail').value=c.addrConfirm.addr||'';
+    document.getElementById('clAddrEmail').value=c.addrConfirm.email||'';
+    document.getElementById('clAddrWechat').value=c.addrConfirm.wechat||'';
+  }
+  if(c.accountInfo){
+    document.getElementById('clBankHolder').value=c.accountInfo.holder||'';
+    document.getElementById('clBankAccount').value=c.accountInfo.account||'';
+    document.getElementById('clBankBranch').value=c.accountInfo.branch||'';
+    document.getElementById('clBankCode').value=c.accountInfo.code||'';
+  }
+  renderClientFiles(c);
+}
+
+function toggleClParty(){
+  document.getElementById('clCompanyFields').style.display=
+    document.getElementById('clPartyType').value==='company'?'block':'none';
+  document.getElementById('clCompanyDocs').style.display=
+    document.getElementById('clPartyType').value==='company'?'block':'none';
+}
+function toggleClDef(){
+  document.getElementById('clDefExtra').style.display=
+    document.getElementById('clDefType').value==='company'?'block':'none';
+}
+
+function handleClUpload(type,input){
+  var c=CASES.find(function(x){return x.token===_clientTok});if(!c)return;
+  for(var i=0;i<input.files.length;i++){
+    var f={name:input.files[i].name,size:(input.files[i].size/1024).toFixed(1)+'KB'};
+    if(type==='id'){c.idFiles=c.idFiles||[];c.idFiles.push(f)}
+    else if(type==='comp'){c.compDocs=c.compDocs||[];c.compDocs.push(f)}
+    else{c.evidence=c.evidence||[];c.evidence.push(f)}
+  }
+  save();renderClientFiles(c);input.value='';
+}
+
+function renderClientFiles(c){
+  ['id','comp','ev'].forEach(function(t){
+    var arr=t==='id'?c.idFiles:t==='comp'?c.compDocs:c.evidence;
+    var listId=t==='id'?'clIdList':t==='comp'?'clCompList':'clEvList';
+    var el=document.getElementById(listId);
+    if(!arr||!arr.length){el.innerHTML='';return}
+    el.innerHTML=arr.map(function(f,i){
+      return '<li><span>📄</span><span class="name">'+f.name+'</span><span class="size">'+f.size+'</span>'+
+        '<span class="del" onclick="delClientFile(\''+t+'\','+i+')">✕</span></li>';
+    }).join('');
+  });
+}
+
+function delClientFile(type,idx){
+  var c=CASES.find(function(x){return x.token===_clientTok});if(!c)return;
+  var arr=type==='id'?c.idFiles:type==='comp'?c.compDocs:c.evidence;
+  if(arr)arr.splice(idx,1);save();renderClientFiles(c);
+}
+
+function submitClientUpload(){
+  var c=CASES.find(function(x){return x.token===_clientTok});if(!c)return;
+  if(!document.getElementById('clPartyName').value.trim()){alert('请填写您的姓名/名称');return}
+  c.partyName=document.getElementById('clPartyName').value.trim();
+  c.partyType=document.getElementById('clPartyType').value;
+  c.phone=document.getElementById('clPhone').value.trim();
+  if(c.partyType==='company'){
+    c.plaintiffCode=document.getElementById('clCompCode').value.trim();
+    c.plaintiffLegal=document.getElementById('clLegalPerson').value.trim();
+  }
+  c.defName=document.getElementById('clDefName').value.trim();
+  c.defType=document.getElementById('clDefType').value;
+  if(c.defType==='company')c.defCode=document.getElementById('clDefCode').value.trim();
+  c.addrConfirm={
+    name:document.getElementById('clAddrName').value.trim(),
+    phone:document.getElementById('clAddrPhone').value.trim(),
+    addr:document.getElementById('clAddrDetail').value.trim(),
+    email:document.getElementById('clAddrEmail').value.trim(),
+    wechat:document.getElementById('clAddrWechat').value.trim()
+  };
+  c.accountInfo={
+    holder:document.getElementById('clBankHolder').value.trim(),
+    account:document.getElementById('clBankAccount').value.trim(),
+    branch:document.getElementById('clBankBranch').value.trim(),
+    code:document.getElementById('clBankCode').value.trim()
+  };
+  if(c.status==='wait_upload')c.status='uploaded';
+  save();
+  alert('✅ 材料已提交！律师将尽快处理。');
+}
+
+// 回传
+function handleReturnUpload(input){
+  var c=CASES.find(function(x){return x.token===_clientTok});if(!c)return;
+  c.returnFiles=c.returnFiles||[];
+  for(var i=0;i<input.files.length;i++){
+    c.returnFiles.push({name:input.files[i].name,size:(input.files[i].size/1024).toFixed(1)+'KB'});
+  }
+  save();renderReturnFiles(c);input.value='';
+}
+function renderReturnFiles(c){
+  var el=document.getElementById('clReturnList');
+  if(!c.returnFiles||!c.returnFiles.length){el.innerHTML='';return}
+  el.innerHTML=c.returnFiles.map(function(f,i){
+    return '<li><span>📄</span><span class="name">'+f.name+'</span><span class="size">'+f.size+'</span>'+
+      '<span class="del" onclick="delReturnFile('+i+')">✕</span></li>';
+  }).join('');
+}
+function delReturnFile(idx){
+  var c=CASES.find(function(x){return x.token===_clientTok});if(!c)return;
+  if(c.returnFiles)c.returnFiles.splice(idx,1);save();renderReturnFiles(c);
+}
+function submitReturn(){
+  var c=CASES.find(function(x){return x.token===_clientTok});if(!c)return;
+  if(!c.returnFiles||!c.returnFiles.length){alert('请选择要回传的文件');return}
+  if(c.status==='sent'||c.status==='docs')c.status='returned';
+  save();
+  alert('✅ 回传成功！律师确认后将完成案件。');
+}
+
+function switchClientTab(tab){
+  document.querySelectorAll('.client-tab-content').forEach(function(e){e.style.display='none'});
+  document.getElementById('ctab-'+tab).style.display='block';
+  document.querySelectorAll('#clientTabs .tab').forEach(function(e){e.classList.remove('active')});
+  var tabs=document.querySelectorAll('#clientTabs .tab');
+  for(var i=0;i<tabs.length;i++){if(tabs[i].dataset.ctab===tab){tabs[i].classList.add('active');break}}
+}
+
+// ===== 通用 =====
 function copyClientLink(){
-  var c=CASES.find(function(x){return x.id===_currentCaseId});if(!c)return;
-  var link=window.location.href.split('?')[0].split('#')[0]+'?client='+c.clientToken;
+  var c=_curCase;if(!c)return;
+  var link=window.location.href.split('?')[0].split('#')[0]+'?client='+c.token;
   var ta=document.createElement('textarea');ta.value=link;
   ta.style.position='fixed';ta.style.left='-999px';
   document.body.appendChild(ta);ta.select();
   try{document.execCommand('copy')}catch(e){}
-  document.body.removeChild(ta);
-  alert('✅ 客户链接已复制！发微信给客户即可');
+  document.body.removeChild(ta);alert('✅ 客户链接已复制！');
+}
+function simulateClient(){
+  if(!_curCase)return;showClientPage(_curCase.token);
 }
 function closeModal(id){document.getElementById(id).classList.remove('show')}
-function renderCasesList(){
-  var tbody=document.getElementById('allCasesBody');
-  if(!CASES.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:#999;padding:24px">暂无案件</td></tr>';return}
-  var sm={'wait_upload':'⏳待上传','uploaded':'📎已上传','docs':'📄文书已生','done':'✅已完成'};
-  tbody.innerHTML=CASES.slice().reverse().map(function(c){
-    return '<tr><td>'+c.name+'</td><td>'+c.plaintiff+'</td><td>'+(c.plaintiffType==='company'?'🏢企业':'👤个人')+'</td><td>'+c.defCount+'</td><td>'+c.type+'</td><td><span class="tag '+
-      ({wait_upload:'tag-orange',uploaded:'tag-blue',docs:'tag-blue',done:'tag-green'}[c.status]||'tag-orange')+'">'+(sm[c.status]||'⏳')+'</span></td><td><button class="btn btn-sm btn-primary" onclick="openCase('+c.id+')">查看</button></td></tr>';
-  }).join('');
-}
 
-// ===== URL参数检测 =====
+// ===== 初始化 =====
 (function(){
   var p=new URLSearchParams(window.location.search);
   var t=p.get('client');
-  if(t){var c=CASES.find(function(x){return x.clientToken===t});if(c){showClientPage(t);return}}
-  if(CASES.length)updateStats();else renderCasesList();
+  if(t){var c=CASES.find(function(x){return x.token===t});if(c){showClientPage(t);return}}
+  renderCaseList();
 })();
 
-document.addEventListener('click',function(e){if(e.target.classList.contains('modal'))e.target.classList.remove('show')});
-console.log('⚖️ 智讼Pro v2.0 - 陕西罗泰律师事务所');
+document.addEventListener('click',function(e){
+  if(e.target.classList.contains('modal'))e.target.classList.remove('show');
+});
+console.log('⚖️ 智讼Pro v3.0 - 四大板块流程');
 </script>
 </body>
 </html>
