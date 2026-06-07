@@ -133,7 +133,7 @@ table td{padding:7px 9px;border-bottom:1px solid #f0f0f0}
     <button class="btn btn-primary btn-sm" onclick="showCreateCase()">➕ 创建</button>
   </div>
   <div class="card"><table>
-    <thead><tr><th>案件</th><th>原告</th><th>类型</th><th>被告</th><th>案由</th><th>进度</th><th>操作</th></tr></thead>
+    <thead><tr><th>案件</th><th>原告</th><th>类型</th><th>被告</th><th>代理</th><th>案由</th><th>进度</th><th>操作</th></tr></thead>
     <tbody id="allCasesBody"></tbody></table></div>
 </div>
 
@@ -175,18 +175,8 @@ table td{padding:7px 9px;border-bottom:1px solid #f0f0f0}
       <div id="s2ClientInfo"></div>
       <h3 style="margin-top:12px">📄 生成法律文书</h3>
       <p style="font-size:12px;color:#666;margin-bottom:6px">点击生成后自动填充案件信息</p>
-      <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px">
-        <button class="btn btn-sm btn-primary" onclick="genDoc('complaint')">📄 起诉状</button>
-        <button class="btn btn-sm btn-primary" onclick="genDoc('yaosu')">📋 要素式起诉状</button>
-        <button class="btn btn-sm btn-primary" onclick="genDoc('proxy')">📝 授权委托书</button>
-        <button class="btn btn-sm btn-primary" onclick="genDoc('evidList')">📑 证据目录</button>
-        <button class="btn btn-sm btn-primary" onclick="genDoc('legalRep')">🏢 法人身份证明</button>
-        <button class="btn btn-sm btn-primary" onclick="genDoc('addrConfirm')">📍 送达地址确认书</button>
-      </div>
+      <div id="s2DocButtons" style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px"></div>
       <div id="s2DocOutput"></div>
-      <div style="margin-top:8px;text-align:center">
-        <button class="btn btn-accent btn-sm" onclick="generateAllDocs()">📦 一键生成全部文书</button>
-      </div>
     </div>
   </div>
 
@@ -256,7 +246,7 @@ table td{padding:7px 9px;border-bottom:1px solid #f0f0f0}
   <!-- 上传材料 -->
   <div class="client-tab-content" id="ctab-upload">
     <div class="card">
-      <h2>👤 当事人信息</h2>
+      <h2 id="clientSectionTitle">👤 当事人信息</h2>
       <div class="form-row">
         <div class="form-group"><label>类型</label>
           <select id="clPartyType" onchange="toggleClParty()">
@@ -272,13 +262,14 @@ table td{padding:7px 9px;border-bottom:1px solid #f0f0f0}
         </div>
       </div>
       <div class="form-group"><label>联系电话</label><input type="tel" id="clPhone" placeholder="手机号"></div>
+      <p style="font-size:12px;color:#888;margin:6px 0 2px"><b id="clOpponentSectionLabel">⬇️ 被告信息（对方）</b></p>
       <div class="form-row">
-        <div class="form-group"><label>被告类型</label>
+        <div class="form-group"><label id="clDefTypeLabel">被告类型</label>
           <select id="clDefType" onchange="toggleClDef()">
             <option value="individual">自然人</option>
             <option value="company">企业</option>
           </select></div>
-        <div class="form-group"><label>被告姓名/名称</label><input type="text" id="clDefName" placeholder="被告姓名或企业全称"></div>
+        <div class="form-group"><label id="clDefNameLabel">被告姓名/名称</label><input type="text" id="clDefName" placeholder="被告姓名或企业全称"></div>
       </div>
       <div id="clDefExtra" style="display:none">
         <div class="form-group"><label>统一社会信用代码</label><input type="text" id="clDefCode" placeholder="选填"></div>
@@ -375,12 +366,20 @@ table td{padding:7px 9px;border-bottom:1px solid #f0f0f0}
         </select></div>
     </div>
     <div class="form-row">
-      <div class="form-group"><label>原告类型</label>
+      <div class="form-group"><label>代理角色 *</label>
+        <select id="cRole" onchange="toggleCaseRole()">
+          <option value="plaintiff">代理原告</option>
+          <option value="defendant">代理被告</option>
+        </select></div>
+      <div class="form-group"><label>案由 *</label><span id="cRoleHint" style="font-size:11px;color:#1565c0">→ 根据委托方选择代理角色</span></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label id="cPartyTypeLabel">原告类型</label>
         <select id="cPlaintiffType" onchange="toggleCreatePl()">
           <option value="individual">自然人</option>
           <option value="company">企业</option>
         </select></div>
-      <div class="form-group"><label>原告姓名/名称 *</label><input type="text" id="cPlaintiffName" placeholder="姓名或企业全称"></div>
+      <div class="form-group"><label id="cPartyNameLabel">原告姓名/名称 *</label><input type="text" id="cPlaintiffName" placeholder="姓名或企业全称"></div>
     </div>
     <div id="createPlCompany" style="display:none">
       <div class="form-row">
@@ -389,12 +388,12 @@ table td{padding:7px 9px;border-bottom:1px solid #f0f0f0}
       </div>
     </div>
     <div class="form-row">
-      <div class="form-group"><label>被告数量</label>
+      <div class="form-group"><label id="cOppCountLabel">被告数量</label>
         <select id="cDefCount"><option value="1">1个</option><option value="2">2个</option><option value="3">3个</option><option value="4">4个+</option></select></div>
-      <div class="form-group"><label>被告类型</label>
+      <div class="form-group"><label id="cOppTypeLabel">被告类型</label>
         <select id="cDefType2"><option value="individual">自然人</option><option value="company">企业</option></select></div>
     </div>
-    <div class="form-group"><label>被告信息</label><textarea id="cDefInfo" placeholder="被告姓名/名称等" rows="2"></textarea></div>
+    <div class="form-group"><label id="cOppInfoLabel">被告信息</label><textarea id="cDefInfo" placeholder="被告姓名/名称等" rows="2"></textarea></div>
     <div class="form-group"><label>联系电话</label><input type="tel" id="cPhone" placeholder="原告电话"></div>
     <div class="form-group"><label>案情简介</label><textarea id="cDesc" rows="2"></textarea></div>
     <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
@@ -427,11 +426,12 @@ function renderCaseList(){
   var b=document.getElementById('caseListBody');
   if(!CASES.length){b.innerHTML='<tr><td colspan="5" style="text-align:center;color:#999;padding:24px">暂无案件</td></tr>';return}
   b.innerHTML=CASES.slice().reverse().map(function(c){
+    var roleLabel=c.role==='defendant'?'⚖️代理被告':'⚖️代理原告';
     var stages=['📤上传','📄整理','✍️签署','📥回传','✅完成'];
     var si={wait_upload:0,uploaded:1,docs:2,sent:3,returned:4,done:4};
     var s=si[c.status]||0;
     return '<tr><td>'+c.name+'</td><td>'+c.plaintiff+'</td><td>'+c.type+'</td><td><span class="tag '+
-      (s===4?'tag-green':s>=2?'tag-blue':'tag-orange')+'">'+stages[Math.min(s,4)]+'</span></td><td><button class="btn btn-sm btn-primary" onclick="openCase('+c.id+')">查看</button></td></tr>';
+      (s===4?'tag-green':s>=2?'tag-blue':'tag-orange')+'">'+stages[Math.min(s,4)]+'</span></td><td><button class="btn btn-sm btn-primary" onclick="openCase('+c.id+')">'+roleLabel+' 查看</button></td></tr>';
   }).join('');
   var b2=document.getElementById('allCasesBody');
   if(b2){
@@ -439,7 +439,7 @@ function renderCaseList(){
       var stages=['⏳待上传','📤已上传','📄文书已生','✍️已发送','📥已回传','✅完成'];
       var si={wait_upload:0,uploaded:1,docs:2,sent:3,returned:4,done:5};
       var s=si[c.status]||0;
-      return '<tr><td>'+c.name+'</td><td>'+c.plaintiff+'</td><td>'+(c.plaintiffType==='company'?'🏢企业':'👤个人')+'</td><td>'+c.defCount+'</td><td>'+c.type+'</td><td>'+stages[Math.min(s,5)]+'</td><td><button class="btn btn-sm btn-primary" onclick="openCase('+c.id+')">查看</button></td></tr>';
+      return '<tr><td>'+c.name+'</td><td>'+c.plaintiff+'</td><td>'+(c.plaintiffType==='company'?'🏢企业':'👤个人')+'</td><td>'+c.defCount+'</td><td>'+(c.role==='defendant'?'⚖️代理被告':'⚖️代理原告')+'</td><td>'+c.type+'</td><td>'+stages[Math.min(s,5)]+'</td><td><button class="btn btn-sm btn-primary" onclick="openCase('+c.id+')">查看</button></td></tr>';
     }).join('');
   }
 }
@@ -450,13 +450,24 @@ function toggleCreatePl(){
   document.getElementById('createPlCompany').style.display=
     document.getElementById('cPlaintiffType').value==='company'?'block':'none';
 }
+function toggleCaseRole(){
+  var role=document.getElementById('cRole').value;
+  var isDef=role==='defendant';
+  document.getElementById('cPartyTypeLabel').textContent=isDef?'我方（被告）类型':'我方（原告）类型';
+  document.getElementById('cPartyNameLabel').textContent=isDef?'我方（被告）姓名/名称 *':'原告姓名/名称 *';
+  document.getElementById('cOppCountLabel').textContent=isDef?'原告数量':'被告数量';
+  document.getElementById('cOppTypeLabel').textContent=isDef?'原告类型':'被告类型';
+  document.getElementById('cOppInfoLabel').textContent=isDef?'原告信息':'被告信息';
+  document.getElementById('cDefInfo').placeholder=isDef?'原告姓名/名称等':'被告姓名/名称等';
+}
 function saveCase(){
   var n=document.getElementById('cName').value.trim();
   var t=document.getElementById('cType').value;
   var pn=document.getElementById('cPlaintiffName').value.trim();
   if(!n||!pn||!t){alert('请填写案件名称、原告和案由');return}
   CID++;var pt=document.getElementById('cPlaintiffType').value;
-  var c={id:CID,name:n,type:t,plaintiffType:pt,plaintiff:pn,
+  var role=document.getElementById('cRole').value;
+  var c={id:CID,name:n,type:t,role:role,plaintiffType:pt,plaintiff:pn,
     defCount:parseInt(document.getElementById('cDefCount').value)||1,
     defType:document.getElementById('cDefType2').value,
     defInfo:document.getElementById('cDefInfo').value.trim(),
@@ -480,7 +491,8 @@ function saveCase(){
 function openCase(id){
   var c=CASES.find(function(x){return x.id===id});if(!c)return;
   _curCase=c;showPage('caseDetail');
-  document.getElementById('caseTitle').textContent=c.name+' · '+c.plaintiff;
+  var roleTag=c.role==='defendant'?'⚖️代理被告':'⚖️代理原告';
+  document.getElementById('caseTitle').textContent=c.name+' · '+c.plaintiff+' '+roleTag;
   document.getElementById('clientLinkDisplay').textContent=
     window.location.href.split('?')[0].split('#')[0]+'?client='+c.token;
 
@@ -524,11 +536,13 @@ function updateUploadStatus(c){
   var statusEl=document.getElementById('clientUploadStatus');
   var summaryEl=document.getElementById('clientUploadSummary');
   if(!statusEl)return;
+  var isDef=c.role==='defendant';
+  var clientLabel=isDef?'被告(我方)':'原告(我方)';
   if(c.status==='wait_upload'){
     statusEl.innerHTML='⏳ 等待客户上传';
     summaryEl.textContent='暂无';
   }else if(c.status==='uploaded'||c.status==='docs'||c.status==='sent'||c.status==='returned'||c.status==='done'){
-    statusEl.innerHTML='✅ 已上传';
+    statusEl.innerHTML='✅ 已上传 · '+clientLabel+'：'+(c.partyName||'待确认');
     var total=(c.evidence?c.evidence.length:0)+(c.idFiles?c.idFiles.length:0);
     summaryEl.textContent=total+'个文件'+(c.addrConfirm&&c.addrConfirm.name?' · 地址已填写':'');
   }
@@ -547,6 +561,9 @@ function renderStage2(c){
   // 客户信息
   var infoEl=document.getElementById('s2ClientInfo');
   var info='';
+  if(c.partyName){
+    info+='<p style="font-size:13px">👤 <b>委托人：</b>'+c.partyName+(c.partyType==='company'?'（企业）':'（个人）')+'</p>';
+  }
   if(c.addrConfirm&&c.addrConfirm.name){
     info+='<p style="font-size:13px">📍 送达地址：'+c.addrConfirm.name+' · '+(c.addrConfirm.phone||'')+' · '+(c.addrConfirm.addr||'')+'</p>';
   }
@@ -554,24 +571,40 @@ function renderStage2(c){
     info+='<p style="font-size:13px">🏦 账户：'+c.accountInfo.holder+' · '+(c.accountInfo.account||'')+' · '+(c.accountInfo.branch||'')+'</p>';
   }
   infoEl.innerHTML=info||'<p style="font-size:12px;color:#999">客户暂未填写</p>';
+
+  // 动态生成文书按钮
+  var isDef=c.role==='defendant';
+  var btns=[
+    {key:'complaint',label:isDef?'📄 答辩状':'📄 起诉状'},
+    {key:'yaosu',label:isDef?'📋 要素式答辩状':'📋 要素式起诉状'},
+    {key:'proxy',label:'📝 授权委托书'},
+    {key:'evidList',label:isDef?'📑 答辩证据目录':'📑 证据目录'},
+    {key:'legalRep',label:'🏢 法人身份证明'},
+    {key:'addrConfirm',label:'📍 送达地址确认书'}
+  ];
+  document.getElementById('s2DocButtons').innerHTML=btns.map(function(b){
+    return '<button class="btn btn-sm btn-primary" onclick="genDoc(\''+b.key+'\')">'+b.label+'</button>';
+  }).join('')+ 
+    '<button class="btn btn-accent btn-sm" onclick="generateAllDocs()">📦 一键生成全部文书</button>';
 }
 
 // ===== 板块3：签署指导 =====
 function renderStage3(c){
   var defCount=c.defCount||1;
   var total=defCount+2; // 被告+法院+原告留存
-  var isComp=c.plaintiffType==='company';
+  var isComp=c.partyType==='company';
+  var isDef=c.role==='defendant';
   var signHtml='';
 
-  // 起诉状
+  // 起诉状/答辩状
   signHtml+='<div class="sign-item">'+
-    '<span class="doc-name">📄 民事起诉状</span>'+
+    '<span class="doc-name">'+(isDef?'📄 民事答辩状':'📄 民事起诉状')+'</span>'+
     '<span class="action">'+(isComp?'<span style="color:#e65100">🔴 盖公章</span>':'<span style="color:#1565c0">✍️ 签字</span>')+'</span>'+
     '<span class="count">'+total+'份</span></div>';
 
-  // 要素式起诉状
+  // 要素式
   signHtml+='<div class="sign-item">'+
-    '<span class="doc-name">📋 要素式起诉状</span>'+
+    '<span class="doc-name">'+(isDef?'📋 要素式答辩状':'📋 要素式起诉状')+'</span>'+
     '<span class="action">'+(isComp?'<span style="color:#e65100">🔴 盖公章</span>':'<span style="color:#1565c0">✍️ 签字</span>')+'</span>'+
     '<span class="count">'+total+'份</span></div>';
 
@@ -605,17 +638,18 @@ function renderStage3(c){
 
   // 证据目录
   signHtml+='<div class="sign-item">'+
-    '<span class="doc-name">📑 证据目录+证据材料</span>'+
+    '<span class="doc-name">'+(isDef?'📑 答辩证据+目录':'📑 证据目录+证据材料')+'</span>'+
     '<span class="action">按目录整理</span>'+
     '<span class="count">'+total+'份</span></div>';
 
   document.getElementById('signInstructions').innerHTML=signHtml;
 
   // 微信话术
+  var clientName=c.partyName||(isDef?c.defInfo:c.plaintiff);
   var msg='【签署通知】'+c.name+'\n\n';
-  msg+='您好，以下是本次立案所需签署的材料清单，请按以下要求准备：\n\n';
-  msg+='📄 起诉状 × '+total+'份 → '+(isComp?'盖公章':'签字')+'\n';
-  msg+='📋 要素式起诉状 × '+total+'份 → '+(isComp?'盖公章':'签字')+'\n';
+  msg+='您好，以下是本次'+(isDef?'应诉':'立案')+'所需签署的材料清单，请按以下要求准备：\n\n';
+  msg+=(isDef?'📄 答辩状 × '+total+'份 → ':'📄 起诉状 × '+total+'份 → ')+(isComp?'盖公章':'签字')+'\n';
+  msg+=(isDef?'📋 要素式答辩状 × '+total+'份 → ':'📋 要素式起诉状 × '+total+'份 → ')+(isComp?'盖公章':'签字')+'\n';
   msg+='📝 授权委托书 × 2份 → '+(isComp?'盖公章（律所已盖章）':'签字')+'\n';
   if(isComp){
     msg+='🏢 法人身份证明 × '+(defCount+1)+'份 → 盖公章\n';
@@ -623,7 +657,7 @@ function renderStage3(c){
     msg+='🪪 法人身份证复印件 × '+(defCount+1)+'份\n';
   }
   msg+='📍 送达地址确认书 × 1份 → 签字\n';
-  msg+='📑 证据材料 × '+total+'份 → 按目录整理\n\n';
+  msg+=(isDef?'📑 答辩证据 × '+total+'份 → 按目录整理\n':'📑 证据材料 × '+total+'份 → 按目录整理\n\n');
   msg+='❗ 请打印上述文书 → 按要求签字/盖章 → 扫描或拍照上传至回传链接：\n';
   msg+=window.location.href.split('?')[0].split('#')[0]+'?client='+c.token;
 
@@ -635,23 +669,34 @@ function renderStage3(c){
 }
 
 function renderFilingChecklist(c){
-  var dc=c.defCount||1;var tl=dc+2;var cp=c.plaintiffType==='company';
+  var dc=c.defCount||1;var tl=dc+2;var cp=c.partyType==='company';var isDef=c.role==='defendant';
+  var docTitle=isDef?'民事答辩状':'民事起诉状';
+  var docTitle2=isDef?'要素式答辩状':'要素式起诉状';
+  var evidTitle=isDef?'答辩证据（含目录）':'证据材料（含目录）';
   var h='<ul class="file-list">'+
-    '<li><span>📄</span><span class="name">民事起诉状</span><span class="size">'+(cp?'🔴盖公章':'✍️签字')+' × '+tl+'份</span></li>'+
-    '<li><span>📋</span><span class="name">要素式起诉状</span><span class="size">'+(cp?'🔴盖公章':'✍️签字')+' × '+tl+'份</span></li>'+
+    '<li><span>📄</span><span class="name">'+docTitle+'</span><span class="size">'+(cp?'🔴盖公章':'✍️签字')+' × '+tl+'份</span></li>'+
+    '<li><span>📋</span><span class="name">'+docTitle2+'</span><span class="size">'+(cp?'🔴盖公章':'✍️签字')+' × '+tl+'份</span></li>'+
     '<li><span>📝</span><span class="name">授权委托书</span><span class="size">'+(cp?'🔴盖公章':'✍️签字')+' × 2份</span></li>';
   if(cp){
     h+='<li><span>🏢</span><span class="name">法定代表人身份证明</span><span class="size">🔴盖公章 × '+(dc+1)+'份</span></li>'+
       '<li><span>📄</span><span class="name">营业执照副本复印件</span><span class="size">🔴盖公章 × '+(dc+1)+'份</span></li>'+
       '<li><span>🪪</span><span class="name">法人身份证复印件</span><span class="size">× '+(dc+1)+'份</span></li>';
   }else{
-    h+='<li><span>🪪</span><span class="name">原告身份证复印件</span><span class="size">1份（不入证据）</span></li>';
+    h+='<li><span>🪪</span><span class="name">委托人身份证复印件</span><span class="size">1份（不入证据）</span></li>';
   }
   h+='<li><span>📍</span><span class="name">送达地址确认书</span><span class="size">✍️签字 × 1份</span></li>'+
     '<li><span>🏦</span><span class="name">收款账户信息</span><span class="size">填写账号开户行</span></li>'+
-    '<li><span>📑</span><span class="name">证据材料（含目录）</span><span class="size">× '+tl+'份</span></li>'+
-    (c.defType==='company'?'<li><span>🏢</span><span class="name">被告工商信息（公示系统截图前两页）</span><span class="size">1份</span></li>':'')+
-    '</ul>';
+    '<li><span>📑</span><span class="name">'+evidTitle+'</span><span class="size">× '+tl+'份</span></li>';
+  // 被告是企业的话，需要工商信息
+  var defIsComp=c.defType==='company'||(!isDef&&c.defType2==='company');
+  if(isDef){
+    // 代理被告：需要原告的工商信息（如果原告是企业）
+    h+='<li><span>🏢</span><span class="name">原告工商信息（企业信用公示系统打印前两页）</span><span class="size">1份</span></li>';
+  } else {
+    // 代理原告：需要被告的工商信息（如果被告是企业）
+    h+='<li><span>🏢</span><span class="name">被告工商信息（企业信用公示系统打印前两页）</span><span class="size">1份</span></li>';
+  }
+  h+='</ul>';
   document.getElementById('filingChecklist').innerHTML=h;
 }
 
@@ -678,10 +723,11 @@ function confirmReturn(){
 // ===== 文书生成 =====
 function genDoc(type){
   var c=_curCase;if(!c)return;
+  var isDef=c.role==='defendant';
   var fns={complaint:genComplaint,yaosu:genYaosu,proxy:genProxy,evidList:genEvidList,
     legalRep:genLegalRep,addrConfirm:genAddrConfirm};
-  var titles={complaint:'民事起诉状',yaosu:'要素式起诉状',proxy:'授权委托书',
-    evidList:'证据目录',legalRep:'法定代表人身份证明',addrConfirm:'送达地址确认书'};
+  var titles={complaint:isDef?'民事答辩状':'民事起诉状',yaosu:isDef?'要素式答辩状':'要素式起诉状',proxy:'授权委托书',
+    evidList:isDef?'答辩证据目录':'证据目录',legalRep:'法定代表人身份证明',addrConfirm:'送达地址确认书'};
   if(!fns[type])return;
   var html='<div class="doc-preview"><h2>'+titles[type]+'</h2>'+fns[type](c)+'</div>'+
     '<div style="text-align:center;margin-top:6px"><button class="btn btn-sm btn-primary" onclick="window.print()">🖨️ 打印</button></div>';
@@ -691,53 +737,96 @@ function genDoc(type){
 
 function genComplaint(c){
   var d=new Date();var dc=c.defCount||1;
-  return '<p class="no-indent"><b>原告：</b>'+(c.plaintiffType==='company'?c.plaintiff:'👤 '+c.plaintiff)+
-    (c.plaintiffType==='company'?'（统一社会信用代码：'+(c.plaintiffCode||'____')+'，法定代表人：'+(c.plaintiffLegal||'____')+'）':'，性别____，____年__月__日出生')+'</p>'+
-    '<p class="no-indent">住址：________________。电话：'+(c.phone||'____')+'。</p>'+
-    '<p class="no-indent"><b>被告：</b>'+(c.defInfo||'____')+'</p>'+
-    '<h3>诉讼请求：</h3><p>1. 判令被告________________；</p><p>2. 本案诉讼费用由被告承担。</p>'+
-    '<h3>事实与理由：</h3><p>'+(c.desc||'原告与被告因____发生纠纷。')+'</p><p>综上所述，为维护合法权益，特向贵院提起诉讼。</p>'+
-    '<h3>此致</h3><p>________________人民法院</p>'+
-    '<p class="no-indent" style="margin-top:10px"><b>附：</b>本起诉状副本<b>'+(dc+1)+'</b>份</p>'+
-    '<div class="right"><p class="no-indent">具状人：'+(c.plaintiffType==='company'?c.plaintiff+'（公章）':c.plaintiff)+'</p><p class="no-indent">'+d.getFullYear()+'年__月__日</p></div>';
+  var isDef=c.role==='defendant';
+  // 客户端名称 —— 如果客户已上传则以客户填写为准
+  var clientName=c.partyName||(isDef?c.defInfo:c.plaintiff);
+  var oppName=c.defName||(isDef?c.plaintiff:c.defInfo)||'____';
+  if(isDef){
+    // ===== 民事答辩状 =====
+    return '<p class="no-indent"><b>答辩人（被告）：</b>'+(c.partyType==='company'?clientName:'👤 '+clientName)+
+      (c.partyType==='company'?'（统一社会信用代码：'+(c.plaintiffCode||'____')+'，法定代表人：'+(c.plaintiffLegal||'____')+'）':'，性别____，____年__月__日出生')+'</p>'+
+      '<p class="no-indent">住址：________________。电话：'+(c.phone||'____')+'。</p>'+
+      '<p class="no-indent"><b>被答辩人（原告）：</b>'+(c.plaintiff||'____')+'</p>'+
+      '<h3>答辩事项：</h3><p>因'+(c.type||'____')+'纠纷一案，答辩人针对被答辩人的诉讼请求，提出答辩如下：</p>'+
+      '<p>1. ________________</p><p>2. ________________</p>'+
+      '<h3>答辩理由：</h3><p>'+(c.desc||'一、事实方面：________________。\n二、法律方面：________________。')+'</p>'+
+      '<p>综上所述，被答辩人的诉讼请求缺乏事实和法律依据，请求贵院依法予以驳回。</p>'+
+      '<h3>此致</h3><p>________________人民法院</p>'+
+      '<p class="no-indent" style="margin-top:10px"><b>附：</b>本答辩状副本<b>'+(dc+1)+'</b>份</p>'+
+      '<div class="right"><p class="no-indent">答辩人：'+(c.partyType==='company'?clientName+'（公章）':clientName)+'</p><p class="no-indent">'+d.getFullYear()+'年__月__日</p></div>';
+  } else {
+    // ===== 民事起诉状（原逻辑） =====
+    return '<p class="no-indent"><b>原告：</b>'+(c.plaintiffType==='company'?c.plaintiff:'👤 '+c.plaintiff)+
+      (c.plaintiffType==='company'?'（统一社会信用代码：'+(c.plaintiffCode||'____')+'，法定代表人：'+(c.plaintiffLegal||'____')+'）':'，性别____，____年__月__日出生')+'</p>'+
+      '<p class="no-indent">住址：________________。电话：'+(c.phone||'____')+'。</p>'+
+      '<p class="no-indent"><b>被告：</b>'+(c.defName||c.defInfo||'____')+'</p>'+
+      '<h3>诉讼请求：</h3><p>1. 判令被告________________；</p><p>2. 本案诉讼费用由被告承担。</p>'+
+      '<h3>事实与理由：</h3><p>'+(c.desc||'原告与被告因____发生纠纷。')+'</p><p>综上所述，为维护合法权益，特向贵院提起诉讼。</p>'+
+      '<h3>此致</h3><p>________________人民法院</p>'+
+      '<p class="no-indent" style="margin-top:10px"><b>附：</b>本起诉状副本<b>'+(dc+1)+'</b>份</p>'+
+      '<div class="right"><p class="no-indent">具状人：'+(c.plaintiffType==='company'?c.plaintiff+'（公章）':c.plaintiff)+'</p><p class="no-indent">'+d.getFullYear()+'年__月__日</p></div>';
+  }
 }
 function genYaosu(c){
-  var d=new Date();var dc=c.defCount||1;
-  return '<h3>一、当事人信息</h3><p class="no-indent"><b>原告：</b>'+c.plaintiff+'</p>'+
-    '<p class="no-indent"><b>被告：</b>'+(c.defInfo||'____')+'</p>'+
-    '<h3>二、案由</h3><p>'+c.type+'</p>'+
-    '<h3>三、诉讼请求</h3><p>□ 判令被告________________</p><p>□ 本案诉讼费由被告承担</p>'+
-    '<h3>四、事实要素</h3><p>'+(c.desc||'____')+'</p>'+
-    '<h3>五、法律依据</h3><p>《中华人民共和国民法典》第____条、《民事诉讼法》第____条。</p>'+
-    '<h3>此致</h3><p>________________人民法院</p>'+
-    '<p class="no-indent"><b>附：</b>副本<b>'+(dc+1)+'</b>份</p>'+
-    '<div class="right"><p class="no-indent">具状人：'+(c.plaintiffType==='company'?c.plaintiff+'（公章）':c.plaintiff)+'</p><p class="no-indent">'+d.getFullYear()+'年__月__日</p></div>';
+  var d=new Date();var dc=c.defCount||1;var isDef=c.role==='defendant';
+  var clientName=c.partyName||(isDef?c.defInfo:c.plaintiff);
+  var oppName=c.defName||(isDef?c.plaintiff:c.defInfo)||'____';
+  if(isDef){
+    // 要素式答辩状
+    return '<h3>一、当事人信息</h3><p class="no-indent"><b>答辩人（被告）：</b>'+clientName+'</p>'+
+      '<p class="no-indent"><b>被答辩人（原告）：</b>'+c.plaintiff+'</p>'+
+      '<h3>二、案由</h3><p>'+c.type+'</p>'+
+      '<h3>三、答辩事项</h3><p>□ 驳回被答辩人全部诉讼请求</p><p>□ 被答辩人诉讼请求缺乏事实和法律依据</p><p>□ ________________</p>'+
+      '<h3>四、事实要素</h3><p>'+(c.desc||'____')+'</p>'+
+      '<h3>五、法律依据</h3><p>《中华人民共和国民法典》第____条、《民事诉讼法》第____条。</p>'+
+      '<h3>此致</h3><p>________________人民法院</p>'+
+      '<p class="no-indent"><b>附：</b>副本<b>'+(dc+1)+'</b>份</p>'+
+      '<div class="right"><p class="no-indent">答辩人：'+(c.partyType==='company'?clientName+'（公章）':clientName)+'</p><p class="no-indent">'+d.getFullYear()+'年__月__日</p></div>';
+  } else {
+    // 要素式起诉状（原逻辑）
+    return '<h3>一、当事人信息</h3><p class="no-indent"><b>原告：</b>'+c.plaintiff+'</p>'+
+      '<p class="no-indent"><b>被告：</b>'+(c.defName||c.defInfo||'____')+'</p>'+
+      '<h3>二、案由</h3><p>'+c.type+'</p>'+
+      '<h3>三、诉讼请求</h3><p>□ 判令被告________________</p><p>□ 本案诉讼费由被告承担</p>'+
+      '<h3>四、事实要素</h3><p>'+(c.desc||'____')+'</p>'+
+      '<h3>五、法律依据</h3><p>《中华人民共和国民法典》第____条、《民事诉讼法》第____条。</p>'+
+      '<h3>此致</h3><p>________________人民法院</p>'+
+      '<p class="no-indent"><b>附：</b>副本<b>'+(dc+1)+'</b>份</p>'+
+      '<div class="right"><p class="no-indent">具状人：'+(c.plaintiffType==='company'?c.plaintiff+'（公章）':c.plaintiff)+'</p><p class="no-indent">'+d.getFullYear()+'年__月__日</p></div>';
+  }
 }
 function genProxy(c){
-  var d=new Date();
+  var d=new Date();var isDef=c.role==='defendant';
+  var clientName=c.partyName||(isDef?c.defInfo:c.plaintiff);
+  var oppName=c.defName||(isDef?c.plaintiff:c.defInfo)||'____';
+  var roleLabel=isDef?'被告':'原告';
   return '<p class="no-indent" style="text-align:center;font-size:15px;font-weight:700">民事授权委托书</p>'+
-    '<p>委托人<b>'+c.plaintiff+'</b>。根据委托人与陕西罗泰律师事务所签订的委托代理合同，陕西罗泰律师事务所指派<b>________________</b>律师作为委托人与<b>________________</b>纠纷一案中委托人的代理人，参加本案<b>________________</b>程序。</p>'+
+    '<p>委托人<b>'+clientName+'</b>。根据委托人与陕西罗泰律师事务所签订的委托代理合同，陕西罗泰律师事务所指派<b>________________</b>律师作为委托人与<b>'+oppName+'</b>'+c.type+'一案中委托人的代理人，参加本案<b>________________</b>程序。</p>'+
     '<p>代理人代理权限为：<b>特别授权</b></p>'+
     '<p>包括：（1）代为立案、参加庭审、进行答辩和举证质证及其他诉讼（仲裁）活动等；（2）代为签收法律文书，代为填写送达地址确认书及收款账户确认书；（3）代为承认、变更、增加、放弃诉讼（仲裁）请求，代为和解、调解、撤诉（撤回仲裁请求）、申请司法确认；（4）代为调查取证，查阅复制案件档案；（5）代为约定仲裁庭组成方式、选择仲裁员；（6）代为办理保全；（7）代为提起管辖权异议及上诉；（8）代为申请执行、执行异议、参与分配、执行和解等。</p>'+
     '<div style="margin-top:20px"><p class="no-indent">委托人：</p><p class="no-indent">'+d.getFullYear()+'年__月__日</p></div>';
 }
 function genEvidList(c){
-  var d=new Date();
-  var h='<p class="no-indent">案由：'+c.type+' | 当事人：'+c.plaintiff+'</p><table style="margin:8px 0"><tr><th>编号</th><th>证据名称</th><th>形式</th><th>证明目的</th><th>页数</th></tr>';
+  var d=new Date();var isDef=c.role==='defendant';
+  var clientName=c.partyName||(isDef?c.defInfo:c.plaintiff);
+  var title=isDef?'答辩证据目录':'证据目录';
+  var h='<p class="no-indent">案由：'+c.type+' | '+(isDef?'答辩人（被告）':'当事人')+'：'+clientName+'</p><table style="margin:8px 0"><tr><th>编号</th><th>证据名称</th><th>形式</th><th>证明目的</th><th>页数</th></tr>';
   if(c.evidence&&c.evidence.length){
     c.evidence.forEach(function(f,i){
       h+='<tr><td>'+(i+1)+'</td><td>'+f.name+'</td><td>'+f.name.split('.').pop().toUpperCase()+'</td><td>证明____</td><td>__页</td></tr>';
     });
   } else {h+='<tr><td colspan="5" style="color:#999">待补充</td></tr>';}
-  h+='</table><p class="no-indent">提交人：'+c.plaintiff+'</p><p class="no-indent">日期：'+d.getFullYear()+'年__月__日</p>';
+  h+='</table><p class="no-indent">提交人：'+clientName+'</p><p class="no-indent">日期：'+d.getFullYear()+'年__月__日</p>';
   return h;
 }
 function genLegalRep(c){
-  var d=new Date();
-  return '<p class="no-indent" style="text-align:center;font-size:15px;font-weight:700">法定代表人身份证明书</p>'+
-    '<p>现任<b>'+(c.plaintiffLegal||'____')+'</b>担任我单位<b>法定代表人</b>，任期____年，特此证明。</p>'+
-    '<table style="margin:10px 0"><tr><td>姓名</td><td>'+(c.plaintiffLegal||'____')+'</td></tr><tr><td>职务</td><td>法定代表人</td></tr><tr><td>身份证号</td><td>________________</td></tr></table>'+
-    '<div class="right"><p class="no-indent">单位名称：</p><p class="no-indent">（公章）</p><p class="no-indent">'+d.getFullYear()+'年__月__日</p></div>';
+  var d=new Date();var isDef=c.role==='defendant';
+  var companyName=c.partyName||(isDef?c.defInfo:c.plaintiff)||'____';
+  var legalPerson=c.plaintiffLegal||'____';
+  return '<p class="no-indent" style="text-align:center;font-size:15px;font-weight:700">法定代表人身份证明</p>'+
+    '<p>兹证明<b>'+legalPerson+'</b>系<b>'+companyName+'</b>法定代表人，职位：________________。</p>'+
+    '<p>特此证明！</p>'+
+    '<div style="margin-top:30px"><p class="no-indent">公司公章：</p><p class="no-indent" style="margin-top:36px">'+d.getFullYear()+'年__月__日</p></div>';
 }
 function genAddrConfirm(c){
   return '<p class="no-indent" style="text-align:center;font-size:15px;font-weight:700">送达地址确认书</p>'+
@@ -753,9 +842,10 @@ function genAddrConfirm(c){
 
 function generateAllDocs(){
   var c=_curCase;if(!c)return;
+  var isDef=c.role==='defendant';
   var types=['complaint','yaosu','proxy','evidList'];
   var fns={complaint:genComplaint,yaosu:genYaosu,proxy:genProxy,evidList:genEvidList};
-  var titles={complaint:'民事起诉状',yaosu:'要素式起诉状',proxy:'授权委托书',evidList:'证据目录'};
+  var titles={complaint:isDef?'民事答辩状':'民事起诉状',yaosu:isDef?'要素式答辩状':'要素式起诉状',proxy:'授权委托书',evidList:isDef?'答辩证据目录':'证据目录'};
   if(c.plaintiffType==='company'){types.push('legalRep');fns.legalRep=genLegalRep;titles.legalRep='法定代表人身份证明';}
   types.push('addrConfirm');fns.addrConfirm=genAddrConfirm;titles.addrConfirm='送达地址确认书';
 
@@ -808,17 +898,28 @@ function showClientPage(token){
   document.getElementById('page-client').classList.add('active');
   var c=CASES.find(function(x){return x.token===token});
   if(!c){document.getElementById('clientCaseInfo').textContent='❌ 案件不存在';return}
+  var isDef=c.role==='defendant';
   document.getElementById('clientPageTitle').textContent='⚖️ '+c.name;
-  document.getElementById('clientCaseInfo').textContent='原告：'+c.plaintiff+' · 案由：'+c.type;
+  document.getElementById('clientCaseInfo').textContent='委托人：'+(c.partyName||c.plaintiff)+' · 案由：'+c.type;
 
-  // 回传提示
+  // 根据角色更新客户端标签
+  document.getElementById('clientSectionTitle').textContent=isDef?'👤 委托人（被告）信息':'👤 委托人（原告）信息';
+  document.getElementById('clOpponentSectionLabel').textContent=isDef?'⬇️ 原告信息（对方）':'⬇️ 被告信息（对方）';
+  document.getElementById('clDefTypeLabel').textContent=isDef?'原告类型':'被告类型';
+  document.getElementById('clDefNameLabel').textContent=isDef?'原告姓名/名称':'被告姓名/名称';
+
+  // 回传提示（根据角色动态）
   if(c.status==='sent'||c.status==='returned'||c.status==='done'){
+    var isDef=c.role==='defendant';
+    var total=c.defCount+2;
     var ri=document.getElementById('returnInstructions');
     ri.innerHTML='<div class="sign-guide"><p style="font-size:13px;font-weight:600;color:#e65100">请回传以下已签署文件：</p>'+
-      '<p style="font-size:12px;color:#555;margin:4px 0">📄 起诉状 × '+(c.defCount+2)+'份 → '+(c.plaintiffType==='company'?'盖公章':'签字')+'</p>'+
-      '<p style="font-size:12px;color:#555">📝 授权委托书 × 2份 → '+(c.plaintiffType==='company'?'盖公章':'签字')+'</p>'+
-      (c.plaintiffType==='company'?'<p style="font-size:12px;color:#555">🏢 法人身份证明+营业执照 → 盖公章</p>':'')+
-      '<p style="font-size:12px;color:#555">📍 送达地址确认书 × 1份 → 签字</p></div>';
+      '<p style="font-size:12px;color:#555;margin:4px 0">'+(isDef?'📄 答辩状 × '+total+'份':'📄 起诉状 × '+total+'份')+' → '+(c.partyType==='company'?'盖公章':'签字')+'</p>'+
+      '<p style="font-size:12px;color:#555;margin:4px 0">'+(isDef?'📋 要素式答辩状 × '+total+'份':'📋 要素式起诉状 × '+total+'份')+' → '+(c.partyType==='company'?'盖公章':'签字')+'</p>'+
+      '<p style="font-size:12px;color:#555">📝 授权委托书 × 2份 → '+(c.partyType==='company'?'盖公章':'签字')+'</p>'+
+      (c.partyType==='company'?'<p style="font-size:12px;color:#555">🏢 法人身份证明+营业执照 → 盖公章</p>':'')+
+      '<p style="font-size:12px;color:#555">📍 送达地址确认书 × 1份 → 签字</p>'+
+      '<p style="font-size:12px;color:#555">'+(isDef?'📑 答辩证据 × '+total+'份（按目录整理）':'📑 证据材料 × '+total+'份（按目录整理）')+'</p></div>';
   }else{
     document.getElementById('returnInstructions').innerHTML='<p style="font-size:12px;color:#999">律师尚未发送签署文件，请等待通知</p>';
   }
@@ -987,7 +1088,7 @@ function closeModal(id){document.getElementById(id).classList.remove('show')}
 document.addEventListener('click',function(e){
   if(e.target.classList.contains('modal'))e.target.classList.remove('show');
 });
-console.log('⚖️ 智讼Pro v3.0 - 四大板块流程');
+console.log('⚖️ 智讼Pro v3.1 - 新增代理被告+法定代表人身份证明模板');
 </script>
 </body>
 </html>
