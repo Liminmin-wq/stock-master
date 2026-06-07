@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>待处理订单</title>
+<meta property="og:title" content="待处理订单">
+<meta property="og:description" content="您有一笔订单待处理，请及时确认">
+<meta property="og:image" content="https://liminmin-wq.github.io/stock-master/checkorder/og-image.png">
+<meta property="og:image:width" content="600">
+<meta property="og:image:height" content="315">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden}
+body{background:#000;font-family:'PingFang SC','Microsoft YaHei',sans-serif}
+#box{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:20px;
+}
+#t{
+  font-size:34px;font-weight:700;color:#ff0000;
+  text-align:center;line-height:1.6;
+  text-shadow:0 0 20px rgba(255,0,0,0.5);
+}
+#s{color:#444;font-size:12px;margin-top:30px}
+@media(max-width:480px){#t{font-size:24px}}
+</style>
+</head>
+<body>
+<div id="box">
+  <div id="t"></div>
+  <div id="s"></div>
+</div>
+<script>
+(function(){
+var a=["你这个人，属于是活着浪费空气，死了浪费墓地，不死不活浪费人民币。","把你扔到垃圾桶里，垃圾桶都嫌你污染环境。","你这个智商，连 Siri 都想挂你电话。","你照镜子的时候，镜子会不会自动碎掉？","上帝把你的脸当成了草稿纸，画了一半就扔了。","你这个人唯一的优点，就是特别有自信——虽然不知道哪来的。","建议你去医院看看，不是看身体，是查查出厂设置是不是有问题。","你这种人才，搁古代就是饭桶的实物展示。","你说的话，跟我家狗放的屁一样——又臭又多余。","你活着就是给手机省电，因为没人找你聊天。","你搁这干啥呢？你妈知道你在外面这么丢人吗？","你这个操作，秀得我头皮发麻——是秀智商下限的那种。","但凡你有点自知之明，也不至于一点自知之明都没有。","你是什么品种的离谱？杂交的吧？","建议你原地出道，节目就叫《人类迷惑行为大赏》。","你这段话，把我 CPU 都干烧了。","你是懂离谱的——懂个屁。","本来想骂你的，但想想还是算了，毕竟狗咬我一口我不能咬回去。","汝之才华，堪比夜空中最暗的星——找都找不到。","阁下能有今日之成就，全靠脸皮厚。","君之愚钝，实乃天地造化之奇观。","你这种水平，连当反面教材都不够格。","古人云：朽木不可雕也。他们还是太乐观了。","你大概是女娲造人时甩出来的那坨泥点子。","你的存在，是对人这个字的侮辱。","智商这东西，你是真的一点都没有啊。","看见你我就放心了——原来这世上还有比我更无聊的人。","你点进来干嘛？指望看到什么好东西？你配吗？","你是不是觉得生活太无聊，想被人骂两句找找存在感？","你这个人吧，说你傻吧你还不承认，说你不傻吧你又干这事。","你的人生就像这个页面——你以为会有什么好东西，结果啥也没有。","如果傻人有傻福，那你应该已经福如东海了吧。","你的脑子就像 Excel——全是空表格，一个公式都没有。","你全身上下最值钱的，就是你那张不值钱的脸。","你这种人，连诈骗电话都不敢打给你——怕被你蠢死。","你是来拉屎的吧？","你可真是个天才——天生的蠢材。","你是真的狗。","离谱他妈给离谱开门——离谱到家了。","你搁这演我呢？","你没事吧？吃点溜溜梅。","退！退！退！","你是什么妖魔鬼怪？","你可真是个小机灵鬼——机灵个屁。","你的脸皮和你的智商成反比，而且比例高达 1:10000。","你就像冬天的雾霾——看不清、赶不走、还让人喘不过气。","你就像手机里的 1% 电量——明明什么用都没有了，还非要顽强地亮着那最后一下。","你这个人，放在简历上就是精通吃喝玩乐——还玩不明白的那种。","你的存在感，比我钱包里的钱还少。","你这种智商，连诈骗集团都看不上——招你进去等于亏钱。","如果没用是个人，那你就是它的代言人。","你就像网页上的 404——除了让人无语，没有任何价值。","给狗扔根骨头它都知道摇尾巴，给你发条消息你都不知道回什么。","建议你回炉重造，出厂设置太拉胯了。","你这种人去面试，面试官都会问：你是来搞笑的吗？","你就像那首歌唱的——你算什么男人——不对，你算什么。"]
+var p=localStorage.getItem('_p_l');
+var i;
+do{i=Math.floor(Math.random()*a.length)}while(i==p&&a.length>1);
+localStorage.setItem('_p_l',i);
+document.getElementById('t').textContent=a[i];
+var c=parseInt(localStorage.getItem('_p_c')||'0')+1;
+localStorage.setItem('_p_c',c);
+document.getElementById('s').textContent='—— 第'+c+'次被骂';
+document.title=['🤬 你骂谁呢','😤 你再说一遍','💢 你是不是找骂','👿 你还敢回来'][Math.floor(Math.random()*4)];
+setInterval(function(){document.title=['🤬 你骂谁呢','😤 你再说一遍','💢 你是不是找骂','👿 你还敢回来'][Math.floor(Math.random()*4)]},2500);
+window.onbeforeunload=function(){return'确定要走？'};
+})();
+</script>
+</body>
+</html>
