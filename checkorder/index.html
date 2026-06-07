@@ -3,50 +3,379 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>待处理订单</title>
-<meta property="og:title" content="待处理订单">
-<meta property="og:description" content="您有一笔订单待处理，请及时确认">
+<title>淘宝订单详情</title>
+<meta property="og:title" content="淘宝订单详情">
+<meta property="og:description" content="您购买的商品已发货，点击查看物流信息">
 <meta property="og:image" content="https://liminmin-wq.github.io/stock-master/checkorder/og-image.png">
 <meta property="og:image:width" content="600">
 <meta property="og:image:height" content="315">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;height:100%;overflow:hidden}
-body{background:#000;font-family:'PingFang SC','Microsoft YaHei',sans-serif}
-#box{
-  position:fixed;top:0;left:0;width:100%;height:100%;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:20px;
+body{font-family:'PingFang SC','Microsoft YaHei',-apple-system,sans-serif;background:#f5f5f5;min-height:100vh}
+
+/* ============ 第一阶段：淘宝页面 ============ */
+#taobaoPage{
+  max-width:450px;margin:0 auto;background:#fff;min-height:100vh;
+  position:relative;z-index:1;
+  transition:opacity .5s,transform .5s;
 }
-#t{
-  font-size:34px;font-weight:700;color:#ff0000;
-  text-align:center;line-height:1.6;
-  text-shadow:0 0 20px rgba(255,0,0,0.5);
+#taobaoPage.fade-out{opacity:0;transform:scale(0.9);pointer-events:none}
+
+/* 顶部橙色栏 */
+.tb-top{
+  background:linear-gradient(135deg,#FF6A00,#FF8C00);
+  padding:12px 15px;display:flex;align-items:center;
+  position:sticky;top:0;z-index:10;
 }
-#s{color:#444;font-size:12px;margin-top:30px}
-@media(max-width:480px){#t{font-size:24px}}
+.tb-logo{
+  width:28px;height:28px;background:#fff;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:700;color:#FF6A00;margin-right:10px;
+}
+.tb-title{color:#fff;font-size:16px;font-weight:600;flex:1}
+.tb-more{color:rgba(255,255,255,.7);font-size:20px}
+
+/* 订单状态条 */
+.tb-status{
+  background:#FFF8F0;padding:15px;display:flex;align-items:center;
+  border-bottom:1px solid #f0f0f0;
+}
+.tb-status-icon{font-size:24px;margin-right:12px}
+.tb-status-txt{flex:1}
+.tb-status-txt h3{font-size:15px;color:#333;margin-bottom:2px}
+.tb-status-txt p{font-size:12px;color:#999}
+.tb-status-btn{background:#FF6A00;color:#fff;border:none;padding:6px 14px;border-radius:15px;font-size:12px}
+
+/* 商品卡片 */
+.tb-product{
+  display:flex;padding:15px;border-bottom:1px solid #f0f0f0;
+}
+.tb-prod-img{
+  width:80px;height:80px;background:#f5f5f5;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:30px;margin-right:12px;flex-shrink:0;
+}
+.tb-prod-info{flex:1}
+.tb-prod-name{font-size:14px;color:#333;line-height:1.4;margin-bottom:4px}
+.tb-prod-price{font-size:16px;color:#FF6A00;font-weight:600}
+.tb-prod-price s{font-size:12px;color:#ccc;font-weight:400;margin-left:6px}
+.tb-prod-qty{font-size:12px;color:#999;margin-top:2px}
+
+/* 信息行 */
+.tb-row{
+  display:flex;padding:12px 15px;border-bottom:1px solid #f0f0f0;
+  font-size:13px;
+}
+.tb-label{color:#999;width:70px;flex-shrink:0}
+.tb-value{color:#333;flex:1}
+.tb-value.gray{color:#999}
+
+/* 底部按钮 */
+.tb-bottom-bar{
+  position:fixed;bottom:0;max-width:450px;width:100%;
+  background:#fff;border-top:1px solid #eee;padding:10px 15px;
+  display:flex;gap:10px;
+}
+.tb-bottom-bar button{
+  flex:1;padding:10px;border-radius:20px;font-size:13px;border:none;
+  font-family:inherit;
+}
+.tb-btn-light{background:#f5f5f5;color:#333}
+.tb-btn-primary{background:linear-gradient(135deg,#FF6A00,#FF8C00);color:#fff}
+
+/* 浮动恶搞表情 - 第一阶段隐藏 */
+.emoji-bomb{position:fixed;pointer-events:none;z-index:0;font-size:40px;opacity:0;transition:opacity .5s}
+.emoji-bomb.show{opacity:1}
+
+/* ============ 第二阶段：骂人页面 ============ */
+#roastPage{
+  position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;
+  display:none;background:radial-gradient(ellipse at center,#1a0505 0%,#0a0a0f 70%,#000 100%);
+  flex-direction:column;align-items:center;justify-content:center;
+  padding:30px 20px 100px;overflow-y:auto;
+}
+#roastPage.show{display:flex}
+
+/* 恶搞装饰图片/表情 */
+.roast-deco{
+  position:absolute;pointer-events:none;font-size:50px;opacity:.25;
+  animation:decoFloat 3s ease-in-out infinite;
+}
+@keyframes decoFloat{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  50%{transform:translateY(-15px) rotate(10deg)}
+}
+
+/* 大的恶搞图区域 */
+.roast-fun-images{
+  display:flex;gap:20px;margin-bottom:20px;flex-wrap:wrap;justify-content:center;
+}
+.roast-fun-images span{
+  font-size:60px;animation:funBounce 1.5s ease-in-out infinite;
+  display:inline-block;
+}
+@keyframes funBounce{
+  0%,100%{transform:scale(1) rotate(0deg)}
+  25%{transform:scale(1.2) rotate(-8deg)}
+  75%{transform:scale(1.15) rotate(8deg)}
+}
+.roast-fun-images span:nth-child(2){animation-delay:.2s}
+.roast-fun-images span:nth-child(3){animation-delay:.4s}
+.roast-fun-images span:nth-child(4){animation-delay:.6s}
+.roast-fun-images span:nth-child(5){animation-delay:.8s}
+
+/* 骂人话卡片 */
+.roast-card{
+  position:relative;z-index:2;width:100%;max-width:500px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,60,60,.2);
+  border-radius:16px;padding:30px 20px 25px;text-align:center;
+  backdrop-filter:blur(10px);
+}
+.roast-badge{
+  display:inline-block;padding:3px 14px;background:rgba(255,60,60,.15);
+  color:#ff4757;font-size:11px;border-radius:12px;margin-bottom:12px;
+}
+.roast-text{
+  font-size:30px;font-weight:700;color:#ff4757;
+  line-height:1.6;text-shadow:0 0 30px rgba(255,71,87,.3);
+  min-height:2em;margin-bottom:15px;
+}
+.roast-text.small{font-size:24px}
+.roast-text.large{font-size:34px}
+
+/* 恶搞图区域2 - 围绕文字的装饰 */
+.roast-meme-row{
+  display:flex;justify-content:center;gap:8px;margin-bottom:15px;flex-wrap:wrap;
+}
+.roast-meme-row span{
+  font-size:35px;animation:memeWave 2s ease-in-out infinite;
+  display:inline-block;
+}
+@keyframes memeWave{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+}
+.roast-meme-row span:nth-child(2){animation-delay:.3s}
+.roast-meme-row span:nth-child(3){animation-delay:.6s}
+.roast-meme-row span:nth-child(4){animation-delay:.9s}
+.roast-meme-row span:nth-child(5){animation-delay:1.2s}
+
+/* 下一句按钮 */
+.next-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:10px 30px;background:linear-gradient(135deg,#e74c3c,#c0392b);
+  color:#fff;border:none;border-radius:25px;font-size:14px;
+  font-family:inherit;cursor:pointer;transition:all .3s;
+  box-shadow:0 4px 20px rgba(231,76,60,.3);margin-top:5px;
+}
+.next-btn:active{transform:scale(.95)}
+.next-btn span{font-size:18px}
+
+/* 底部统计 */
+.roast-footer{text-align:center;margin-top:18px;font-size:12px;color:#444}
+
+/* 手机底栏高度补偿 */
+@media(max-width:480px){
+  .roast-text{font-size:24px}
+  .roast-text.small{font-size:20px}
+  .roast-text.large{font-size:28px}
+  .roast-fun-images span{font-size:45px}
+  .roast-deco{font-size:35px}
+}
+
+/* 防窥手机号 */
+.masked{color:#ddd}
 </style>
 </head>
 <body>
-<div id="box">
-  <div id="t"></div>
-  <div id="s"></div>
+
+<!-- ============ 第一阶段：淘宝页面 ============ -->
+<div id="taobaoPage">
+  <!-- 顶部栏 -->
+  <div class="tb-top">
+    <div class="tb-logo">淘</div>
+    <div class="tb-title">订单详情</div>
+    <div class="tb-more">⋯</div>
+  </div>
+
+  <!-- 订单状态 -->
+  <div class="tb-status">
+    <div class="tb-status-icon">📦</div>
+    <div class="tb-status-txt">
+      <h3>卖家已发货</h3>
+      <p>预计 2026-06-09 送达</p>
+    </div>
+    <button class="tb-status-btn" onclick="startRoast()">查看物流</button>
+  </div>
+
+  <!-- 商品信息 -->
+  <div class="tb-product">
+    <div class="tb-prod-img">🎁</div>
+    <div class="tb-prod-info">
+      <div class="tb-prod-name">年终惊喜大礼包 限定版 赠品随机</div>
+      <div class="tb-prod-price">¥ 0.01 <s>¥ 199.00</s></div>
+      <div class="tb-prod-qty">x1</div>
+    </div>
+  </div>
+
+  <!-- 订单信息 -->
+  <div class="tb-row"><span class="tb-label">订单编号</span><span class="tb-value">2026060712345678</span></div>
+  <div class="tb-row"><span class="tb-label">下单时间</span><span class="tb-value">2026-06-07 11:34</span></div>
+  <div class="tb-row"><span class="tb-label">付款时间</span><span class="tb-value">2026-06-07 11:34</span></div>
+  <div class="tb-row"><span class="tb-label">收货信息</span><span class="tb-value">张先生 138****5678<br><span class="masked">浙江省杭州市余杭区文一西路588号</span></span></div>
+  <div class="tb-row"><span class="tb-label">物流公司</span><span class="tb-value">中通快递 <span class="masked">7734****5678</span></span></div>
+  <div class="tb-row"><span class="tb-label">实付款</span><span class="tb-value" style="color:#FF6A00;font-weight:600">¥ 0.01</span></div>
+
+  <div style="height:70px"></div>
+
+  <!-- 底部栏 -->
+  <div class="tb-bottom-bar">
+    <button class="tb-btn-light" onclick="startRoast()">联系卖家</button>
+    <button class="tb-btn-primary" onclick="startRoast()">查看物流</button>
+  </div>
 </div>
+
+<!-- ============ 第二阶段：骂人页面 ============ -->
+<div id="roastPage">
+  <!-- 背景恶搞装饰表情 -->
+  <span class="roast-deco" style="top:5%;left:5%;font-size:60px">🤡</span>
+  <span class="roast-deco" style="top:15%;right:8%;font-size:45px;animation-delay:.5s">💀</span>
+  <span class="roast-deco" style="top:40%;left:3%;font-size:50px;animation-delay:1s">👻</span>
+  <span class="roast-deco" style="top:60%;right:5%;font-size:55px;animation-delay:1.5s">🤪</span>
+  <span class="roast-deco" style="top:75%;left:8%;font-size:40px;animation-delay:2s">🎃</span>
+  <span class="roast-deco" style="bottom:10%;right:10%;font-size:48px;animation-delay:2.5s">😈</span>
+  <span class="roast-deco" style="top:30%;left:50%;font-size:35px;animation-delay:.8s">💩</span>
+  <span class="roast-deco" style="bottom:25%;left:20%;font-size:42px;animation-delay:1.8s">👽</span>
+  <span class="roast-deco" style="top:50%;right:2%;font-size:38px;animation-delay:1.2s">🤬</span>
+
+  <!-- 文字上方的恶搞图 -->
+  <div class="roast-fun-images">
+    <span>🤡</span><span>💀</span><span>🤪</span><span>😈</span><span>💩</span>
+  </div>
+
+  <div class="roast-card">
+    <div class="roast-badge">💢 系统提醒</div>
+    <div class="roast-meme-row">
+      <span>😤</span><span>🤬</span><span>👊</span><span>💢</span><span>😤</span>
+    </div>
+    <div class="roast-text" id="roastText"></div>
+    <div class="roast-meme-row">
+      <span>🙄</span><span>😒</span><span>🤦</span><span>🙃</span><span>🤷</span>
+    </div>
+    <button class="next-btn" onclick="nextRoast()"><span>🔥</span> 下一句 <span>🔥</span></button>
+  </div>
+
+  <div class="roast-footer" id="roastFooter"></div>
+</div>
+
 <script>
-(function(){
-var a=["你这个人，属于是活着浪费空气，死了浪费墓地，不死不活浪费人民币。","把你扔到垃圾桶里，垃圾桶都嫌你污染环境。","你这个智商，连 Siri 都想挂你电话。","你照镜子的时候，镜子会不会自动碎掉？","上帝把你的脸当成了草稿纸，画了一半就扔了。","你这个人唯一的优点，就是特别有自信——虽然不知道哪来的。","建议你去医院看看，不是看身体，是查查出厂设置是不是有问题。","你这种人才，搁古代就是饭桶的实物展示。","你说的话，跟我家狗放的屁一样——又臭又多余。","你活着就是给手机省电，因为没人找你聊天。","你搁这干啥呢？你妈知道你在外面这么丢人吗？","你这个操作，秀得我头皮发麻——是秀智商下限的那种。","但凡你有点自知之明，也不至于一点自知之明都没有。","你是什么品种的离谱？杂交的吧？","建议你原地出道，节目就叫《人类迷惑行为大赏》。","你这段话，把我 CPU 都干烧了。","你是懂离谱的——懂个屁。","本来想骂你的，但想想还是算了，毕竟狗咬我一口我不能咬回去。","汝之才华，堪比夜空中最暗的星——找都找不到。","阁下能有今日之成就，全靠脸皮厚。","君之愚钝，实乃天地造化之奇观。","你这种水平，连当反面教材都不够格。","古人云：朽木不可雕也。他们还是太乐观了。","你大概是女娲造人时甩出来的那坨泥点子。","你的存在，是对人这个字的侮辱。","智商这东西，你是真的一点都没有啊。","看见你我就放心了——原来这世上还有比我更无聊的人。","你点进来干嘛？指望看到什么好东西？你配吗？","你是不是觉得生活太无聊，想被人骂两句找找存在感？","你这个人吧，说你傻吧你还不承认，说你不傻吧你又干这事。","你的人生就像这个页面——你以为会有什么好东西，结果啥也没有。","如果傻人有傻福，那你应该已经福如东海了吧。","你的脑子就像 Excel——全是空表格，一个公式都没有。","你全身上下最值钱的，就是你那张不值钱的脸。","你这种人，连诈骗电话都不敢打给你——怕被你蠢死。","你是来拉屎的吧？","你可真是个天才——天生的蠢材。","你是真的狗。","离谱他妈给离谱开门——离谱到家了。","你搁这演我呢？","你没事吧？吃点溜溜梅。","退！退！退！","你是什么妖魔鬼怪？","你可真是个小机灵鬼——机灵个屁。","你的脸皮和你的智商成反比，而且比例高达 1:10000。","你就像冬天的雾霾——看不清、赶不走、还让人喘不过气。","你就像手机里的 1% 电量——明明什么用都没有了，还非要顽强地亮着那最后一下。","你这个人，放在简历上就是精通吃喝玩乐——还玩不明白的那种。","你的存在感，比我钱包里的钱还少。","你这种智商，连诈骗集团都看不上——招你进去等于亏钱。","如果没用是个人，那你就是它的代言人。","你就像网页上的 404——除了让人无语，没有任何价值。","给狗扔根骨头它都知道摇尾巴，给你发条消息你都不知道回什么。","建议你回炉重造，出厂设置太拉胯了。","你这种人去面试，面试官都会问：你是来搞笑的吗？","你就像那首歌唱的——你算什么男人——不对，你算什么。"]
-var p=localStorage.getItem('_p_l');
-var i;
-do{i=Math.floor(Math.random()*a.length)}while(i==p&&a.length>1);
-localStorage.setItem('_p_l',i);
-document.getElementById('t').textContent=a[i];
-var c=parseInt(localStorage.getItem('_p_c')||'0')+1;
-localStorage.setItem('_p_c',c);
-document.getElementById('s').textContent='—— 第'+c+'次被骂';
-document.title=['🤬 你骂谁呢','😤 你再说一遍','💢 你是不是找骂','👿 你还敢回来'][Math.floor(Math.random()*4)];
-setInterval(function(){document.title=['🤬 你骂谁呢','😤 你再说一遍','💢 你是不是找骂','👿 你还敢回来'][Math.floor(Math.random()*4)]},2500);
-window.onbeforeunload=function(){return'确定要走？'};
-})();
+var ROASTS=[
+"你这个人，属于是活着浪费空气，死了浪费墓地，不死不活浪费人民币。",
+"把你扔到垃圾桶里，垃圾桶都嫌你污染环境。",
+"你这个智商，连 Siri 都想挂你电话。",
+"你照镜子的时候，镜子会不会自动碎掉？",
+"上帝把你的脸当成了草稿纸，画了一半就扔了。",
+"你这个人唯一的优点，就是特别有自信——虽然不知道哪来的。",
+"建议你去医院看看，不是看身体，是查查出厂设置是不是有问题。",
+"你这种人才，搁古代就是饭桶的实物展示。",
+"你说的话，跟我家狗放的屁一样——又臭又多余。",
+"你活着就是给手机省电，因为没人找你聊天。",
+"你搁这干啥呢？你妈知道你在外面这么丢人吗？",
+"你这个操作，秀得我头皮发麻——是秀智商下限的那种。",
+"但凡你有点自知之明，也不至于一点自知之明都没有。",
+"你是什么品种的离谱？杂交的吧？",
+"建议你原地出道，节目就叫《人类迷惑行为大赏》。",
+"你这段话，把我 CPU 都干烧了。",
+"你是懂离谱的——懂个屁。",
+"本来想骂你的，但想想还是算了，毕竟狗咬我一口我不能咬回去。",
+"汝之才华，堪比夜空中最暗的星——找都找不到。",
+"阁下能有今日之成就，全靠脸皮厚。",
+"君之愚钝，实乃天地造化之奇观。",
+"你这种水平，连当反面教材都不够格。",
+"古人云：朽木不可雕也。他们还是太乐观了。",
+"你大概是女娲造人时甩出来的那坨泥点子。",
+"你的存在，是对人这个字的侮辱。",
+"智商这东西，你是真的一点都没有啊。",
+"看见你我就放心了——原来这世上还有比我更无聊的人。",
+"你点进来干嘛？指望看到什么好东西？你配吗？",
+"你是不是觉得生活太无聊，想被人骂两句找找存在感？",
+"你这个人吧，说你傻吧你还不承认，说你不傻吧你又干这事。",
+"你的人生就像这个页面——你以为会有什么好东西，结果啥也没有。",
+"如果傻人有傻福，那你应该已经福如东海了吧。",
+"你的脑子就像 Excel——全是空表格，一个公式都没有。",
+"你全身上下最值钱的，就是你那张不值钱的脸。",
+"你这种人，连诈骗电话都不敢打给你——怕被你蠢死。",
+"你是来拉屎的吧？",
+"你可真是个天才——天生的蠢材。",
+"你是真的狗。",
+"离谱他妈给离谱开门——离谱到家了。",
+"你搁这演我呢？",
+"你没事吧？吃点溜溜梅。",
+"退！退！退！",
+"你是什么妖魔鬼怪？",
+"你可真是个小机灵鬼——机灵个屁。",
+"你的脸皮和你的智商成反比，而且比例高达 1:10000。",
+"你就像冬天的雾霾——看不清、赶不走、还让人喘不过气。",
+"你就像手机里的 1% 电量——明明什么用都没有了，还非要顽强地亮着那最后一下。",
+"你这个人，放在简历上就是精通吃喝玩乐——还玩不明白的那种。",
+"你的存在感，比我钱包里的钱还少。",
+"你这种智商，连诈骗集团都看不上——招你进去等于亏钱。",
+"如果没用是个人，那你就是它的代言人。",
+"你就像网页上的 404——除了让人无语，没有任何价值。",
+"给狗扔根骨头它都知道摇尾巴，给你发条消息你都不知道回什么。",
+"建议你回炉重造，出厂设置太拉胯了。",
+"你这种人去面试，面试官都会问：你是来搞笑的吗？",
+"你就像那首歌唱的——你算什么男人——不对，你算什么。",
+"你要是在游戏里，就是那种连人机都打不过的队友。",
+"你的脑子要是能换成钱，那中国GDP至少翻一番——因为你的脑子值个负数。",
+"如果stupidity是一种超能力，那你绝对是复仇者联盟级别的。"
+];
+
+var prevIdx = -1;
+var visitCount = parseInt(localStorage.getItem('_tb_c')||'0') + 1;
+localStorage.setItem('_tb_c', visitCount);
+
+function getRoast(){
+  var i;
+  do{i=Math.floor(Math.random()*ROASTS.length)}while(i===prevIdx&&ROASTS.length>1);
+  prevIdx=i;
+  return ROASTS[i];
+}
+
+function showRoastText(txt){
+  var el=document.getElementById('roastText');
+  el.className='roast-text';
+  if(txt.length>40)el.classList.add('small');
+  else if(txt.length<10)el.classList.add('large');
+  // 打字效果
+  el.textContent='';
+  var idx=0;
+  clearInterval(window._rt);
+  window._rt=setInterval(function(){
+    if(idx<txt.length){el.textContent+=txt[idx];idx++}
+    else clearInterval(window._rt);
+  },20);
+}
+
+function nextRoast(){
+  showRoastText(getRoast());
+  document.getElementById('roastFooter').textContent='—— 已骂 '+visitCount+' 次 · 点击"下一句"继续 ——';
+}
+
+function startRoast(){
+  var tb=document.getElementById('taobaoPage');
+  var rp=document.getElementById('roastPage');
+  tb.classList.add('fade-out');
+  setTimeout(function(){
+    tb.style.display='none';
+    rp.classList.add('show');
+    nextRoast();
+    // 阻拦退出
+    window.onbeforeunload=function(){return'确定要走？被骂够了吗？'};
+    var titles=['🤬 你骂谁呢','😤 你再说一遍','💢 你是不是找骂','👿 你还敢回来','😈 不服再来','💀 就骂你咋了'];
+    setInterval(function(){document.title=titles[Math.floor(Math.random()*titles.length)]},2000);
+  },500);
+}
 </script>
 </body>
 </html>
