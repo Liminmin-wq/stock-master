@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title>文档预览</title>
+
+<!-- OG 标签 - 伪装 -->
+<meta property="og:title" content="工作汇报 - 2026年第二季度">
+<meta property="og:description" content="请查收本周工作汇总文档，共12页">
+<meta property="og:type" content="article">
+<meta property="og:image" content="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='315'%3E%3Crect fill='%23333' width='600' height='315'/%3E%3Ctext x='300' y='160' text-anchor='middle' fill='%23fff' font-size='28' font-family='sans-serif'%3E工作汇报%3C/text%3E%3C/svg%3E">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:#0a0a0f;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'PingFang SC','Microsoft YaHei',sans-serif;
+  overflow:hidden;
+  position:relative;
+}
+
+/* 背景粒子 */
+.bg-particles{
+  position:fixed;
+  top:0;left:0;width:100%;height:100%;
+  pointer-events:none;
+  z-index:0;
+  overflow:hidden;
+}
+.bg-particles span{
+  position:absolute;
+  width:4px;height:4px;
+  background:rgba(255,60,60,0.3);
+  border-radius:50%;
+  animation:float linear infinite;
+}
+@keyframes float{
+  0%{transform:translateY(100vh) scale(0);opacity:0}
+  10%{opacity:1}
+  90%{opacity:1}
+  100%{transform:translateY(-10vh) scale(1);opacity:0}
+}
+
+/* 第一阶段：伪装加载 */
+#stageFake{
+  position:fixed;
+  top:0;left:0;width:100%;height:100%;
+  z-index:10;
+  background:#0a0a0f;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  transition:opacity .6s ease,transform .6s ease;
+}
+.fake-icon{
+  width:64px;height:64px;
+  border:3px solid #2a2a3a;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  color:#666;
+  margin-bottom:20px;
+  animation:pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:.5;transform:scale(1)}
+  50%{opacity:1;transform:scale(1.05)}
+}
+.fake-title{color:#888;font-size:16px;margin-bottom:6px}
+.fake-sub{color:#555;font-size:13px;margin-bottom:30px}
+.fake-bar{
+  width:200px;height:3px;
+  background:#1a1a2a;
+  border-radius:2px;
+  overflow:hidden;
+}
+.fake-bar-inner{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,#e74c3c,#ff6b6b);
+  border-radius:2px;
+  animation:loading 1.8s ease-in-out forwards;
+}
+@keyframes loading{
+  0%{width:0%}
+  60%{width:72%}
+  85%{width:88%}
+  100%{width:100%}
+}
+
+/* 第二阶段：主内容 */
+#stageMain{
+  position:fixed;
+  top:0;left:0;width:100%;height:100%;
+  z-index:5;
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:30px;
+}
+#stageMain.show{
+  display:flex;
+}
+
+/* 内容卡片 */
+.prank-card{
+  position:relative;
+  max-width:520px;
+  width:100%;
+  background:linear-gradient(145deg,#120e0e,#1a1215,#0f0a0a);
+  border:1px solid rgba(255,60,60,0.15);
+  border-radius:20px;
+  padding:50px 30px 40px;
+  text-align:center;
+  box-shadow:
+    0 0 60px rgba(255,0,0,0.08),
+    inset 0 0 60px rgba(255,0,0,0.02);
+  opacity:0;
+  transform:scale(0.7) rotateX(20deg);
+  transition:all .8s cubic-bezier(.34,1.56,.64,1);
+}
+.prank-card.show{
+  opacity:1;
+  transform:scale(1) rotateX(0deg);
+}
+
+/* 顶部装饰 */
+.prank-badge{
+  display:inline-block;
+  padding:4px 16px;
+  background:linear-gradient(90deg,#e74c3c,#c0392b);
+  color:#fff;
+  font-size:11px;
+  letter-spacing:4px;
+  border-radius:20px;
+  margin-bottom:20px;
+  opacity:0;
+  animation:fadeIn .6s 1.5s forwards;
+}
+@keyframes fadeIn{to{opacity:1}}
+
+/* 大标题 - 骂人话 */
+.roast-text{
+  font-size:28px;
+  font-weight:700;
+  line-height:1.5;
+  color:#ff4757;
+  letter-spacing:1px;
+  text-shadow:0 0 30px rgba(255,71,87,0.3);
+  margin-bottom:16px;
+  min-height:1.5em;
+  opacity:0;
+  animation:roastIn .8s 1.8s forwards;
+}
+@keyframes roastIn{
+  0%{opacity:0;transform:translateY(20px) scale(0.9);filter:blur(8px)}
+  100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+}
+.roast-text.small{font-size:22px}
+.roast-text.large{font-size:32px}
+
+/* 副标题装饰 */
+.roast-sub{
+  color:#666;
+  font-size:14px;
+  margin-bottom:30px;
+  opacity:0;
+  animation:fadeIn .6s 2.5s forwards;
+}
+.roast-sub span{color:#ff4757}
+
+/* 统计信息 */
+.prank-stats{
+  display:flex;
+  justify-content:center;
+  gap:24px;
+  margin-bottom:28px;
+  opacity:0;
+  animation:fadeIn .6s 2.8s forwards;
+}
+.stat-item{
+  text-align:center;
+}
+.stat-num{
+  font-size:24px;
+  font-weight:700;
+  color:#ff4757;
+}
+.stat-label{
+  font-size:11px;
+  color:#555;
+  margin-top:2px;
+}
+
+/* 底部按钮 */
+.prank-footer{
+  opacity:0;
+  animation:fadeIn .6s 3.2s forwards;
+}
+.prank-btn{
+  display:inline-block;
+  padding:10px 28px;
+  background:linear-gradient(90deg,#2a1a1a,#3a2020);
+  color:#ff6b6b;
+  border:1px solid rgba(255,60,60,0.2);
+  border-radius:10px;
+  font-size:13px;
+  cursor:pointer;
+  transition:all .3s;
+  text-decoration:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.prank-btn:active{transform:scale(0.95);background:#3a2020}
+
+/* 落款 */
+.prank-sign{
+  margin-top:24px;
+  font-size:11px;
+  color:#333;
+  letter-spacing:1px;
+}
+
+/* 震动效果 */
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  10%{transform:translateX(-4px) rotate(-1deg)}
+  20%{transform:translateX(4px) rotate(1deg)}
+  30%{transform:translateX(-4px)}
+  40%{transform:translateX(4px)}
+  50%{transform:translateX(-2px)}
+  60%{transform:translateX(2px)}
+  70%{transform:translateX(-1px)}
+}
+.shake{animation:shake .5s ease-in-out}
+
+/* 屏幕闪烁 */
+@keyframes flash{
+  0%{background:#0a0a0f}
+  25%{background:#1a0505}
+  50%{background:#0a0a0f}
+  75%{background:#150808}
+  100%{background:#0a0a0f}
+}
+.flash-bg{animation:flash .3s ease 1.2s 3}
+
+/* 第二次访问提示 */
+.return-tag{
+  position:absolute;
+  top:12px;
+  right:12px;
+  background:rgba(255,60,60,0.1);
+  color:#ff4757;
+  font-size:10px;
+  padding:2px 10px;
+  border-radius:10px;
+  border:1px solid rgba(255,60,60,0.15);
+  opacity:0;
+}
+.return-tag.show{opacity:1}
+
+/* 防手机滑动误触 */
+body.trapped{
+  position:fixed;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  touch-action:none;
+  -webkit-overflow-scrolling:auto;
+}
+
+/* 响应式 */
+@media(max-width:480px){
+  .prank-card{padding:40px 20px 30px;border-radius:16px}
+  .roast-text{font-size:24px}
+  .roast-text.small{font-size:19px}
+  .roast-text.large{font-size:28px}
+  .prank-stats{gap:16px}
+}
+</style>
+</head>
+<body>
+
+<!-- 背景粒子 -->
+<div class="bg-particles" id="particles"></div>
+
+<!-- 第一阶段：伪装界面 -->
+<div id="stageFake">
+  <div class="fake-icon">📄</div>
+  <div class="fake-title">正在加载文档...</div>
+  <div class="fake-sub">请稍候，正在获取内容</div>
+  <div class="fake-bar"><div class="fake-bar-inner"></div></div>
+</div>
+
+<!-- 第二阶段：正片 -->
+<div id="stageMain">
+  <div class="prank-card" id="prankCard">
+    <div class="prank-badge">⚠️ 系统提示</div>
+    <div class="roast-text" id="roastText"></div>
+    <div class="roast-sub" id="roastSub">—— 来自 <span>神秘人</span> 的问候</div>
+    <div class="prank-stats">
+      <div class="stat-item">
+        <div class="stat-num" id="visitNum">1</div>
+        <div class="stat-label">第几次被骂</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" id="totalRoasts">0</div>
+        <div class="stat-label">骂人语录库</div>
+      </div>
+    </div>
+    <div class="prank-footer">
+      <a class="prank-btn" onclick="reloadPage()">🔄 再骂一次</a>
+      <a class="prank-btn" style="margin-left:10px" onclick="shareRoast()">📤 坑下一位</a>
+    </div>
+    <div class="prank-sign">— 您的互联网友好大使 —</div>
+    <div class="return-tag" id="returnTag">💀 又来了？</div>
+  </div>
+</div>
+
+<script>
+// ============================================
+// 🎭 骂人语录库（共 80+ 条，每次随机）
+// ============================================
+var ROASTS = [
+  // === 经典版 ===
+  "你这个人，属于是"活着浪费空气，死了浪费墓地，不死不活浪费人民币"。",
+  "把你扔到垃圾桶里，垃圾桶都嫌你污染环境。",
+  "你这个智商，连 Siri 都想挂你电话。",
+  "你照镜子的时候，镜子会不会自动碎掉？",
+  "上帝把你的脸当成了草稿纸，画了一半就扔了。",
+  "你这个人唯一的优点，就是特别有自信——虽然不知道哪来的。",
+  "建议你去医院看看，不是看身体，是查查出厂设置是不是有问题。",
+  "你这种人才，搁古代就是"饭桶"的实物展示。",
+  "你说的话，跟我家狗放的屁一样——又臭又多余。",
+  "你活着就是给手机省电，因为没人找你聊天。",
+
+  // === 网络梗版 ===
+  "你搁这干啥呢？你妈知道你在外面这么丢人吗？",
+  "你这个操作，秀得我头皮发麻——是秀智商下限的那种。",
+  "但凡你有点自知之明，也不至于一点自知之明都没有。",
+  "你是什么品种的离谱？杂交的吧？",
+  "建议你原地出道，节目就叫《人类迷惑行为大赏》。",
+  "你这段话，把我 CPU 都干烧了。",
+  "但凡小学语文老师少请一天假，你也不至于这样。",
+  "你是懂离谱的——懂个屁。",
+  "本来想骂你的，但想想还是算了，毕竟狗咬我一口我不能咬回去。",
+  "你这个人，是我见过的 bug 最多的未完成品。",
+
+  // === 文人版 ===
+  "汝之才华，堪比夜空中最暗的星——找都找不到。",
+  "阁下能有今日之成就，全靠脸皮厚。",
+  "君之愚钝，实乃天地造化之奇观。",
+  "你这种水平，连当反面教材都不够格。",
+  "古人云：朽木不可雕也。他们还是太乐观了。",
+  "你大概是女娲造人时甩出来的那坨泥点子。",
+  "你的存在，是对"人"这个字的侮辱。",
+  "智商这东西，你是真的一点都没有啊。",
+  "你这种程度，建议重新投胎，记得选个简单模式。",
+  "你的脑子就是一个装饰品，而且还不怎么好看。",
+
+  // === 扎心版 ===
+  "你打开这个链接的样子，像极了发现泡面里没有调料包的你——满怀期待，收获失望。",
+  "看见你我就放心了——原来这世上还有比我更无聊的人。",
+  "你点进来干嘛？指望看到什么好东西？你配吗？",
+  "你是不是觉得生活太无聊，想被人骂两句找找存在感？",
+  "别看了，说的就是你。你是什么人自己心里没点数？",
+  "你这个人吧，说你傻吧你还不承认，说你不傻吧你又干这事。",
+  "你父母当年要是知道你会变成这样，可能连孩子都不想要了。",
+  "你点开这个链接之前，就没想过自己会被骂吗？",
+  "你的人生就像这个页面——你以为会有什么好东西，结果啥也没有。",
+  "你自己想想，你干过什么值得骄傲的事吗？想不出来吧？",
+
+  // === 创意版 ===
+  "如果傻人有傻福，那你应该已经福如东海了吧。",
+  "你全身上下最值钱的，就是你那张不值钱的脸。",
+  "你这种人，连诈骗电话都不敢打给你——怕被你蠢死。",
+  "建议你把智商捐了，至少还能造福社会。",
+  "你的脑子就像 Excel——全是空表格，一个公式都没有。",
+  "你放在马路边，连罚单都不会有人给你贴——因为交警都觉得你没车。",
+  "你这种人，去买东西售货员都会多看你两眼——确认你是不是人类。",
+  "你就像那首歌唱的——"你算什么男人/女人"——不对，你算什么。",
+  "你活着的意义，就是让其他人觉得自己没那么差。",
+  "你这种水平，连人工智能都觉得丢脸。",
+
+  // === 超短版 ===
+  "你是来拉屎的吧？",
+  "你可真是个天才——天生的蠢材。",
+  "你是真的狗。",
+  "离谱他妈给离谱开门——离谱到家了。",
+  "你搁这演我呢？",
+  "你没事吧？吃点溜溜梅。",
+  "退！退！退！",
+  "你是什么妖魔鬼怪？",
+  "就很棒——棒槌的棒。",
+  "你可真是个小机灵鬼——机灵个屁。",
+
+  // === 长文版 ===
+  "我要是有你这样的朋友，我宁愿去跟蚊子做闺蜜，起码蚊子吸血的时候还知道哼哼两声。",
+  "你这种人吧，就像食堂里的免费汤——虽然没人期待，但还是有人会去舀一勺，然后后悔。",
+  "认识你之前，我以为"无语"只是一种状态；认识你之后，我发现"无语"还可以是持续性的生理反应。",
+  "你就像手机里的 1% 电量——明明什么用都没有了，还非要顽强地亮着那最后一下。",
+  "如果 stupidity 是一种超能力，那你绝对是复仇者联盟级别的。",
+  "你的脸皮和你的智商成反比，而且比例高达 1:10000。",
+  "你就像冬天的雾霾——看不清、赶不走、还让人喘不过气。",
+  "你这个人吧，说聪明不聪明，说笨吧又知道点开这个链接——说明你还是有点自知之明的，虽然也就这么点了。",
+  "人类花了三百万年进化到食物链顶端，不是为了让屏幕前这个家伙拉低平均值的。",
+  "你点开这个链接的那一刻，你的手机都在为自己感到羞耻。",
+
+  // === 方言/口语版 ===
+  "你搞咩啊？冇事做啊？",
+  "你瞅啥？瞅你咋地？——算了，不跟你一般见识。",
+  "干啥子嘞？脑壳有包嗦？",
+  "你个扑街仔，是不是闲得蛋疼？",
+  "你整啥呢？闲出屁来了？",
+  "你是真滴牛批——牛皮吹破的那种。",
+  "你可真行——行个锤子行。",
+  // === 新增 ===
+  "你要是在游戏里，就是那种连人机都打不过的队友。",
+  "你的脑子要是能换成钱，那中国 GDP 至少翻一番——因为你的脑子值个负数。",
+  "你这个人，放在简历上就是"精通吃喝玩乐"——还玩不明白的那种。",
+  "建议你下载个国家反诈APP，不是怕你被骗，是怕你骗别人。",
+  "你的存在感，比我钱包里的钱还少。",
+  "你这种智商，连诈骗集团都看不上——招你进去等于亏钱。",
+  "如果"没用"是个人，那你就是它的代言人。",
+  "你就像网页上的 404——除了让人无语，没有任何价值。",
+  "你爸妈当初要是知道生出来的是你这么个玩意儿，可能直接去结扎了。",
+  "给你一个建议：下次投胎的时候记得跟阎王爷砍砍价，让祂给你换个好点的配置。"
+];
+
+// ============================================
+// 🚀 运行逻辑
+// ============================================
+
+var totalRoasts = ROASTS.length;
+
+// 生成粒子背景
+function createParticles(){
+  var c = document.getElementById('particles');
+  for(var i=0;i<50;i++){
+    var s = document.createElement('span');
+    s.style.left = Math.random()*100+'%';
+    s.style.width = s.style.height = (2+Math.random()*4)+'px';
+    s.style.animationDuration = (8+Math.random()*20)+'s';
+    s.style.animationDelay = (Math.random()*10)+'s';
+    s.style.opacity = 0.1 + Math.random()*0.3;
+    c.appendChild(s);
+  }
+}
+createParticles();
+
+// 获取随机骂人话
+function getRandomRoast(except){
+  var idx = Math.floor(Math.random() * ROASTS.length);
+  // 避免连续重复（最多重试5次）
+  for(var t=0; t<5 && ROASTS[idx]===except; t++){
+    idx = Math.floor(Math.random() * ROASTS.length);
+  }
+  return {text: ROASTS[idx], index: idx};
+}
+
+// 主流程
+function showRoast(){
+  var el = document.getElementById('roastText');
+  var visitEl = document.getElementById('visitNum');
+  var totalEl = document.getElementById('totalRoasts');
+
+  // 访问计数（localStorage）
+  var visits = parseInt(localStorage.getItem('prank_visits') || '0') + 1;
+  localStorage.setItem('prank_visits', visits);
+  visitEl.textContent = visits;
+
+  // 保存上次的骂人话索引，避免重复
+  var prevIdx = parseInt(localStorage.getItem('prank_last_idx') || '-1');
+  var r;
+  do {
+    r = getRandomRoast();
+  } while(r.index === prevIdx && ROASTS.length > 1);
+  localStorage.setItem('prank_last_idx', r.index);
+
+  // 决定字号
+  var txt = r.text;
+  el.className = 'roast-text';
+  if(txt.length > 40) el.classList.add('small');
+  else if(txt.length < 10) el.classList.add('large');
+
+  // 打字机效果：先隐藏，再逐个显示
+  el.textContent = '';
+  el.style.opacity = '1';
+
+  // 显示总数
+  totalEl.textContent = totalRoasts;
+
+  // 逐字出现效果
+  var idx = 0;
+  var chars = txt.split('');
+  el.textContent = '';
+  var timer = setInterval(function(){
+    if(idx < chars.length){
+      el.textContent += chars[idx];
+      idx++;
+    } else {
+      clearInterval(timer);
+    }
+  }, 30 + (txt.length > 40 ? 15 : 25));
+
+  // 第二次访问标记
+  if(visits >= 2){
+    document.getElementById('returnTag').classList.add('show');
+  }
+}
+
+// 页面切换
+function startPrank(){
+  var fake = document.getElementById('stageFake');
+  var main = document.getElementById('stageMain');
+  var card = document.getElementById('prankCard');
+
+  // 加载动画完成后切换
+  setTimeout(function(){
+    fake.style.opacity = '0';
+    fake.style.transform = 'scale(0.95)';
+    setTimeout(function(){
+      fake.style.display = 'none';
+      main.classList.add('show');
+      // 闪屏效果
+      document.body.classList.add('flash-bg');
+      setTimeout(function(){
+        document.body.classList.remove('flash-bg');
+        card.classList.add('show');
+        showRoast();
+      }, 400);
+    }, 400);
+  }, 2200); // 等加载动画走完
+}
+
+// 重新加载（新骂人话）
+function reloadPage(){
+  var card = document.getElementById('prankCard');
+  card.classList.remove('show');
+  // 振动一下
+  card.classList.add('shake');
+  setTimeout(function(){
+    card.classList.remove('shake');
+    card.classList.add('show');
+    showRoast();
+  }, 300);
+}
+
+// 分享
+function shareRoast(){
+  if(navigator.share){
+    navigator.share({
+      title: '工作汇报',
+      url: window.location.href
+    }).catch(function(){});
+  } else {
+    // 复制链接
+    var ta = document.createElement('textarea');
+    ta.value = window.location.href;
+    ta.style.position = 'fixed';
+    ta.style.left = '-999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try{
+      document.execCommand('copy');
+      alert('✅ 链接已复制！去微信发给你的"好朋友"吧 😈');
+    } catch(e){}
+    document.body.removeChild(ta);
+  }
+}
+
+// 防止退出（增加整蛊效果）
+function trapUser(){
+  document.body.classList.add('trapped');
+  // 修改标题
+  var titles = [
+    '🤬 你骂谁呢？',
+    '😤 你再说一遍？',
+    '💢 你是不是找骂？',
+    '🤯 你还没被骂够？',
+    '👿 你还敢回来？',
+    '😈 哟，又来？',
+    '💀 你是受虐狂吗？'
+  ];
+  var ti = 0;
+  setInterval(function(){
+    document.title = titles[ti % titles.length];
+    ti++;
+  }, 2000);
+}
+
+// 开始整蛊
+window.onload = function(){
+  startPrank();
+  trapUser();
+};
+
+// 阻止关闭/后退提示
+window.onbeforeunload = function(){
+  return '确定要离开？你还没被骂够呢！';
+};
+
+// 阻止右键菜单（增加迷惑性）
+document.oncontextmenu = function(){return false};
+
+console.log('%c👋 别看了，说的就是你！', 'font-size:24px;color:#ff4757;font-weight:bold');
+console.log('%c怎么？想找代码漏洞？你以为你逃得掉？', 'font-size:14px;color:#666');
+</script>
+</body>
+</html>
