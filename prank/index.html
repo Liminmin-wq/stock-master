@@ -509,7 +509,7 @@ function showRoast(){
     } else {
       clearInterval(timer);
     }
-  }, 30 + (txt.length > 40 ? 15 : 25));
+  }, 18);
 
   // 第二次访问标记
   if(visits >= 2){
@@ -517,28 +517,15 @@ function showRoast(){
   }
 }
 
-// 页面切换
+// 页面切换 - 直接出正片
 function startPrank(){
   var fake = document.getElementById('stageFake');
   var main = document.getElementById('stageMain');
   var card = document.getElementById('prankCard');
-
-  // 加载动画完成后切换
-  setTimeout(function(){
-    fake.style.opacity = '0';
-    fake.style.transform = 'scale(0.95)';
-    setTimeout(function(){
-      fake.style.display = 'none';
-      main.classList.add('show');
-      // 闪屏效果
-      document.body.classList.add('flash-bg');
-      setTimeout(function(){
-        document.body.classList.remove('flash-bg');
-        card.classList.add('show');
-        showRoast();
-      }, 400);
-    }, 400);
-  }, 800); // 等加载动画走完
+  fake.style.display = 'none';
+  main.classList.add('show');
+  card.classList.add('show');
+  showRoast();
 }
 
 // 重新加载（新骂人话）
